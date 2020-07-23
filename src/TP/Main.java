@@ -12,7 +12,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-
         /*
         //Para el testing luego, prueba de la priorityqueue
         Planta planta = new Planta("Planta de facu",0001);
