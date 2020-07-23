@@ -7,6 +7,5 @@ public abstract class Insumo {
     private double costo;
 
 
-
     public abstract double pesoPorUnidad();
 }
