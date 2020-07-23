@@ -54,4 +54,12 @@ public class Planta {
         this.insumos = insumos;
         this.camiones = camiones;
     }
+
+    @Override
+    public String toString() {
+        return "Planta{" +
+                "nombre='" + nombre + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }
