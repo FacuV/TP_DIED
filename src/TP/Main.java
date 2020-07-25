@@ -15,7 +15,16 @@ import java.util.stream.Stream;
 public class Main {
 
     public static void main(String[] args) {
+        Gestor_Plantas.registrarPlanta("planta1");
+        Gestor_Plantas.registrarPlanta("planta2");
+        Gestor_Plantas.registrarPlanta("planta3");
+        Gestor_Plantas.registrarPlanta("planta4");
+        Gestor_Plantas.registrarPlanta("planta5");
 
+
+
+        /*
+        //prueba funcion rutaPosibles()
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
         Gestor_Plantas.registrarPlanta("planta3");
@@ -43,14 +52,30 @@ public class Main {
 
         Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(7),Gestor_Plantas.getPlantas().get(9),100,60,100);
         Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(8),Gestor_Plantas.getPlantas().get(9),100,60,100);
+
+            //        es un digrafo de 1 a 10
+            //                    9----->
+            //                   / \     \
+            //                  /   \     \
+            //           2 --->5     \     \
+            //          /     /       \     \
+            //         /     /         \     \
+            //        1 --->3 --->6 --->8 --->10
+            /         \                /
+            //          \             /
+            //           \           /
+            //            4 ------->7
+
+
+
+
         List<List> aux = Gestor_Plantas.rutaPosibles(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(9));
 
         for (List l: aux){
             System.out.println(l.toString());
         }
 
-
-
+        */
 
         /*
         //Prueba del metodo  plantasBajoPuntoReposicion()
@@ -80,8 +105,7 @@ public class Main {
         Gestor_Plantas.getPlantas().get(1).setInsumos(stock2);
 
         System.out.println(Gestor_Plantas.plantasBajoPuntoReposicion().toString());
-
-         */
+        */
 
 
         /*
@@ -113,16 +137,6 @@ public class Main {
         }
 
      */
-
-
-
-
-
-
-
-
-
-
 
         /*
         //Pantalla

@@ -1,12 +1,8 @@
 package Servicio;
 
-import Negocio.Planta;
-import Negocio.Ruta;
-import Negocio.Stock;
+import Negocio.*;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,7 +42,7 @@ public abstract class Gestor_Plantas {
         ArrayList rtn = new ArrayList();
         boolean aux = false;
         for (Planta planta : plantas) {
-            for (Stock stock : planta.getInsumos()) {
+            for (Lista_insumos stock : planta.getInsumos()) {
                 if (stock.getCantidad() <= stock.getPunto_reposicion()) {
                     aux = true;
                 }
@@ -97,20 +93,23 @@ public abstract class Gestor_Plantas {
         }
         return resultado;
     }
-    /*
-    public List<Planta> getAdyacentes(int valor){
-        Planta unNodo = this.getNodo(valor);
-        List<T> salida = new ArrayList<T>();
-        for(Arista<T> enlace : this.aristas){
-            if( enlace.getInicio().equals(unNodo)){
-                salida.add(enlace.getFin().getValor());
+    //Para este metodo solo voy a devolver las plantas que tienen stock y que tienen un camino posible con la planta que emitio la orden de pedido
+    public static List<Planta> plantasConStock(Orden_Pedido orden){
+        ArrayList todasLasPlantas = new ArrayList();
+        boolean tiene_insumos=true;
+        for(Planta p: plantas){
+            for (Lista_insumos l:orden.getInsumos_pedidos()){
+                if(p.getInsumos().contains(l)){
+                    if(p.getInsumos().get(p.getInsumos().indexOf(l)).getCantidad() < l.getCantidad()){
+                        tiene_insumos = false;
+                    }
+                }else{tiene_insumos = false;}
             }
+            if(tiene_insumos){todasLasPlantas.add(p);
+            }else{tiene_insumos = true;}
         }
-        return salida;
+        return todasLasPlantas;
     }
-
-     */
-
     public static List<Planta> getAdyacentes(Planta unNodo){
         List<Planta> salida = new ArrayList<Planta>();
         for(Ruta enlace : rutas){

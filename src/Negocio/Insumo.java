@@ -1,5 +1,7 @@
 package Negocio;
 
+import java.util.Objects;
+
 public abstract class Insumo {
     protected int id_insumo;
     protected String descripcion;
@@ -14,4 +16,12 @@ public abstract class Insumo {
     }
 
     public abstract double pesoPorUnidad();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Insumo insumo = (Insumo) o;
+        return id_insumo == insumo.id_insumo;
+    }
 }

@@ -9,9 +9,15 @@ public class Orden_Pedido {
     private LocalDate fecha_entrega;
     private Estado estado;
     private Planta planta_destino;
-    private ArrayList insumos_pedidos;
+    private ArrayList<Lista_insumos> insumos_pedidos;
     private Detalle_Envio detalle_envio;
 
+    public Orden_Pedido(int numero, LocalDate fecha_solicitud, Planta planta_destino) {
+        this.numero = numero;
+        this.fecha_solicitud = fecha_solicitud;
+        this.planta_destino = planta_destino;
+        insumos_pedidos = new ArrayList();
+    }
     public Orden_Pedido(int numero, LocalDate fecha_solicitud, LocalDate fecha_entrega, Estado estado, Planta planta_destino, ArrayList insumos_pedidos, Detalle_Envio detalle_envio) {
         this.numero = numero;
         this.fecha_solicitud = fecha_solicitud;
@@ -62,7 +68,7 @@ public class Orden_Pedido {
         this.planta_destino = planta_destino;
     }
 
-    public ArrayList getInsumos_pedidos() {
+    public ArrayList<Lista_insumos> getInsumos_pedidos() {
         return insumos_pedidos;
     }
 
