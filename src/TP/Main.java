@@ -1,17 +1,87 @@
 package TP;
 
-import Negocio.Camion;
-import Negocio.Planta;
+import Negocio.*;
 import Servicio.Gestor_Plantas;
 
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        Gestor_Plantas.registrarPlanta("planta1");
+        Gestor_Plantas.registrarPlanta("planta2");
+        Gestor_Plantas.registrarPlanta("planta3");
+        Gestor_Plantas.registrarPlanta("planta4");
+        Gestor_Plantas.registrarPlanta("planta5");
+        Gestor_Plantas.registrarPlanta("planta6");
+        Gestor_Plantas.registrarPlanta("planta7");
+        Gestor_Plantas.registrarPlanta("planta8");
+        Gestor_Plantas.registrarPlanta("planta9");
+        Gestor_Plantas.registrarPlanta("planta10");
+
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(1),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(2),150,90,150);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(3),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(1),Gestor_Plantas.getPlantas().get(4),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(1),Gestor_Plantas.getPlantas().get(8),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(8),Gestor_Plantas.getPlantas().get(7),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(2),Gestor_Plantas.getPlantas().get(5),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(2),Gestor_Plantas.getPlantas().get(4),100,60,100);
+
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(3),Gestor_Plantas.getPlantas().get(6),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(4),Gestor_Plantas.getPlantas().get(7),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(5),Gestor_Plantas.getPlantas().get(7),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(6),Gestor_Plantas.getPlantas().get(7),100,60,100);
+
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(7),Gestor_Plantas.getPlantas().get(9),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(8),Gestor_Plantas.getPlantas().get(9),100,60,100);
+      //  List<List> aux = Gestor_Plantas.rutaPosibles(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(9));
+        System.out.println(Gestor_Plantas.cantidadAdy(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(8)));
+
+        //for (List l: aux){
+          //  System.out.println(l.toString());
+        //}
+
+
+
+
+        /*
+        //Prueba del metodo  plantasBajoPuntoReposicion()
+               ArrayList stock = new ArrayList();
+        Gestor_Plantas.registrarPlanta("planta1");
+        stock.add(new Stock(
+                new Insumo_General(1,"insumo1","m",100,2),
+                Gestor_Plantas.getPlantas().get(0),10,5));
+        stock.add(new Stock(
+                new Insumo_General(2,"insumo2","L",200,1),
+                Gestor_Plantas.getPlantas().get(0),14,2));
+        stock.add(new Stock(
+                new Insumo_General(3,"insumo3","m",100,1),
+                Gestor_Plantas.getPlantas().get(0),5,10));
+
+        Gestor_Plantas.getPlantas().get(0).setInsumos(stock);
+
+        Gestor_Plantas.registrarPlanta("planta2");
+        ArrayList stock2 = new ArrayList();
+        stock2.add(new Stock(
+                new Insumo_General(1,"insumo1","m",100,2),
+                Gestor_Plantas.getPlantas().get(0),10,5));
+        stock2.add(new Stock(
+                new Insumo_General(2,"insumo2","L",200,1),
+                Gestor_Plantas.getPlantas().get(0),14,2));
+
+        Gestor_Plantas.getPlantas().get(1).setInsumos(stock2);
+
+        System.out.println(Gestor_Plantas.plantasBajoPuntoReposicion().toString());
+
+         */
+
 
         /*
         //Para el testing luego, prueba de la priorityqueue

@@ -54,4 +54,14 @@ public class Ruta {
     public void setCant_max_material(double cant_max_material) {
         this.cant_max_material = cant_max_material;
     }
+
+    @Override
+    public String toString() {
+        return "Ruta{" +
+                "planta_origen=" + planta_origen +
+                ", planta_destino=" + planta_destino +
+                '}';
+    }
+
+
 }
