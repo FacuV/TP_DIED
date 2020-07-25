@@ -63,25 +63,33 @@ public abstract class Gestor_Plantas {
         List aux1 = new ArrayList();
         List aux2 = new ArrayList();
         aux2.add(aux1);
+        //Si llegue al destino
         if(origen.equals(destino)){
             aux1.add(destino);
             return aux2;
         }
+        //obtengo adyacentes
         List<Planta> ady = getAdyacentes(origen);
+        //Si llegue a una rama muerta
         if(ady.isEmpty()){return aux2;}
 
         List<List> caminosAdy = new ArrayList();
+        //Recibo las listas de caminos posibles segun mis nodos adyasentes
+        //Creo que tiene un problema, empaqueta el resultado en una lista de forma indeseada, mas abajo hago dos for para desempaquetar
         for (Planta p: ady){
             caminosAdy.add((List) Stream.concat(aux1.stream(),rutaPosibles(p,destino).stream()).collect(Collectors.toList()));
         }
         //por si estoy en una rama muerta
         if(caminosAdy.size()==1 && caminosAdy.get(0).isEmpty()){return aux2;}
+        //Genero la lista con el origen del camino
         List resultado = new ArrayList();
         List listaA = new ArrayList();
         listaA.add(origen);
-
+        //Agrego al inicio de todos los caminos el origen
         for (List<List> list:caminosAdy){
+            //solucionando el problema de desempaquetar los caminos
             for (List listaux:list) {
+                //Si el camino no era camino muerto me agrego como inicio, de lo contrario lo ignoro
                 if (!list.get(0).isEmpty()) {
                     resultado.add(Stream.concat(listaA.stream(), listaux.stream()).collect(Collectors.toList()));
                 }
