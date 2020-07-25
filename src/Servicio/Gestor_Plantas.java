@@ -6,6 +6,7 @@ import Negocio.Stock;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -57,74 +58,36 @@ public abstract class Gestor_Plantas {
         }
         return rtn;
     }
-    /*
-    public static List rutaPosibles(Planta origen,Planta destino) {
-        //Primero obtengo
-        List<List> aux = rutaPosiblesAux(origen, destino);
-        List<List> aux2 = new ArrayList();
-        List aux3 = new ArrayList();
 
-        for (List res : aux) {
-            aux2.add(aplanador(res));
+    public static List<List> rutaPosibles(Planta origen,Planta destino) {
+        List aux1 = new ArrayList();
+        List aux2 = new ArrayList();
+        aux2.add(aux1);
+        if(origen.equals(destino)){
+            aux1.add(destino);
+            return aux2;
         }
+        List<Planta> ady = getAdyacentes(origen);
+        if(ady.isEmpty()){return aux2;}
 
-        for(List<List> list:aux2){
-            for (List l:list){
-                aux3.add(l);
+        List<List> caminosAdy = new ArrayList();
+        for (Planta p: ady){
+            caminosAdy.add((List) Stream.concat(aux1.stream(),rutaPosibles(p,destino).stream()).collect(Collectors.toList()));
+        }
+        //por si estoy en una rama muerta
+        if(caminosAdy.size()==1 && caminosAdy.get(0).isEmpty()){return aux2;}
+        List resultado = new ArrayList();
+        List listaA = new ArrayList();
+        listaA.add(origen);
+
+        for (List<List> list:caminosAdy){
+            for (List listaux:list) {
+                if (!list.get(0).isEmpty()) {
+                    resultado.add(Stream.concat(listaA.stream(), listaux.stream()).collect(Collectors.toList()));
+                }
             }
         }
-        return aux3;
-    }
-    private static List<List> aplanador(List list){
-        if(list.size() == 1){
-            return list;
-        }
-        ArrayList inicio = new ArrayList();
-        inicio.add(list.get(0));
-        list.remove(0);
-        ArrayList resultado = new ArrayList();
-        ArrayList alvw = new ArrayList();
-
-        for(Object resto: list){
-            resultado.add(Stream.concat(inicio.stream(),aplanador((List) resto).stream().flatMap(List::stream)).collect(Collectors.toList()));
-        }
         return resultado;
-    }
-    private static List rutaPosiblesAux(Planta origen,Planta destino) {
-        ArrayList<ArrayList> resultado = new ArrayList();
-        List<Planta> ady = getAdyacentes(origen);
-        if (!origen.equals(destino) && ady.isEmpty()) {
-            return null;
-        }
-        ArrayList a = new ArrayList();
-        a.add(destino);
-        if (origen.equals(destino)) {
-            resultado.add(a);
-            return resultado;
-        }
-        for(Planta planta:ady){
-            resultado.add(new ArrayList());
-        }
-        for(int i =0; i < ady.size();i++){
-            resultado.get(i).add(origen);
-            resultado.get(i).addAll(rutaPosiblesAux(ady.get(i),destino));
-
-        }
-        return resultado;
-    }
-     */
-    public static int cantidadAdy(Planta A,Planta B){
-        return  cantidadAdyAux(A, B)+1;
-    }
-    public static int cantidadAdyAux(Planta A,Planta B){
-        int cont =0;
-        if(A.equals(B)){return cont;}
-        List<Planta> aux = getAdyacentes(A);
-        cont = aux.size()-1;
-        for (Planta ady: aux){
-            cont += (cantidadAdyAux(ady,B));
-        }
-        return cont;
     }
     /*
     public List<Planta> getAdyacentes(int valor){

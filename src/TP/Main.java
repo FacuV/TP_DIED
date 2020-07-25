@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -41,12 +43,11 @@ public class Main {
 
         Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(7),Gestor_Plantas.getPlantas().get(9),100,60,100);
         Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(8),Gestor_Plantas.getPlantas().get(9),100,60,100);
-      //  List<List> aux = Gestor_Plantas.rutaPosibles(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(9));
-        System.out.println(Gestor_Plantas.cantidadAdy(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(8)));
+        List<List> aux = Gestor_Plantas.rutaPosibles(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(9));
 
-        //for (List l: aux){
-          //  System.out.println(l.toString());
-        //}
+        for (List l: aux){
+            System.out.println(l.toString());
+        }
 
 
 
