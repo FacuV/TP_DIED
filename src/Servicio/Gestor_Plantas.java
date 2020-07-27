@@ -37,7 +37,9 @@ public abstract class Gestor_Plantas {
             plantas.add(new Planta(nombre, plantas.get(plantas.size() - 1).getId() + 1));
         }
     }
-
+    public static Planta getPlanta(int id_planta){
+        return plantas.get(id_planta-1);
+    }
     public static List<Planta> plantasBajoPuntoReposicion() {
         ArrayList rtn = new ArrayList();
         boolean aux = false;

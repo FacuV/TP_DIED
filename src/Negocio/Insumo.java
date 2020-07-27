@@ -17,6 +17,38 @@ public abstract class Insumo {
 
     public abstract double pesoPorUnidad();
 
+    public int getId_insumo() {
+        return id_insumo;
+    }
+
+    public void setId_insumo(int id_insumo) {
+        this.id_insumo = id_insumo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getUnidad_medida() {
+        return unidad_medida;
+    }
+
+    public void setUnidad_medida(String unidad_medida) {
+        this.unidad_medida = unidad_medida;
+    }
+
+    public double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(double costo) {
+        this.costo = costo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -24,4 +56,5 @@ public abstract class Insumo {
         Insumo insumo = (Insumo) o;
         return id_insumo == insumo.id_insumo;
     }
+
 }

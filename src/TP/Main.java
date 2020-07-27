@@ -1,6 +1,7 @@
 package TP;
 
 import Negocio.*;
+import Servicio.Gestor_Ordenes_Pedido;
 import Servicio.Gestor_Plantas;
 
 import javax.swing.*;
@@ -15,16 +16,9 @@ import java.util.stream.Stream;
 public class Main {
 
     public static void main(String[] args) {
-        Gestor_Plantas.registrarPlanta("planta1");
-        Gestor_Plantas.registrarPlanta("planta2");
-        Gestor_Plantas.registrarPlanta("planta3");
-        Gestor_Plantas.registrarPlanta("planta4");
-        Gestor_Plantas.registrarPlanta("planta5");
 
 
-
-        /*
-        //prueba funcion rutaPosibles()
+        //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
         Gestor_Plantas.registrarPlanta("planta3");
@@ -61,21 +55,18 @@ public class Main {
             //          /     /       \     \
             //         /     /         \     \
             //        1 --->3 --->6 --->8 --->10
-            /         \                /
+            //         \               /
             //          \             /
             //           \           /
             //            4 ------->7
 
+        ArrayList insumosPlanta10 = new ArrayList();
+        ArrayList insumosPlanta7 = new ArrayList();
+        //insumosPlanta7.add()
+
+        Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(10),"10-10-2020",);
 
 
-
-        List<List> aux = Gestor_Plantas.rutaPosibles(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(9));
-
-        for (List l: aux){
-            System.out.println(l.toString());
-        }
-
-        */
 
         /*
         //Prueba del metodo  plantasBajoPuntoReposicion()

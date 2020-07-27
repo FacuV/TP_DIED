@@ -6,21 +6,26 @@ import java.util.ArrayList;
 public class Orden_Pedido {
     private int numero;
     private LocalDate fecha_solicitud;
+    private LocalDate fecha_maxima_entrega;
     private LocalDate fecha_entrega;
     private Estado estado;
     private Planta planta_destino;
     private ArrayList<Lista_insumos> insumos_pedidos;
     private Detalle_Envio detalle_envio;
 
-    public Orden_Pedido(int numero, LocalDate fecha_solicitud, Planta planta_destino) {
+    public Orden_Pedido(int numero, LocalDate fecha_solicitud,LocalDate fecha_maxima_entrega, Planta planta_destino,ArrayList<Lista_insumos> insumos_pedidos) {
         this.numero = numero;
         this.fecha_solicitud = fecha_solicitud;
+        this.fecha_maxima_entrega = fecha_maxima_entrega;
         this.planta_destino = planta_destino;
-        insumos_pedidos = new ArrayList();
+        this.insumos_pedidos = insumos_pedidos;
+        this.estado = Estado.CREADA;
     }
-    public Orden_Pedido(int numero, LocalDate fecha_solicitud, LocalDate fecha_entrega, Estado estado, Planta planta_destino, ArrayList insumos_pedidos, Detalle_Envio detalle_envio) {
+
+    public Orden_Pedido(int numero, LocalDate fecha_solicitud, LocalDate fecha_maxima_entrega, LocalDate fecha_entrega, Estado estado, Planta planta_destino, ArrayList<Lista_insumos> insumos_pedidos, Detalle_Envio detalle_envio) {
         this.numero = numero;
         this.fecha_solicitud = fecha_solicitud;
+        this.fecha_maxima_entrega = fecha_maxima_entrega;
         this.fecha_entrega = fecha_entrega;
         this.estado = estado;
         this.planta_destino = planta_destino;
