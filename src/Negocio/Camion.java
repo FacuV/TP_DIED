@@ -20,6 +20,14 @@ public class Camion implements Comparable{
         this.patente = patente;
     }
 
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
     public String getModelo() {
         return modelo;
     }
