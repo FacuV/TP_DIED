@@ -8,10 +8,17 @@ public class Insumo_Liquido extends Insumo{
         super(id_insumo, descripcion, unidad_medida, costo);
         this.densidad = densidad;
     }
-
     @Override
     public double pesoPorUnidad() {
         //ver esto luego
         return densidad*1;
+    }
+
+    public double getDensidad() {
+        return densidad;
+    }
+
+    public void setDensidad(double densidad) {
+        this.densidad = densidad;
     }
 }

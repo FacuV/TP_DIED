@@ -13,4 +13,12 @@ public class Insumo_General extends Insumo{
     public double pesoPorUnidad() {
         return peso_kilos;
     }
+
+    public double getPeso_kilos() {
+        return peso_kilos;
+    }
+
+    public void setPeso_kilos(double peso_kilos) {
+        this.peso_kilos = peso_kilos;
+    }
 }

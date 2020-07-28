@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Camion implements Comparable{
     private String patente;
+    private String marca;
     private String modelo;
     private double km_recorridos;
     private double costo_km;
@@ -59,9 +60,10 @@ public class Camion implements Comparable{
         this.fecha_compra = fecha_compra;
     }
 
-    public Camion(String patente, String modelo, double km_recorridos, double costo_km, double costo_hora, LocalDate fecha_compra) {
+    public Camion(String patente, String marca, String modelo, double km_recorridos, double costo_km, double costo_hora, LocalDate fecha_compra) {
         this.patente = patente;
         this.modelo = modelo;
+        this.marca = marca;
         this.km_recorridos = km_recorridos;
         this.costo_km = costo_km;
         this.costo_hora = costo_hora;
