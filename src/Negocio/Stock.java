@@ -23,4 +23,6 @@ public class Stock extends Lista_insumos{
     public void setPunto_reposicion(double punto_reposicion) {
         this.punto_reposicion = punto_reposicion;
     }
+
+
 }

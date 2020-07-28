@@ -1,6 +1,7 @@
 package TP;
 
 import Negocio.*;
+import Servicio.Gestor_Insumos;
 import Servicio.Gestor_Ordenes_Pedido;
 import Servicio.Gestor_Plantas;
 
@@ -17,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-
+        /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
@@ -60,14 +61,22 @@ public class Main {
             //           \           /
             //            4 ------->7
 
-        ArrayList insumosPlanta10 = new ArrayList();
-        ArrayList insumosPlanta7 = new ArrayList();
-        //insumosPlanta7.add()
+        ArrayList<Lista_insumos> insumosPlanta1 = new ArrayList();
+        ArrayList<Lista_insumos> insumosOrden = new ArrayList();
 
-        Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(10),"10-10-2020",);
+        Gestor_Insumos.registrarInsumoG("es el insumo 1","kg",200,1);
+        Gestor_Insumos.registrarInsumoG("es el insumo 2","m",100,0.5);
 
+        insumosPlanta1.add(new Stock(Gestor_Insumos.getInsumo(1),Gestor_Plantas.getPlanta(1),100,10));
+        insumosPlanta1.add(new Stock(Gestor_Insumos.getInsumo(2),Gestor_Plantas.getPlanta(1),100,10));
+        Gestor_Plantas.getPlanta(7).setInsumos(insumosPlanta1);
 
-
+        Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(10),LocalDate.now(),new ArrayList<>());
+        insumosOrden.add(new Detalle_Insumos(Gestor_Ordenes_Pedido.getOrden(1),Gestor_Insumos.getInsumo(1),50));
+        insumosOrden.add(new Detalle_Insumos(Gestor_Ordenes_Pedido.getOrden(1),Gestor_Insumos.getInsumo(2),50));
+        Gestor_Ordenes_Pedido.getOrden(1).setInsumos_pedidos(insumosOrden);
+        System.out.println(Gestor_Plantas.plantasConStock(Gestor_Ordenes_Pedido.getOrden(1)));
+        */
         /*
         //Prueba del metodo  plantasBajoPuntoReposicion()
                ArrayList stock = new ArrayList();

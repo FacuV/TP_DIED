@@ -14,4 +14,9 @@ public class Detalle_Insumos extends Lista_insumos{
     public void setOrden(Orden_Pedido orden) {
         this.orden = orden;
     }
+
+    @Override
+    public double getPunto_reposicion() {
+        return 0;
+    }
 }

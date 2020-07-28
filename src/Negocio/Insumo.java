@@ -57,4 +57,10 @@ public abstract class Insumo {
         return id_insumo == insumo.id_insumo;
     }
 
+    @Override
+    public String toString() {
+        return "Insumo{" +
+                "id_insumo=" + id_insumo +
+                '}';
+    }
 }

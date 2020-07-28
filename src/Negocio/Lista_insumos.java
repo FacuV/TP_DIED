@@ -1,7 +1,5 @@
 package Negocio;
 
-import java.util.Objects;
-
 public abstract class Lista_insumos {
     protected Insumo insumo;
     protected double cantidad;
@@ -11,6 +9,7 @@ public abstract class Lista_insumos {
         this.cantidad = cantidad;
     }
     public abstract double getPunto_reposicion();
+    public abstract void setPunto_reposicion(double punto_reposicion);
 
     public Insumo getInsumo() {
         return insumo;
@@ -31,9 +30,17 @@ public abstract class Lista_insumos {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+
+        if (o == null || (getClass() != o.getClass() && (o.getClass() != Stock.class && o.getClass() != Detalle_Envio.class))) return false;
         Lista_insumos that = (Lista_insumos) o;
         return insumo.equals(that.insumo);
     }
 
+    @Override
+    public String toString() {
+        return "Lista_insumos{" +
+                "insumo=" + insumo +
+                ", cantidad=" + cantidad +
+                '}';
+    }
 }

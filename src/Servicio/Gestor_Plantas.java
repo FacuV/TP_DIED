@@ -97,20 +97,41 @@ public abstract class Gestor_Plantas {
     }
     //Para este metodo solo voy a devolver las plantas que tienen stock y que tienen un camino posible con la planta que emitio la orden de pedido
     public static List<Planta> plantasConStock(Orden_Pedido orden){
-        ArrayList todasLasPlantas = new ArrayList();
+        ArrayList<Planta> todasLasPlantas = new ArrayList();
         boolean tiene_insumos=true;
         for(Planta p: plantas){
-            for (Lista_insumos l:orden.getInsumos_pedidos()){
-                if(p.getInsumos().contains(l)){
-                    if(p.getInsumos().get(p.getInsumos().indexOf(l)).getCantidad() < l.getCantidad()){
+            if(!p.equals(orden.getPlanta_destino())) {
+                for (Lista_insumos l : orden.getInsumos_pedidos()) {
+                    if (p.getInsumos().contains(l)) {
+                        if (p.getInsumos().get(p.getInsumos().indexOf(l)).getCantidad() < l.getCantidad()) {
+                            tiene_insumos = false;
+                        }
+                    } else {
                         tiene_insumos = false;
                     }
-                }else{tiene_insumos = false;}
+                }
+                if (tiene_insumos) {
+                    todasLasPlantas.add(p);
+                } else {
+                    tiene_insumos = true;
+                }
             }
-            if(tiene_insumos){todasLasPlantas.add(p);
-            }else{tiene_insumos = true;}
         }
-        return todasLasPlantas;
+        ArrayList rtn = new ArrayList();
+        for(Planta planta:todasLasPlantas){
+            if(!rutaPosibles(planta,orden.getPlanta_destino()).get(0).isEmpty()){
+                rtn.add(planta);
+            }
+        }
+        return rtn;
+    }
+    public static void actualizarStock(int id_planta, Insumo I, double cantidad, double punto_pedido){
+        for(Lista_insumos l:Gestor_Plantas.getPlanta(id_planta).getInsumos()){
+           if(l.getInsumo().equals(I)){
+               l.setCantidad(cantidad);
+               l.setPunto_reposicion(punto_pedido);
+           }
+        }
     }
     public static List<Planta> getAdyacentes(Planta unNodo){
         List<Planta> salida = new ArrayList<Planta>();
