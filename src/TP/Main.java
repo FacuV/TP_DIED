@@ -19,7 +19,10 @@ public class Main {
     public static void main(String[] args) {
 
 
+<<<<<<< HEAD
         /*
+=======
+>>>>>>> b87d29fc806088208146d53d520c653bc4957d54
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
@@ -62,6 +65,20 @@ public class Main {
             //           \           /
             //            4 ------->7
 
+        System.out.println(Gestor_Plantas.plantasPageRank());
+
+
+
+        /*
+        List<Planta>[][] matriz = Gestor_Plantas.matrizCaminoMinimo(true);
+        int tam = Gestor_Plantas.getPlantas().size();
+        for(int i = 0;i < tam;i++){
+            for(int j = 0;j < tam;j++){
+                System.out.print(matriz[i][j] + " ");
+            }
+            System.out.println();
+        }
+        /*
         ArrayList<Lista_insumos> insumosPlanta1 = new ArrayList();
         ArrayList<Lista_insumos> insumosOrden = new ArrayList();
 
@@ -77,7 +94,9 @@ public class Main {
         insumosOrden.add(new Detalle_Insumos(Gestor_Ordenes_Pedido.getOrden(1),Gestor_Insumos.getInsumo(2),50));
         Gestor_Ordenes_Pedido.getOrden(1).setInsumos_pedidos(insumosOrden);
         System.out.println(Gestor_Plantas.plantasConStock(Gestor_Ordenes_Pedido.getOrden(1)));
-        */
+
+         */
+
         /*
         //Prueba del metodo  plantasBajoPuntoReposicion()
                ArrayList stock = new ArrayList();
