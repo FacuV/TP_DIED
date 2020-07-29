@@ -19,4 +19,7 @@ public class Detalle_Insumos extends Lista_insumos{
     public double getPunto_reposicion() {
         return 0;
     }
+
+    @Override
+    public void setPunto_reposicion(double punto_reposicion) {}
 }
