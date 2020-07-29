@@ -18,6 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
