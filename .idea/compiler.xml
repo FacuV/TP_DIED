@@ -9,8 +9,8 @@
         <module name="TP_DIED" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="TP_DIED" target="1.5" />
+    <bytecodeTargetLevel target="11">
+      <module name="TP_DIED" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,23 +1,38 @@
 package TP;
 
+import Daos.ConexionLocal;
 import Negocio.*;
 import Servicio.Gestor_Insumos;
 import Servicio.Gestor_Ordenes_Pedido;
 import Servicio.Gestor_Plantas;
+import org.postgresql.Driver;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverAction;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.sql.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        /*
+
+    try {
+        Connection conex = ConexionLocal.getConexionLocal();
+        conex.close();
+    } catch (SQLException throwables) {
+        throwables.printStackTrace();
+    }
+
+    /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
@@ -60,11 +75,9 @@ public class Main {
             //           \           /
             //            4 ------->7
 
-        System.out.println(Gestor_Plantas.plantasPageRank());
+        //System.out.println(Gestor_Plantas.plantasPageRank());
 
 
-
-        /*
         List<Planta>[][] matriz = Gestor_Plantas.matrizCaminoMinimo(true);
         int tam = Gestor_Plantas.getPlantas().size();
         for(int i = 0;i < tam;i++){
@@ -73,6 +86,7 @@ public class Main {
             }
             System.out.println();
         }
+        */
         /*
         ArrayList<Lista_insumos> insumosPlanta1 = new ArrayList();
         ArrayList<Lista_insumos> insumosOrden = new ArrayList();
