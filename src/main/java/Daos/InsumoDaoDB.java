@@ -5,6 +5,7 @@ import Negocio.Insumo_General;
 import Negocio.Insumo_Liquido;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -63,8 +64,13 @@ public class InsumoDaoDB implements InsumoDao{
         Connection conexion = ConexionLocal.getConexionLocal();
         Statement stmt = conexion.createStatement();
         Insumo insumo = null;
-        stmt.execute("SELECT * FROM insumo;");
-        System.out.println(stmt.getResultSet());
+        ResultSet res = stmt.executeQuery("SELECT * FROM insumo WHERE id_insumo = "+id_insumo+" JOIN general ON general.id_insumo = insumo.id_insumo JOIN liquido ON liquido.id_insumo = general.id_insumo;");
+        insumo.setId_insumo(id_insumo);
+        insumo.setDescripcion(res.getString("descripcion"));
+        insumo.setUnidad_medida(res.getString("unidad_medida"));
+        insumo.setCosto(Integer.valueOf(res.getString("costo")));
+        //ResultSet res = stmt.executeQuery("SELECT * FROM insumo;");
+
         stmt.close();
         conexion.close();
         return insumo;

@@ -1,10 +1,6 @@
 package TP;
 
 import Daos.ConexionLocal;
-<<<<<<< HEAD
-=======
-import Daos.InsumoDao;
->>>>>>> d70165dea66037e1fe49693753d9578faa676b36
 import Daos.InsumoDaoDB;
 import Negocio.*;
 import Servicio.Gestor_Insumos;
@@ -32,7 +28,8 @@ public class Main {
 
     try {
         InsumoDaoDB prueba = new InsumoDaoDB();
-        prueba.createInsumo(new Insumo_General(1,"Alto insumo","m",300,50));
+        prueba.createInsumo(new Insumo_Liquido(2,"Alto insumo2","m",300,52));
+       // prueba.getInsumo(1);
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }
