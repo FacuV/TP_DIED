@@ -1,6 +1,10 @@
 package TP;
 
 import Daos.ConexionLocal;
+<<<<<<< HEAD
+=======
+import Daos.InsumoDao;
+>>>>>>> d70165dea66037e1fe49693753d9578faa676b36
 import Daos.InsumoDaoDB;
 import Negocio.*;
 import Servicio.Gestor_Insumos;
