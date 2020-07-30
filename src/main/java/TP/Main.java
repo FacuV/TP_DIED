@@ -1,6 +1,7 @@
 package TP;
 
 import Daos.ConexionLocal;
+import Daos.InsumoDaoDB;
 import Negocio.*;
 import Servicio.Gestor_Insumos;
 import Servicio.Gestor_Ordenes_Pedido;
@@ -26,8 +27,8 @@ public class Main {
     public static void main(String[] args) {
 
     try {
-        Connection conex = ConexionLocal.getConexionLocal();
-        conex.close();
+        InsumoDaoDB prueba = new InsumoDaoDB();
+        prueba.createInsumo(new Insumo_General(1,"Alto insumo","m",300,50));
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }

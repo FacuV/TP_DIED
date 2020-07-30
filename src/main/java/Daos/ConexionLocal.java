@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class ConexionLocal {
     public static Connection getConexionLocal(){
 
-        String url = "jdbc:postgresql://localhost:5432/postgres";
+        String url = "jdbc:postgresql://localhost:5432/tp-died";
         Connection conn = null;
         try {
             Class.forName("org.postgresql.Driver");
