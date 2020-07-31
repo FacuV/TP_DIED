@@ -16,13 +16,13 @@ public class InsumoDaoDB implements InsumoDao{
         Statement stmt = conexion.createStatement();
         String id_insumo = String.valueOf(insumo.getId_insumo());
         String costo = String.valueOf(insumo.getCosto());
-        stmt.execute("INSERT INTO insumo VALUES ('"+id_insumo+"','"+insumo.getDescripcion()+"','"+insumo.getUnidad_medida()+"','"+costo+"');");
+        stmt.execute("INSERT INTO insumo VALUES ("+id_insumo+",'"+insumo.getDescripcion()+"','"+insumo.getUnidad_medida()+"',"+costo+");");
         if(insumo instanceof Insumo_General){
             String peso = String.valueOf(((Insumo_General) insumo).getPeso_kilos());
-            stmt.execute("INSERT INTO general VALUES ('"+id_insumo+"','"+peso+"');");
+            stmt.execute("INSERT INTO general VALUES ("+id_insumo+","+peso+");");
         }else{
             String densidad = String.valueOf(((Insumo_Liquido) insumo).getDensidad());
-            stmt.execute("INSERT INTO liquido VALUES ('"+id_insumo+"','"+densidad+"');");
+            stmt.execute("INSERT INTO liquido VALUES ("+id_insumo+","+densidad+");");
         }
         stmt.close();
         conexion.close();
@@ -49,7 +49,7 @@ public class InsumoDaoDB implements InsumoDao{
         Statement stmt = conexion.createStatement();
         String id = String.valueOf(insumo.getId_insumo());
         String costo = String.valueOf(insumo.getCosto());
-        stmt.execute("UPDATE insumo SET descripcion = "+insumo.getDescripcion()+",unidad_medida = "+insumo.getUnidad_medida()+",costo="+costo+" WHERE id_insumo = "+id+";");
+        stmt.execute("UPDATE insumo SET descripcion = '"+insumo.getDescripcion()+"',unidad_medida = '"+insumo.getUnidad_medida()+"',costo="+costo+" WHERE id_insumo = "+id+";");
         if(insumo instanceof Insumo_General){
             stmt.execute("UPDATE general SET peso = "+String.valueOf(((Insumo_General) insumo).getPeso_kilos())+" WHERE id_insumo = "+id+";");
         }else{
@@ -64,13 +64,20 @@ public class InsumoDaoDB implements InsumoDao{
         Connection conexion = ConexionLocal.getConexionLocal();
         Statement stmt = conexion.createStatement();
         Insumo insumo = null;
-        ResultSet res = stmt.executeQuery("SELECT * FROM insumo WHERE id_insumo = "+id_insumo+" JOIN general ON general.id_insumo = insumo.id_insumo JOIN liquido ON liquido.id_insumo = general.id_insumo;");
-        insumo.setId_insumo(id_insumo);
-        insumo.setDescripcion(res.getString("descripcion"));
-        insumo.setUnidad_medida(res.getString("unidad_medida"));
-        insumo.setCosto(Integer.valueOf(res.getString("costo")));
-        //ResultSet res = stmt.executeQuery("SELECT * FROM insumo;");
-
+        ResultSet res = stmt.executeQuery("SELECT * FROM insumo " +
+                                          "LEFT JOIN general ON general.id_insumo = insumo.id_insumo," +
+                                          "LEFT JOIN liquido ON liquido.id_insumo = general.id_insumo;" +
+                                          "WHERE id_insumo = "+id_insumo+";");
+        if(res.getString("id_insumo") == null){
+            stmt.close();
+            conexion.close();
+            return insumo;
+        }
+        if(res.getString("peso") != null){
+            insumo = new Insumo_General(id_insumo,res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(res.getString("peso")));
+        }else{
+            insumo = new Insumo_Liquido(id_insumo,res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(res.getString("densidad")));
+        }
         stmt.close();
         conexion.close();
         return insumo;

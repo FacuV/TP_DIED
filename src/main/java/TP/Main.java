@@ -6,7 +6,6 @@ import Negocio.*;
 import Servicio.Gestor_Insumos;
 import Servicio.Gestor_Ordenes_Pedido;
 import Servicio.Gestor_Plantas;
-import org.postgresql.Driver;
 
 import javax.swing.*;
 import java.awt.*;

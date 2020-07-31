@@ -5,9 +5,10 @@ import Negocio.Camion;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public abstract class Gestor_Camiones {
-    private static ArrayList<Camion> camiones = new ArrayList<>();
+    private static PriorityQueue<Camion> camiones = new PriorityQueue<>();
 
     public static void registrarCamion(String patente, String marca,String modelo,double Km_recorridos,double costo_km,double costo_hora,LocalDate fecha_compra){
         camiones.add(new Camion(patente,marca,modelo,Km_recorridos,costo_km,costo_hora,fecha_compra));
@@ -30,7 +31,7 @@ public abstract class Gestor_Camiones {
         if(costo_hora >= 0){cam.setCosto_hora(costo_hora);}
         if(fecha_compra != null){cam.setFecha_compra(fecha_compra);}
     }
-    public static List<Camion> getCamiones(){
+    public static PriorityQueue<Camion> getCamiones(){
         return camiones;
     }
 }

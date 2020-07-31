@@ -6,7 +6,6 @@ public class Planta{
     private String nombre;
     private int id;
     private ArrayList<Lista_insumos> insumos;
-    private PriorityQueue<Camion> camiones;
 
     public String getNombre() {
         return nombre;
@@ -32,25 +31,15 @@ public class Planta{
         this.insumos = insumos;
     }
 
-    public PriorityQueue<Camion> getCamiones() {
-        return camiones;
-    }
-
-    public void setCamiones(PriorityQueue<Camion> camiones) {
-        this.camiones = camiones;
-    }
-
     public Planta(String nombre, int id){
         this.nombre = nombre;
         this.id = id;
         insumos = new ArrayList<>();
-        camiones = new PriorityQueue<Camion>(50, Camion::compareTo);
     }
-    public Planta(String nombre,int id,ArrayList insumos,PriorityQueue camiones){
+    public Planta(String nombre,int id,ArrayList insumos){
         this.nombre = nombre;
         this.id = id;
         this.insumos = insumos;
-        this.camiones = camiones;
     }
 
     @Override
