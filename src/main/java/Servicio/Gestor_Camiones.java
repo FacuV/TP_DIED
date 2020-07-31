@@ -18,6 +18,14 @@ public abstract class Gestor_Camiones {
             if(camion.getPatente().equals(patente)){camiones.remove(camion);}
         }
     }
+    public static Camion getCamion(String patente){
+        for(Camion camion: camiones){
+            if(camion.getPatente().equals(patente)){
+                return camion;
+            }
+        }
+        return null;
+    }
     //Pasar null a los parametros string que no se quieran modificar y -1 a los tipo numericos
     public static void modificacion(String patente, String marca, String modelo, double Km_recorridos, double costo_km, double costo_hora, LocalDate fecha_compra){
         Camion cam = null;

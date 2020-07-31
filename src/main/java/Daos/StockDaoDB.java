@@ -1,6 +1,5 @@
 package Daos;
 
-import Negocio.Camion;
 import Negocio.Stock;
 import Servicio.Gestor_Insumos;
 import Servicio.Gestor_Plantas;

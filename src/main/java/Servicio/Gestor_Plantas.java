@@ -226,7 +226,7 @@ public abstract class Gestor_Plantas {
         return respuesta;
     }
 
-    private static Ruta getCamino(Planta inicio, Planta fin){
+    public static Ruta getCamino(Planta inicio, Planta fin){
         for(Ruta ruta:rutas){
             if(ruta.getPlanta_origen().equals(inicio) && ruta.getPlanta_destino().equals(fin)){
                 return ruta;
