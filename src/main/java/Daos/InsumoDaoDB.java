@@ -65,9 +65,9 @@ public class InsumoDaoDB implements InsumoDao{
         Statement stmt = conexion.createStatement();
         Insumo insumo = null;
         ResultSet res = stmt.executeQuery("SELECT * FROM insumo " +
-                                          "LEFT JOIN general ON general.id_insumo = insumo.id_insumo," +
-                                          "LEFT JOIN liquido ON liquido.id_insumo = general.id_insumo;" +
-                                          "WHERE id_insumo = "+id_insumo+";");
+                                          "LEFT JOIN general ON general.id_insumo = insumo.id_insumo" +
+                                          "LEFT JOIN liquido ON liquido.id_insumo = insumo.id_insumo" +
+                                          "WHERE insumo.id_insumo = "+String.valueOf(id_insumo)+";");
         if(res.getString("id_insumo") == null){
             stmt.close();
             conexion.close();
