@@ -24,11 +24,42 @@ import java.sql.*;
 public class Main {
 
     public static void main(String[] args) {
+        /*
+        //Pantalla
+        JFrame frame = new JFrame("Facu");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //Panel
+        JPanel panelDeContenido = new JPanel();
+        //etiqueta
+        JLabel etiqueta1 = new JLabel("una etiqueta");
+        //Añadir el el panel al frame
+            //frame.add(etiqueta1);
+        //o con este otro
+            frame.setContentPane(etiqueta1);
+        //menu
+        //JMenu menu = new JMenu("hola");
+        //frame.add(menu);
+        BorderLayout bl = new BorderLayout(20,20);
+        frame.setLayout(bl);
 
+        //cuadro de texto
+        JTextField texto = new JTextField("texto",1);
+        frame.add(texto);
+        JCheckBox cb = new JCheckBox("hola");
+        frame.add(cb);
+        //Visualizar pantalla
+        frame.pack();
+        frame.setSize(500,500);
+        frame.setVisible(true);*/
+
+
+
+    //Prueba daos
     try {
         InsumoDaoDB prueba = new InsumoDaoDB();
         prueba.createInsumo(new Insumo_Liquido(2,"Alto insumo2","m",300,52));
-       // prueba.getInsumo(1);
+        Insumo insumo = prueba.getInsumo(2);
+        System.out.println(insumo.getId_insumo() + " " + insumo.getDescripcion() + " " + insumo.getUnidad_medida());
     } catch (SQLException throwables) {
         throwables.printStackTrace();
     }
@@ -139,7 +170,7 @@ public class Main {
 
 
         /*
-        //Para el testing luego, prueba de la priorityqueue
+        //Para el testing luego, prueba de la priorityqueue PLANTA YA NO TIENE CAMIONES
         Planta planta = new Planta("Planta de facu",0001);
 
         planta.getCamiones().add(new Camion("1111","modelo5",2000,10,10, LocalDate.now()));
@@ -167,34 +198,5 @@ public class Main {
         }
 
      */
-
-        /*
-        //Pantalla
-        JFrame frame = new JFrame("Facu");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //Panel
-        JPanel panelDeContenido = new JPanel();
-        //etiqueta
-        JLabel etiqueta1 = new JLabel("una etiqueta");
-        //Añadir el el panel al frame
-            //frame.add(etiqueta1);
-        //o con este otro
-            frame.setContentPane(etiqueta1);
-        //menu
-        //JMenu menu = new JMenu("hola");
-        //frame.add(menu);
-        BorderLayout bl = new BorderLayout(20,20);
-        frame.setLayout(bl);
-
-        //cuadro de texto
-        JTextField texto = new JTextField("texto",1);
-        frame.add(texto);
-        JCheckBox cb = new JCheckBox("hola");
-        frame.add(cb);
-        //Visualizar pantalla
-        frame.pack();
-        frame.setSize(500,500);
-        frame.setVisible(true);*/
-        
     }
 }
