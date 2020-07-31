@@ -42,7 +42,7 @@ public class PlantaDaoDB implements PlantaDao{
         Planta planta = null;
         ResultSet res = stmt.executeQuery("SELECT * FROM planta WHERE id_planta = "+String.valueOf(id_planta)+";");
         if(res.getString("id_planta") != null){
-            planta = new Planta(res.getString("nombre_planta"),id_planta,(new StockDao()));
+            planta = new Planta(res.getString("nombre_planta"),id_planta,(new StockDaoDB()).getStock(id_planta));
         }
         stmt.close();
         conexion.close();
