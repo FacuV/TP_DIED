@@ -1,47 +1,67 @@
 package Servicio;
 
+import Daos.PlantaDaoDB;
+import Daos.RutaDaoDB;
 import Negocio.*;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public abstract class Gestor_Plantas {
+    //Esta es una lista de todas las plantas que tienen la empresa
     private static ArrayList<Planta> plantas = new ArrayList<>();
+    //Esta es una lista de todas las rutas que tiene la empresa
     private static ArrayList<Ruta> rutas = new ArrayList<>();
 
+    //Este método devuelve la lista de todas las plantas de la empresa
     public static ArrayList<Planta> getPlantas() {
         return plantas;
     }
 
+    //Este método te permite modificar toda la lista de plantas por una nueva
     public static void setPlantas(ArrayList<Planta> plantas) {
         Gestor_Plantas.plantas = plantas;
     }
 
+    //Este método devuelve la lista de todas las rutas de la empresa
     public static ArrayList<Ruta> getRutas() {
         return rutas;
     }
 
+    //Este método te permite modificar todas las rutas de la empresa por una nueva lista de rutas
     public static void setRutas(ArrayList<Ruta> rutas) {
         Gestor_Plantas.rutas = rutas;
     }
 
-    public static void conectar(Planta nodo1, Planta nodo2, double distancia, int duracion_viaje, double cant_max_material) {
-        rutas.add(new Ruta(nodo1, nodo2, distancia, duracion_viaje, cant_max_material));
+    //Este método te permite registrar una nueva ruta en la empresa tanto en la lista de rutas como en la base de datos
+    public static void conectar(Planta nodo1, Planta nodo2, double distancia, int duracion_viaje, double cant_max_material) throws SQLException {
+        Ruta ruta = new Ruta(nodo1, nodo2, distancia, duracion_viaje, cant_max_material);
+        rutas.add(ruta);
+        RutaDaoDB rutaDaoDB = new RutaDaoDB();
+        rutaDaoDB.createRuta(ruta);
     }
 
-    public static void registrarPlanta(String nombre) {
+    //Este método permite registrar una nueva planta tanto en la lista de plantas de la empresa como en la base de datos
+    public static void registrarPlanta(String nombre) throws SQLException {
+        Planta planta;
         if (plantas.isEmpty()) {
-            plantas.add(new Planta(nombre, 1));
+            planta = new Planta(nombre, 1);
         } else {
-            plantas.add(new Planta(nombre, plantas.get(plantas.size() - 1).getId() + 1));
+            planta = new Planta(nombre, plantas.get(plantas.size() - 1).getId() + 1);
         }
+        plantas.add(planta);
+        PlantaDaoDB plantaDaoDB = new PlantaDaoDB();
+        plantaDaoDB.createPlanta(planta);
     }
 
+    //Este método te permite obtener una planta de la lista de plantas de la empresa pasando como parámetro su id
     public static Planta getPlanta(int id_planta) {
         return plantas.get(id_planta - 1);
     }
 
+    //Este método devuelve una lista con las plantas que tienen algún insumo en cantidades inferiores al punto de roposición
     public static List<Planta> plantasBajoPuntoReposicion() {
         ArrayList rtn = new ArrayList();
         boolean aux = false;
@@ -59,6 +79,7 @@ public abstract class Gestor_Plantas {
         return rtn;
     }
 
+    //Este método devuelve una lista que contiene todas las rutas posibles desde una planta origen hasta una planta destino
     public static List<List> rutaPosibles(Planta origen, Planta destino) {
         List aux1 = new ArrayList();
         List aux2 = new ArrayList();
@@ -102,7 +123,7 @@ public abstract class Gestor_Plantas {
         return resultado;
     }
 
-    //Para este metodo solo voy a devolver las plantas que tienen stock y que tienen un camino posible con la planta que emitio la orden de pedido
+    //Este método devuelve las plantas que tienen stock para la orden de pedido y que tienen un camino posible con la planta que emitio la orden de pedido
     public static List<Planta> plantasConStock(Orden_Pedido orden) {
         ArrayList<Planta> todasLasPlantas = new ArrayList();
         boolean tiene_insumos = true;
@@ -133,6 +154,7 @@ public abstract class Gestor_Plantas {
         return rtn;
     }
 
+    //Este método permite actualizar el stock de una planta
     public static void actualizarStock(int id_planta, Insumo I, double cantidad, double punto_pedido) {
         for (Lista_insumos l : Gestor_Plantas.getPlanta(id_planta).getInsumos()) {
             if (l.getInsumo().equals(I)) {
@@ -142,6 +164,7 @@ public abstract class Gestor_Plantas {
         }
     }
 
+    //Este método retorna una lista de plantas adyacentes a la planta que se pasa como parámetro
     public static List<Planta> getAdyacentes(Planta unNodo) {
         List<Planta> salida = new ArrayList<Planta>();
         for (Ruta enlace : rutas) {
@@ -152,6 +175,8 @@ public abstract class Gestor_Plantas {
         return salida;
     }
 
+
+    //Este método retorna la cantidad de caminos que llega a una planta que se pasa como parámetro
     public static Integer gradoEntrada(Planta vertice) {
         Integer res = 0;
         for (Ruta arista : rutas) {
@@ -160,6 +185,8 @@ public abstract class Gestor_Plantas {
         return res;
     }
 
+
+    //Este método retorna la cantidad de caminos que salen de la planta pasada como parámetro
     public static Integer gradoSalida(Planta vertice) {
         Integer res = 0;
         for (Ruta arista : rutas) {
@@ -168,6 +195,8 @@ public abstract class Gestor_Plantas {
         return res;
     }
 
+    //Si el camino es a sí misma o no hay camino el lugar aparece vacío
+    //Este método devuelve una matriz donde se indica el camínimo mínimo que va desde la planata de la fila hacia la planta de la columna
     public static List<Planta>[][] matrizCaminoMinimo(boolean parametro){
         // si el parámetro es true se calcula por tiempo, si es false se calcula por km recorridos
 
@@ -198,7 +227,7 @@ public abstract class Gestor_Plantas {
         return rta;
     }
 
-    //busca el camino más corto según el parámetro de todos los caminos dados
+    //Este método retorna una lista de plantas por donde es el camino más corto de todas las listas de caminos que se envió, por tiempo si el parámetro es true y por distancia si el parámetro es false
     private static List<Planta> masCorta (List<List> caminos , boolean parametro){
         // este parámetro me permite recordar cual indice enviar
         List respuesta = new ArrayList();
@@ -226,6 +255,7 @@ public abstract class Gestor_Plantas {
         return respuesta;
     }
 
+    //Este método retorna la ruta que va desde la planta de inicio hasta la del fin y null si es que no existe
     public static Ruta getCamino(Planta inicio, Planta fin){
         for(Ruta ruta:rutas){
             if(ruta.getPlanta_origen().equals(inicio) && ruta.getPlanta_destino().equals(fin)){
@@ -236,37 +266,22 @@ public abstract class Gestor_Plantas {
         return null;
     }
 
+    //METODO NO TERMINADO
+    //debe retornar una lista ordenada de plantas según algoritmo de page rack
     public static ArrayList<Planta> plantasPageRank(){
-        ArrayList<Planta> rta = new ArrayList<Planta>();
-        int min;
-        int max= 0;
-        int indice=0;
-        for(int i=0; i<plantas.size();i++){
-            min=0;
-            for(int j=0; j<plantas.size();j++){
-                if(min==0 && max==0){
-                    min=gradoEntrada(plantas.get(j));
-                    indice=j;
-                }else if(min==0 && max!= 0 && max> gradoEntrada(plantas.get(j))){
-                    min=gradoEntrada(plantas.get(j));
-                    indice=j;
-                }else if(max==0 && min < gradoEntrada(plantas.get(j))){
-                    min=gradoEntrada(plantas.get(j));
-                    indice=j;
-                }else if(max!= 0 && min < gradoEntrada(plantas.get(j)) && gradoEntrada(plantas.get(j)) <= max && j!=indice){
-                    min=gradoEntrada(plantas.get(j));
-                    indice=j;
-                }
-            }
-
-            max=min;
-            rta.add(plantas.get(indice));
-        }
-        return rta;
+        return null;
     }
 
+    //METODO NO TERMINADO
+    //debe retornar el subgrafo de mayor flujo entre la planta de origen y la de destino
+    public static ArrayList<Planta> flujoMax(Planta origen,Planta destino){
+        return null;
+    }
 
-
-
+    //METODO NO TERMINADO
+    //debe retornar el flujo de una ruta
+    public static Integer flujo(ArrayList<Planta> camino){
+        return null;
+    }
 }
 
