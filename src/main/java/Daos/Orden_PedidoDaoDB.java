@@ -1,9 +1,6 @@
 package Daos;
 
-import Negocio.Detalle_Envio;
-import Negocio.Insumo;
-import Negocio.Orden_Pedido;
-import Negocio.Ruta;
+import Negocio.*;
 import Servicio.Gestor_Camiones;
 import Servicio.Gestor_Insumos;
 import Servicio.Gestor_Ordenes_Pedido;
@@ -62,9 +59,7 @@ public class Orden_PedidoDaoDB implements Orden_PedidoDao {
         Connection conexion = ConexionLocal.getConexionLocal();
         Statement stmt = conexion.createStatement();
         ResultSet res = stmt.executeQuery("SELECT * FROM orden_pedido WHERE numero_orden = "+numero_orden+";");
-        Detalle_Envio detalle;
-        Orden_Pedido orden_pedido = new Orden_Pedido(numero_orden, LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),res.getString("estado"),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),insumos,);
-
+        Orden_Pedido orden_pedido = new Orden_Pedido(numero_orden, LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")), Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),(new Detalle_InsumosDaoDB()).getDetalle_Insumos(numero_orden),(new Detalle_EnvioDaoDB()).getDetalle_Envio(numero_orden));
         stmt.close();
         conexion.close();
         return orden_pedido;

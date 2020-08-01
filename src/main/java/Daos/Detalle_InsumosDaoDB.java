@@ -3,11 +3,13 @@ package Daos;
 import Negocio.Detalle_Insumos;
 import Servicio.Gestor_Insumos;
 import Servicio.Gestor_Ordenes_Pedido;
+import Servicio.Gestor_Plantas;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
     @Override
@@ -46,11 +48,14 @@ public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
     }
 
     @Override
-    public Detalle_Insumos getDetalle_Insumos(int numero_orden, int id_insumo) throws SQLException {
+    public ArrayList getDetalle_Insumos(int numero_orden) throws SQLException {
         Connection conexion = ConexionLocal.getConexionLocal();
         Statement stmt = conexion.createStatement();
-        ResultSet res = stmt.executeQuery("SELECT * FROM detalle_insumos WHERE numero_orden = "+numero_orden+" AND id_insumo = "+id_insumo+";");
-        Detalle_Insumos detalle_insumos = new Detalle_Insumos(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))), Gestor_Insumos.getInsumo(Integer.valueOf(res.getString("id_insumo"))),Double.valueOf(res.getString("cantidad")));
+        ArrayList<Detalle_Insumos> detalle_insumos = new ArrayList<>();
+        ResultSet res = stmt.executeQuery("SELECT * FROM detalle_insumos WHERE numero_orden = "+numero_orden+";");
+        while (res.next()){
+            detalle_insumos.add(new Detalle_Insumos(Gestor_Ordenes_Pedido.getOrden(numero_orden),Gestor_Insumos.getInsumo(Integer.valueOf(res.getString("id_insumo"))),Double.valueOf(res.getString("cantidad"))));
+        }
         stmt.close();
         conexion.close();
         return detalle_insumos;
