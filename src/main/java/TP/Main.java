@@ -10,18 +10,6 @@ public class Main {
     public static void main(String[] args) {
         Gestor_Pantalla.visualizarPantalla_principal();
         //añadir luego un boton "atras" que deje de visualizar la pantalla de plantas y vuelva a visualizar la pantalla principal
-    /*
-     //Prueba daos
-     try {
-        InsumoDaoDB prueba = new InsumoDaoDB();
-        prueba.createInsumo(new Insumo_Liquido(2,"Alto insumo2","m",300,52));
-        Insumo insumo = prueba.getInsumo(2);
-        System.out.println(insumo.getId_insumo() + " " + insumo.getDescripcion() + " " + insumo.getUnidad_medida());
-     } catch (SQLException throwables) {
-        throwables.printStackTrace();
-     }
-
-     */
 
     /*
         //para probar funcion rutaPosibles() y plantasConStock();

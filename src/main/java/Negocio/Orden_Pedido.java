@@ -88,4 +88,12 @@ public class Orden_Pedido {
     public void setDetalle_envio(Detalle_Envio detalle_envio) {
         this.detalle_envio = detalle_envio;
     }
+
+    public LocalDate getFecha_maxima_entrega() {
+        return fecha_maxima_entrega;
+    }
+
+    public void setFecha_maxima_entrega(LocalDate fecha_maxima_entrega) {
+        this.fecha_maxima_entrega = fecha_maxima_entrega;
+    }
 }
