@@ -30,10 +30,15 @@ public class Pantalla_Principal extends JFrame {
                 JButton plantas = new JButton("PLANTAS");
                 plantas.addActionListener(new ActionListenerPlanta());
                 JButton camiones = new JButton("CAMIONES");
+                camiones.addActionListener(new ActionListenerCamion());
                 JButton rutas = new JButton("RUTAS");
+                rutas.addActionListener(new ActionListenerRuta());
                 JButton insumos = new JButton("INSUMOS");
+                insumos.addActionListener(new ActionListenerInsumo());
                 JButton ordenes = new JButton("ORDENES DE PEDIDO");
+                ordenes.addActionListener(new ActionListenerOrdenesPedido());
                 JButton analisis_plantas = new JButton("ANALISIS DE PLANTAS");
+                analisis_plantas.addActionListener(new ActionListenerAnalisisPlantas());
                 subPanelBotones.add(plantas); subPanelBotones.add(rutas);
                 subPanelBotones.add(camiones); subPanelBotones.add(insumos);
                 subPanelBotones.add(ordenes); subPanelBotones.add(analisis_plantas);
