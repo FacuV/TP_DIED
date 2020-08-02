@@ -9,5 +9,6 @@ public class ActionListenerRuta implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Gestor_Pantalla.visualizarPantalla_rutas();
+        Gestor_Pantalla.noVisualizarPantalla_principal();
     }
 }

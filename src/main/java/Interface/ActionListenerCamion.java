@@ -9,5 +9,6 @@ public class ActionListenerCamion implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Gestor_Pantalla.visualizarPantalla_camiones();
+        Gestor_Pantalla.noVisualizarPantalla_principal();
     }
 }

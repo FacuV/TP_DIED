@@ -10,5 +10,6 @@ public class ActionListenerPlanta implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Gestor_Pantalla.visualizarPantalla_plantas();
+        Gestor_Pantalla.noVisualizarPantalla_principal();
     }
 }

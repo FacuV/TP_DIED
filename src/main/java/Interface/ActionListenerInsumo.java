@@ -9,5 +9,6 @@ public class ActionListenerInsumo implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Gestor_Pantalla.visualizarPantalla_insumos();
+        Gestor_Pantalla.noVisualizarPantalla_principal();
     }
 }

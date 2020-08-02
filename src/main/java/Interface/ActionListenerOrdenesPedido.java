@@ -9,5 +9,6 @@ public class ActionListenerOrdenesPedido implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Gestor_Pantalla.visualizarPantalla_ordenes();
+        Gestor_Pantalla.noVisualizarPantalla_principal();
     }
 }
