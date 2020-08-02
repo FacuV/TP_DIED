@@ -1,17 +1,19 @@
 package TP;
 
+import Daos.ConexionRemota;
 import Interface.Pantalla_Principal;
 import Servicio.Gestor_Pantalla;
 
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Main {
 
     public static void main(String[] args) {
         Gestor_Pantalla.visualizarPantalla_principal();
-        //añadir luego un boton "atras" que deje de visualizar la pantalla de plantas y vuelva a visualizar la pantalla principal
-
-    /*
+        /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
