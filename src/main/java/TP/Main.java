@@ -3,6 +3,7 @@ package TP;
 import Daos.ConexionRemota;
 import Interface.Pantalla_Principal;
 import Servicio.Gestor_Pantalla;
+import Servicio.Gestor_Plantas;
 
 import javax.swing.*;
 import java.sql.Connection;

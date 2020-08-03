@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class RutaDaoDB implements RutaDao{
     @Override
     public void createRuta(Ruta ruta) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String id_planta_origen = String.valueOf(ruta.getPlanta_origen().getId());
         String id_planta_destino = String.valueOf(ruta.getPlanta_destino().getId());
