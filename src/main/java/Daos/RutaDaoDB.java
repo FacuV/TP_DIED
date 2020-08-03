@@ -16,7 +16,7 @@ public class RutaDaoDB implements RutaDao{
         String distancia = String.valueOf(ruta.getDistancia());
         String duracion_viaje = String.valueOf(ruta.getDuracion_viaje());
         String cant_max_material = String.valueOf(ruta.getCant_max_material());
-        stmt.execute("INSERT INTO camion VALUES ("+id_planta_origen+","+id_planta_destino+","+distancia+","+duracion_viaje+","+cant_max_material+");");
+        stmt.execute("INSERT INTO ruta VALUES ("+id_planta_origen+","+id_planta_destino+","+distancia+","+duracion_viaje+","+cant_max_material+");");
         stmt.close();
         conexion.close();
     }

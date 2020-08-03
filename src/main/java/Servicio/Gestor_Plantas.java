@@ -175,7 +175,6 @@ public abstract class Gestor_Plantas {
         return salida;
     }
 
-
     //Este método retorna la cantidad de caminos que llega a una planta que se pasa como parámetro
     public static Integer gradoEntrada(Planta vertice) {
         Integer res = 0;
@@ -184,7 +183,6 @@ public abstract class Gestor_Plantas {
         }
         return res;
     }
-
 
     //Este método retorna la cantidad de caminos que salen de la planta pasada como parámetro
     public static Integer gradoSalida(Planta vertice) {
