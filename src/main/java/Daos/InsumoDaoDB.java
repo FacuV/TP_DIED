@@ -12,7 +12,7 @@ import java.sql.Statement;
 public class InsumoDaoDB implements InsumoDao{
     @Override
     public void createInsumo(Insumo insumo) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String id_insumo = String.valueOf(insumo.getId_insumo());
         String costo = String.valueOf(insumo.getCosto());
@@ -30,7 +30,7 @@ public class InsumoDaoDB implements InsumoDao{
 
     @Override
     public void deleteInsumo(Insumo insumo) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String id = String.valueOf(insumo.getId_insumo());
         stmt.execute("DELETE FROM insumo WHERE id_insumo = "+id+";");
@@ -45,7 +45,7 @@ public class InsumoDaoDB implements InsumoDao{
 
     @Override
     public void updateInsumo(Insumo insumo) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String id = String.valueOf(insumo.getId_insumo());
         String costo = String.valueOf(insumo.getCosto());
@@ -61,7 +61,7 @@ public class InsumoDaoDB implements InsumoDao{
 
     @Override
     public Insumo getInsumo(int id_insumo) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         Insumo insumo = null;
         String id = String.valueOf(id_insumo);

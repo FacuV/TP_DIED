@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
     @Override
     public void createDetalle_Insumos(Detalle_Insumos detalle_insumos) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(detalle_insumos.getOrden().getNumero());
         String id_insumo = String.valueOf(detalle_insumos.getInsumo().getId_insumo());
@@ -26,7 +26,7 @@ public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
 
     @Override
     public void deleteDetalle_Insumos(Detalle_Insumos detalle_insumos) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(detalle_insumos.getOrden().getNumero());
         String id_insumo = String.valueOf(detalle_insumos.getInsumo().getId_insumo());
@@ -37,7 +37,7 @@ public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
 
     @Override
     public void updateDetalle_Insumos(Detalle_Insumos detalle_insumos) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(detalle_insumos.getOrden().getNumero());
         String id_insumo = String.valueOf(detalle_insumos.getInsumo().getId_insumo());
@@ -49,7 +49,7 @@ public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
 
     @Override
     public ArrayList getDetalle_Insumos(int numero_orden) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         ArrayList<Detalle_Insumos> detalle_insumos = new ArrayList<>();
         ResultSet res = stmt.executeQuery("SELECT * FROM detalle_insumos WHERE numero_orden = "+numero_orden+";");

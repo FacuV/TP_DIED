@@ -16,7 +16,7 @@ public class Detalle_EnvioDaoDB implements Detalle_EnvioDao{
 
     @Override
     public void createDetalle_Envio(Detalle_Envio detalle_envio) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(detalle_envio.getOrden().getNumero());
         String patente = detalle_envio.getCamion_asignado().getPatente();
@@ -34,7 +34,7 @@ public class Detalle_EnvioDaoDB implements Detalle_EnvioDao{
 
     @Override
     public void deleteDetalle_Envio(Detalle_Envio detalle_envio) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(detalle_envio.getOrden().getNumero());
         stmt.execute("DELETE FROM detalle_envio WHERE numero_orden = "+numero_orden+";");
@@ -44,7 +44,7 @@ public class Detalle_EnvioDaoDB implements Detalle_EnvioDao{
 
     @Override
     public void updateDetalle_Envio(Detalle_Envio detalle_envio) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(detalle_envio.getOrden().getNumero());
         String patente = detalle_envio.getCamion_asignado().getPatente();
@@ -63,7 +63,7 @@ public class Detalle_EnvioDaoDB implements Detalle_EnvioDao{
 
     @Override
     public Detalle_Envio getDetalle_Envio(int numero_orden) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         ResultSet res = stmt.executeQuery("SELECT * FROM detalle_envio WHERE numero_orden = "+numero_orden+";");
         ResultSet rest = stmt.executeQuery("SELECT * FROM caminos WHERE numero_orden = "+numero_orden+";");

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class Orden_PedidoDaoDB implements Orden_PedidoDao {
     @Override
     public void createOrden_Pedido(Orden_Pedido orden_pedido) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(orden_pedido.getNumero());
         String id_planta = String.valueOf(orden_pedido.getPlanta_destino().getId());
@@ -31,7 +31,7 @@ public class Orden_PedidoDaoDB implements Orden_PedidoDao {
 
     @Override
     public void deleteOrden_Pedido(Orden_Pedido orden_pedido) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(orden_pedido.getNumero());
         stmt.execute("DELETE FROM orden_pedido WHERE numero_orden = "+numero_orden+";");
@@ -41,7 +41,7 @@ public class Orden_PedidoDaoDB implements Orden_PedidoDao {
 
     @Override
     public void updateOrden_Pedido(Orden_Pedido orden_pedido) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(orden_pedido.getNumero());
         String id_planta = String.valueOf(orden_pedido.getPlanta_destino().getId());
@@ -56,7 +56,7 @@ public class Orden_PedidoDaoDB implements Orden_PedidoDao {
 
     @Override
     public Orden_Pedido getOrden_Pedido(int numero_orden) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         ResultSet res = stmt.executeQuery("SELECT * FROM orden_pedido WHERE numero_orden = "+numero_orden+";");
         Orden_Pedido orden_pedido = new Orden_Pedido(numero_orden, LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")), Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),(new Detalle_InsumosDaoDB()).getDetalle_Insumos(numero_orden),(new Detalle_EnvioDaoDB()).getDetalle_Envio(numero_orden));

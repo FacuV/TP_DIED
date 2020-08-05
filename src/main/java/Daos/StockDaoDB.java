@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class StockDaoDB implements StockDao{
     @Override
     public void createStock(Stock stock) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String id_planta = String.valueOf(stock.getPlanta().getId());
         String id_insumo = String.valueOf(stock.getInsumo().getId_insumo());
@@ -27,7 +27,7 @@ public class StockDaoDB implements StockDao{
 
     @Override
     public void deleteStock(Stock stock) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String id_planta = String.valueOf(stock.getPlanta().getId());
         String id_insumo = String.valueOf(stock.getInsumo().getId_insumo());
@@ -38,7 +38,7 @@ public class StockDaoDB implements StockDao{
 
     @Override
     public void updateStock(Stock stock) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String id_planta = String.valueOf(stock.getPlanta().getId());
         String id_insumo = String.valueOf(stock.getInsumo().getId_insumo());
@@ -51,7 +51,7 @@ public class StockDaoDB implements StockDao{
 
     @Override
     public ArrayList getStock(int id_planta) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         ArrayList listaStock = new ArrayList();
         ResultSet res = stmt.executeQuery("SELECT * FROM stock WHERE id_planta = "+id_planta+";");

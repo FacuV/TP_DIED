@@ -3,6 +3,7 @@ package TP;
 import Daos.ConexionRemota;
 import Interface.Pantalla_Principal;
 import Servicio.Gestor_Pantalla;
+import Servicio.Gestor_Plantas;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -11,7 +12,7 @@ import java.sql.Statement;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Gestor_Pantalla.visualizarPantalla_principal();
 
         //para probar funcion rutaPosibles() y plantasConStock();

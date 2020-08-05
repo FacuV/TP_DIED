@@ -16,7 +16,7 @@ public class CamionDaoDB implements CamionDao{
 
     @Override
     public void createCamion(Camion camion) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String patente = camion.getPatente();
         String marca = camion.getMarca();
@@ -32,7 +32,7 @@ public class CamionDaoDB implements CamionDao{
 
     @Override
     public void deleteCamion(Camion camion) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String patente = camion.getPatente();
         stmt.execute("DELETE FROM camion WHERE patente = '"+patente+"';");
@@ -42,7 +42,7 @@ public class CamionDaoDB implements CamionDao{
 
     @Override
     public void updateCamion(Camion camion) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         String patente = camion.getPatente();
         String marca = camion.getMarca();
@@ -58,7 +58,7 @@ public class CamionDaoDB implements CamionDao{
 
     @Override
     public Camion getCamion(String patente) throws SQLException {
-        Connection conexion = ConexionLocal.getConexionLocal();
+        Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         Camion camion = null;
         ResultSet res = stmt.executeQuery("SELECT * FROM camion WHERE patente = '"+patente+"';");
