@@ -264,22 +264,117 @@ public abstract class Gestor_Plantas {
         return null;
     }
 
-    //METODO NO TERMINADO
+    //METODO A PROBAR
     //debe retornar una lista ordenada de plantas según algoritmo de page rack
     public static ArrayList<Planta> plantasPageRank(){
-        return null;
+        ArrayList<Double> puntajes = new ArrayList();
+        ArrayList<Planta> rta = new ArrayList<>();
+        double maxAux;
+        double maxAux2=0;
+        for(int i=0; i < plantas.size(); i++){puntajes.add(1.0);}
+        puntajes = PageRank(puntajes);
+        for(Planta planta:plantas){
+            if(maxAux2 == 0){maxAux=puntajes.get(0);}
+            else{maxAux = 0;}
+            for(Double puntaje:puntajes){
+                if(maxAux2==0){
+                    if(puntaje > maxAux){maxAux=puntaje;}
+                } else{
+                    if(puntaje > maxAux && puntaje < maxAux2){maxAux=puntaje;}
+                }
+            }
+            rta.add(plantas.get(puntajes.indexOf(maxAux)));
+            maxAux2 = maxAux;
+        }
+        return rta;
     }
 
-    //METODO NO TERMINADO
-    //debe retornar el subgrafo de mayor flujo entre la planta de origen y la de destino
-    public static ArrayList<Planta> flujoMax(Planta origen,Planta destino){
-        return null;
+    //debe retornar una lista en orden con los puntajes de pagerank de cada planta
+    private static ArrayList<Double> PageRank(ArrayList<Double> puntajes){
+        ArrayList<Double> nuevosPuntajes = new ArrayList<>();
+        double aux;
+        double PR;
+        double c;
+        for(Double puntaje:puntajes){
+            aux = 0.5;
+            for( Ruta ruta:rutas){
+                if(ruta.getPlanta_destino().equals(plantas.get(puntajes.indexOf(puntaje)))){
+                    PR = puntajes.get(plantas.indexOf(ruta.getPlanta_origen()));
+                    c = gradoSalida(ruta.getPlanta_origen());
+                    aux += 0.5 * PR / c;
+                }
+            }
+            nuevosPuntajes.add(aux);
+        }
+        for(int i=0; i < puntajes.size(); i++){
+            if(Math.abs(puntajes.get(i)-nuevosPuntajes.get(i)) > 0.00001){
+                return PageRank(nuevosPuntajes);
+            }
+        }
+        return nuevosPuntajes;
     }
 
-    //METODO NO TERMINADO
-    //debe retornar el flujo de una ruta
-    public static Integer flujo(ArrayList<Planta> camino){
-        return null;
+    //METODO A PROBAR
+    //debe retornar el subgrafo que se utilizó para calcular el flujo máximo entre la planta de origen y la de destino
+    public static ArrayList<Planta> flujoMaxPlantas(Planta origen,Planta destino){
+        ArrayList<Planta> rta = new ArrayList<Planta>();
+        List<List> rutas = rutaPosibles(origen,destino);
+        for(List ruta:rutas){
+            for(Object planta:ruta){
+                if(!rta.contains(planta)){
+                    rta.add((Planta)planta);
+                }
+            }
+        }
+        return rta;
+    }
+
+    //METODO A PROBAR
+    //debe retornar el flujo máximo desde una planta de origen hasta una planta de destino
+    public static Double flujoMaxNumero(Planta origen,Planta destino){
+        //
+        double rta = 0.0;
+        List<List> rutas = rutaPosibles(origen,destino);
+        Double[][] matriz = matrizDeGafoPorPeso();
+        double menor;
+        if(rutas.get(0).isEmpty()){return rta;}
+        //Paso 4: repetir el procedimiento con todas las rutas posibles
+        for(List ruta:rutas){
+            //paso 1: ver si el camino tiene algún lugar donde el flujo es 0
+            menor = matriz[plantas.indexOf(ruta.get(0))][plantas.indexOf(ruta.get(1))];
+            for(int i=1; i < ruta.size()-1; i++){
+                if(matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] < menor){
+                    menor = matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))];
+                }
+            }
+            if(menor != 0.0){
+                //paso 2: encontrar la rama de menor capacidad (menor) y programar el envío de dicha capacidad
+                rta += menor;
+                //paso 3: reducir la cantidad de la rama menor en todas las ramas involucradas
+                for(int i=0; i< ruta.size()-1; i++){
+                    matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] -= menor;
+                }
+            }
+        }
+        return rta;
+    }
+
+    //METODO A PROBAR
+    //debe retornar una matriz donde los valores son el peso máximo que se puede transportar de una fila a una columna
+    private static Double[][] matrizDeGafoPorPeso(){
+        Double[][] rta = new Double[plantas.size()][plantas.size()];
+        Ruta aux;
+        for(int i=0; i< plantas.size(); i++){
+            for(int j=0; j< plantas.size(); j++){
+                aux = getCamino(plantas.get(i),plantas.get(j));
+                if(aux != null){
+                    rta[i][j] = aux.getCant_max_material();
+                } else{
+                    rta[i][j] = 0.0;
+                }
+            }
+        }
+        return rta;
     }
 }
 
