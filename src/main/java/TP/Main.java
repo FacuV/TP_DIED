@@ -1,70 +1,19 @@
 package TP;
 
-import Daos.ConexionLocal;
-import Daos.InsumoDaoDB;
-import Negocio.*;
-import Servicio.Gestor_Insumos;
-import Servicio.Gestor_Ordenes_Pedido;
-import Servicio.Gestor_Plantas;
+import Daos.ConexionRemota;
+import Interface.Pantalla_Principal;
+import Servicio.Gestor_Pantalla;
 
 import javax.swing.*;
-import java.awt.*;
 import java.sql.Connection;
-import java.sql.DriverAction;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.sql.*;
+import java.sql.Statement;
 
 public class Main {
 
     public static void main(String[] args) {
-        /*
-        //Pantalla
-        JFrame frame = new JFrame("Facu");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //Panel
-        JPanel panelDeContenido = new JPanel();
-        //etiqueta
-        JLabel etiqueta1 = new JLabel("una etiqueta");
-        //Añadir el el panel al frame
-            //frame.add(etiqueta1);
-        //o con este otro
-            frame.setContentPane(etiqueta1);
-        //menu
-        //JMenu menu = new JMenu("hola");
-        //frame.add(menu);
-        BorderLayout bl = new BorderLayout(20,20);
-        frame.setLayout(bl);
+        Gestor_Pantalla.visualizarPantalla_principal();
 
-        //cuadro de texto
-        JTextField texto = new JTextField("texto",1);
-        frame.add(texto);
-        JCheckBox cb = new JCheckBox("hola");
-        frame.add(cb);
-        //Visualizar pantalla
-        frame.pack();
-        frame.setSize(500,500);
-        frame.setVisible(true);*/
-
-
-
-    //Prueba daos
-    try {
-        InsumoDaoDB prueba = new InsumoDaoDB();
-        prueba.createInsumo(new Insumo_Liquido(2,"Alto insumo2","m",300,52));
-        Insumo insumo = prueba.getInsumo(2);
-        System.out.println(insumo);
-    } catch (SQLException throwables) {
-        throwables.printStackTrace();
-    }
-
-    /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
@@ -107,18 +56,6 @@ public class Main {
             //           \           /
             //            4 ------->7
 
-        //System.out.println(Gestor_Plantas.plantasPageRank());
-
-
-        List<Planta>[][] matriz = Gestor_Plantas.matrizCaminoMinimo(true);
-        int tam = Gestor_Plantas.getPlantas().size();
-        for(int i = 0;i < tam;i++){
-            for(int j = 0;j < tam;j++){
-                System.out.print(matriz[i][j] + " ");
-            }
-            System.out.println();
-        }
-        */
         /*
         ArrayList<Lista_insumos> insumosPlanta1 = new ArrayList();
         ArrayList<Lista_insumos> insumosOrden = new ArrayList();
