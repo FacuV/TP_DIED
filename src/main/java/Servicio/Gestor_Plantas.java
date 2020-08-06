@@ -273,9 +273,9 @@ public abstract class Gestor_Plantas {
         double maxAux2=0;
         for(int i=0; i < plantas.size(); i++){puntajes.add(1.0);}
         puntajes = PageRank(puntajes);
+        System.out.println(puntajes);
         for(Planta planta:plantas){
-            if(maxAux2 == 0){maxAux=puntajes.get(0);}
-            else{maxAux = 0;}
+            maxAux = 0;
             for(Double puntaje:puntajes){
                 if(maxAux2==0){
                     if(puntaje > maxAux){maxAux=puntaje;}
@@ -289,23 +289,39 @@ public abstract class Gestor_Plantas {
         return rta;
     }
 
+//ESTÁ MAAAAAAAAAAL
     //debe retornar una lista en orden con los puntajes de pagerank de cada planta
     private static ArrayList<Double> PageRank(ArrayList<Double> puntajes){
+        System.out.println("hola");
+        //nuevos puntajes que se guardan en esta interación del método
         ArrayList<Double> nuevosPuntajes = new ArrayList<>();
+        //acá se va almacenando el resultado del algoritmo por planta
         double aux;
+        //acá se guarda el page rank de las otras plantas
         double PR;
+        //acá se guarda la cantidad de nodos a los que apunta el nodo que apunta a mi nodo
         double c;
+        //por cada uno de los índices de la respuesta
         for(Double puntaje:puntajes){
+            //tengo un d=0.5 como valor arbitrario
             aux = 0.5;
+            //acá reviso cada una de las rutas disponibles para ver cuales apuntan a mi nodo
             for( Ruta ruta:rutas){
+                //si la planta de destino es mi planta entro
                 if(ruta.getPlanta_destino().equals(plantas.get(puntajes.indexOf(puntaje)))){
+                    //acá uso el page rank de la planta desde donde sale la ruta que llega a mi nodo
                     PR = puntajes.get(plantas.indexOf(ruta.getPlanta_origen()));
+                    //acá busco a cuantas otras plantas apunta esta planta
                     c = gradoSalida(ruta.getPlanta_origen());
-                    aux += 0.5 * PR / c;
+                    //si el grado de salida es 0 no quiero que lo divida por 0
+                    if(c>0){aux += 0.5 * PR / c;}
+                    else{aux += PR;}
                 }
             }
+            //acá pongo en el índice de cada planta su puntaje del page rank y lo guardo en nuevos puntajes
             nuevosPuntajes.add(aux);
         }
+        //Acá comparo si la diferencia entre todas sus puntajes en comparación con el anterior es mayor a un valor arbitrario o no, si lo es itero, sino retorno el nuevo puntaje
         for(int i=0; i < puntajes.size(); i++){
             if(Math.abs(puntajes.get(i)-nuevosPuntajes.get(i)) > 0.00001){
                 return PageRank(nuevosPuntajes);
@@ -314,7 +330,6 @@ public abstract class Gestor_Plantas {
         return nuevosPuntajes;
     }
 
-    //METODO A PROBAR
     //debe retornar el subgrafo que se utilizó para calcular el flujo máximo entre la planta de origen y la de destino
     public static ArrayList<Planta> flujoMaxPlantas(Planta origen,Planta destino){
         ArrayList<Planta> rta = new ArrayList<Planta>();
@@ -329,25 +344,28 @@ public abstract class Gestor_Plantas {
         return rta;
     }
 
-    //METODO A PROBAR
     //debe retornar el flujo máximo desde una planta de origen hasta una planta de destino
     public static Double flujoMaxNumero(Planta origen,Planta destino){
-        //
+        //esta variable devuelve la sumatoria de la respuesta
         double rta = 0.0;
+        //es una lista de las rutas posibles que hay desde la planta de origen a la de destino
         List<List> rutas = rutaPosibles(origen,destino);
-        Double[][] matriz = matrizDeGafoPorPeso();
-        double menor;
+        //si es que no hay rutas de la planta de origen a la de destino, el flujo es 0
         if(rutas.get(0).isEmpty()){return rta;}
+        //es una matriz donde almaceno el valor de peso máximo que se puede cargar por ruta de origen (fila) a destino (columna)
+        Double[][] matriz = matrizDeGafoPorPeso();
+        //guarda como variable el flujo menor en la ruta
+        double menor;
         //Paso 4: repetir el procedimiento con todas las rutas posibles
         for(List ruta:rutas){
             //paso 1: ver si el camino tiene algún lugar donde el flujo es 0
-            menor = matriz[plantas.indexOf(ruta.get(0))][plantas.indexOf(ruta.get(1))];
-            for(int i=1; i < ruta.size()-1; i++){
+            menor = 999999999.99;
+            for(int i=0; i < ruta.size()-1; i++){
                 if(matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] < menor){
                     menor = matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))];
                 }
             }
-            if(menor != 0.0){
+            if(menor != 00.0){
                 //paso 2: encontrar la rama de menor capacidad (menor) y programar el envío de dicha capacidad
                 rta += menor;
                 //paso 3: reducir la cantidad de la rama menor en todas las ramas involucradas
@@ -359,9 +377,8 @@ public abstract class Gestor_Plantas {
         return rta;
     }
 
-    //METODO A PROBAR
     //debe retornar una matriz donde los valores son el peso máximo que se puede transportar de una fila a una columna
-    private static Double[][] matrizDeGafoPorPeso(){
+    public static Double[][] matrizDeGafoPorPeso(){
         Double[][] rta = new Double[plantas.size()][plantas.size()];
         Ruta aux;
         for(int i=0; i< plantas.size(); i++){
