@@ -9,21 +9,22 @@ import static org.junit.Assert.assertTrue;
 
 public class Gestor_Plantas_Test {
 
-    //        es un digrafo de 1 a 10
-    //                    9----->
-    //                   / \     \
-    //                  /   \     \
-    //           2 --->5     \     \
-    //          /     /       \     \
-    //         /     /         \     \
-    //        1 --->3 --->6 --->8 --->10
-    //         \               /
-    //          \             /
-    //           \           /
-    //            4 ------->7
-
     @Test
     public void flujoMaxNumeroTest() throws SQLException {
+
+        //        es un digrafo de 1 a 10
+        //                    9----->
+        //                   / \     \
+        //                  /   \     \
+        //           2 --->5     \     \
+        //          /     /       \     \
+        //         /     /         \     \
+        //        1 --->3 --->6 --->8 --->10
+        //         \               /
+        //          \             /
+        //           \           /
+        //            4 ------->7
+
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
         Gestor_Plantas.registrarPlanta("planta3");
@@ -62,6 +63,20 @@ public class Gestor_Plantas_Test {
 
     @Test
     public void matrizDeGafoPorPesoTest() throws SQLException {
+
+        //        es un digrafo de 1 a 10
+        //                    9----->
+        //                   / \     \
+        //                  /   \     \
+        //           2 --->5     \     \
+        //          /     /       \     \
+        //         /     /         \     \
+        //        1 --->3 --->6 --->8 --->10
+        //         \               /
+        //          \             /
+        //           \           /
+        //            4 ------->7
+
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
         Gestor_Plantas.registrarPlanta("planta3");
@@ -98,6 +113,11 @@ public class Gestor_Plantas_Test {
 
     @Test
     public void plantasPageRankTest() throws SQLException {
+
+        // A conecta a B y a C
+        // B conecta a C
+        // C conecta a A
+
         Gestor_Plantas.registrarPlanta("plantaA");
         Gestor_Plantas.registrarPlanta("plantaB");
         Gestor_Plantas.registrarPlanta("plantaC");
@@ -110,6 +130,31 @@ public class Gestor_Plantas_Test {
         System.out.println(Gestor_Plantas.getPlantas());
         ArrayList<Planta> rta = Gestor_Plantas.plantasPageRank();
         System.out.println(rta);
+
+    }
+
+    @Test
+    public void PageRankTest() throws SQLException {
+
+        // A conecta a B y a C
+        // B conecta a C
+        // C conecta a A
+
+        Gestor_Plantas.registrarPlanta("plantaA");
+        Gestor_Plantas.registrarPlanta("plantaB");
+        Gestor_Plantas.registrarPlanta("plantaC");
+
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(1),100,60,100);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(0),Gestor_Plantas.getPlantas().get(2),151,70,150);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(1),Gestor_Plantas.getPlantas().get(2),102,10,110);
+        Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(2),Gestor_Plantas.getPlantas().get(0),103,20,120);
+
+        ArrayList<Double> puntajes = new ArrayList<>();
+        puntajes.add(1.0);
+        puntajes.add(1.0);
+        puntajes.add(1.0);
+
+        System.out.println(Gestor_Plantas.PageRank(puntajes));
 
     }
 }

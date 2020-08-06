@@ -289,10 +289,9 @@ public abstract class Gestor_Plantas {
         return rta;
     }
 
-//ESTÁ MAAAAAAAAAAL
+
     //debe retornar una lista en orden con los puntajes de pagerank de cada planta
-    private static ArrayList<Double> PageRank(ArrayList<Double> puntajes){
-        System.out.println("hola");
+    public static ArrayList<Double> PageRank(ArrayList<Double> puntajes){
         //nuevos puntajes que se guardan en esta interación del método
         ArrayList<Double> nuevosPuntajes = new ArrayList<>();
         //acá se va almacenando el resultado del algoritmo por planta
@@ -302,13 +301,13 @@ public abstract class Gestor_Plantas {
         //acá se guarda la cantidad de nodos a los que apunta el nodo que apunta a mi nodo
         double c;
         //por cada uno de los índices de la respuesta
-        for(Double puntaje:puntajes){
+        for(int j=0; j < puntajes.size(); j++){
             //tengo un d=0.5 como valor arbitrario
             aux = 0.5;
             //acá reviso cada una de las rutas disponibles para ver cuales apuntan a mi nodo
             for( Ruta ruta:rutas){
                 //si la planta de destino es mi planta entro
-                if(ruta.getPlanta_destino().equals(plantas.get(puntajes.indexOf(puntaje)))){
+                if(ruta.getPlanta_destino().equals(plantas.get(j))){
                     //acá uso el page rank de la planta desde donde sale la ruta que llega a mi nodo
                     PR = puntajes.get(plantas.indexOf(ruta.getPlanta_origen()));
                     //acá busco a cuantas otras plantas apunta esta planta
