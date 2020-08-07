@@ -12,9 +12,9 @@ import java.sql.Statement;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Gestor_Pantalla.visualizarPantalla_principal();
-        /*
+
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
         Gestor_Plantas.registrarPlanta("planta2");
@@ -57,18 +57,6 @@ public class Main {
             //           \           /
             //            4 ------->7
 
-        //System.out.println(Gestor_Plantas.plantasPageRank());
-
-
-        List<Planta>[][] matriz = Gestor_Plantas.matrizCaminoMinimo(true);
-        int tam = Gestor_Plantas.getPlantas().size();
-        for(int i = 0;i < tam;i++){
-            for(int j = 0;j < tam;j++){
-                System.out.print(matriz[i][j] + " ");
-            }
-            System.out.println();
-        }
-        */
         /*
         ArrayList<Lista_insumos> insumosPlanta1 = new ArrayList();
         ArrayList<Lista_insumos> insumosOrden = new ArrayList();

@@ -7,8 +7,7 @@ public class Pantalla_Principal extends JFrame {
     public Pantalla_Principal(){
         super("Sistema de gestion logística - TP DIED 2020 ");
         setSize((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //setUndecorated(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         Container cp = getContentPane();
@@ -37,11 +36,9 @@ public class Pantalla_Principal extends JFrame {
                 insumos.addActionListener(new ActionListenerInsumo());
                 JButton ordenes = new JButton("ORDENES DE PEDIDO");
                 ordenes.addActionListener(new ActionListenerOrdenesPedido());
-                JButton analisis_plantas = new JButton("ANALISIS DE PLANTAS");
-                analisis_plantas.addActionListener(new ActionListenerAnalisisPlantas());
                 subPanelBotones.add(plantas); subPanelBotones.add(rutas);
                 subPanelBotones.add(camiones); subPanelBotones.add(insumos);
-                subPanelBotones.add(ordenes); subPanelBotones.add(analisis_plantas);
+                subPanelBotones.add(ordenes);
             GridBagConstraints gbc = new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.VERTICAL,new Insets(0,0,20,0),20,20);
             aux.add(subPanelBotones,gbc);
 

@@ -1,12 +1,12 @@
 package Servicio;
 
-import Interface.analisisPlantas.Pantalla_AnalisisPlantas;
 import Interface.camion.Pantalla_Camion;
 import Interface.insumo.Pantalla_Insumo;
 import Interface.ordenesPedido.Pantalla_Ordenes;
 import Interface.planta.Pantalla_Plantas;
 import Interface.Pantalla_Principal;
 import Interface.ruta.Pantalla_Rutas;
+import Negocio.Planta;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -20,16 +20,16 @@ public class Gestor_Pantalla {
     private static final JFrame pantalla_rutas = new Pantalla_Rutas();
     private static final JFrame pantalla_insumos = new Pantalla_Insumo();
     private static final JFrame pantalla_ordenes = new Pantalla_Ordenes();
-    private static final JFrame pantalla_analisisPlantas = new Pantalla_AnalisisPlantas();
+
     public static final int PRINCIPAL = 0;
     public static final int PLANTAS = 1;
     public static final int CAMIONES = 2;
     public static final int RUTAS = 3;
     public static final int INSUMOS = 4;
     public static final int ORDENES = 5;
-    public static final int ANALISIS_PLANTAS = 6;
-    private static JFrame[] pantallas_secundarias = {pantalla_principal,pantalla_plantas,pantalla_camiones,pantalla_rutas,pantalla_insumos,pantalla_ordenes,pantalla_analisisPlantas};
-    private static boolean[] info_pantallas = {false,false,false,false,false,false,false};
+
+    private static JFrame[] pantallas_secundarias = {pantalla_principal,pantalla_plantas,pantalla_camiones,pantalla_rutas,pantalla_insumos,pantalla_ordenes};
+    private static boolean[] info_pantallas = {false,false,false,false,false,false};
     public static void setOffAll(){
         for(int i=0;i<pantallas_secundarias.length;i++){
             if(info_pantallas[i]){
@@ -68,9 +68,30 @@ public class Gestor_Pantalla {
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
 
-    public static void visualizarPantalla_analisisPlantas(){info_pantallas[ANALISIS_PLANTAS] = true;pantalla_analisisPlantas.setVisible(true);}
-    public static void noVisualizarPantalla_analisisPlantas(){info_pantallas[ANALISIS_PLANTAS] = false;pantalla_analisisPlantas.setVisible(false);}
+    public static String[][] getMatrizPlantas(String nombre){
+        String[] titulos = new String[]{"ID Planta","Nombre"};
+        ArrayList<Planta> todasLasPlantas = Gestor_Plantas.getPlantas();
+        ArrayList<Planta> plantasSeleccionadas = new ArrayList<>();
+        if(nombre == null || nombre.isBlank()){
+            plantasSeleccionadas = todasLasPlantas;
+        }else{
+            for (Planta planta: todasLasPlantas){
+                if(planta.getNombre().contains(nombre)) plantasSeleccionadas.add(planta);
+            }
+        }
+        return obtenerMatrizDatos(plantasSeleccionadas,titulos);
+    }
+    private static String[][] obtenerMatrizDatos(ArrayList<Planta> plantas,String[] titulos) {
 
+        String informacion[][] = new String[plantas.size()][titulos.length];
+
+        for (int x = 0; x < informacion.length; x++) {
+            informacion[x][0] = String.valueOf(plantas.get(x).getId()) + "";
+            informacion[x][0] = plantas.get(x).getNombre()+ "";
+        }
+        return informacion;
+    }
 
 
 }
+
