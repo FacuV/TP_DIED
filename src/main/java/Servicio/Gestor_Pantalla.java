@@ -86,8 +86,8 @@ public class Gestor_Pantalla {
         String informacion[][] = new String[plantas.size()][titulos.length];
 
         for (int x = 0; x < informacion.length; x++) {
-            informacion[x][0] = String.valueOf(plantas.get(x).getId()) + "";
-            informacion[x][0] = plantas.get(x).getNombre()+ "";
+            informacion[x][0] = plantas.get(x).getId() + "";
+            informacion[x][1] = plantas.get(x).getNombre()+ "";
         }
         return informacion;
     }

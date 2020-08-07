@@ -1,6 +1,8 @@
 package TP;
 
 import Daos.ConexionRemota;
+import Daos.PlantaDao;
+import Daos.PlantaDaoDB;
 import Interface.Pantalla_Principal;
 import Servicio.Gestor_Pantalla;
 import Servicio.Gestor_Plantas;
@@ -14,7 +16,8 @@ import java.sql.Statement;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-
+        PlantaDaoDB plantaDao = new PlantaDaoDB();
+        Gestor_Plantas.setPlantas(plantaDao.getPlanta());
 
         Gestor_Pantalla.visualizarPantalla_principal();
 

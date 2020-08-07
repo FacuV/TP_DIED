@@ -6,9 +6,12 @@ import Servicio.Gestor_Pantalla;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Pantalla_Plantas extends JFrame{
-    JTable table = new JTable(new ModeloTabla(Gestor_Pantalla.getMatrizPlantas(null), new String[]{"ID PLANTA","NOMBRE"}));
+    JTable table = setTable(null);
+    JScrollPane scrollPane;
     public Pantalla_Plantas(){
         super("Sistema de gestion logística - TP DIED 2020 ");
         setSize((int)Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
@@ -39,8 +42,23 @@ public class Pantalla_Plantas extends JFrame{
             JPanel tabla = new JPanel();
             tabla.setLayout(new GridBagLayout());
             tabla.setBackground(Color.white);
-            tabla.add(new JTextField("nombre de planta"),new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL,new Insets(20,50,20,50),20,20));
-            tabla.add(new JScrollPane(table), new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(0,25,20,25),20,20));
+                JPanel auxBusqueda = new JPanel();
+                auxBusqueda.setBackground(Color.white);
+                auxBusqueda.setLayout(new FlowLayout());
+                        JLabel busqueda = new JLabel("BUSQUEDA POR NOMBRE: ");
+                        JTextField textField = new JTextField(80);
+                        JButton buscar = new JButton("BUSCAR");
+                        buscar.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                System.out.println(textField.getText());
+                                setTable(textField.getText());
+                            }
+                        });
+                auxBusqueda.add(busqueda);auxBusqueda.add(textField);auxBusqueda.add(buscar);
+            tabla.add(auxBusqueda,new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL,new Insets(20,0,0,0),20,20));
+                scrollPane = new JScrollPane(table);
+            tabla.add(scrollPane, new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(100,50,30,50),20,20));
 
 
             JPanel volver = new JPanel();
@@ -53,7 +71,8 @@ public class Pantalla_Plantas extends JFrame{
         cp.add(aux,BorderLayout.WEST);
         cp.add(tabla,BorderLayout.CENTER);
     }
-    public void setTable(){
-
+    public JTable setTable(String nombrePlanta){
+        JTable table = new JTable(new ModeloTabla(Gestor_Pantalla.getMatrizPlantas(nombrePlanta), new String[]{"ID PLANTA","NOMBRE"}));
+        return table;
     }
 }
