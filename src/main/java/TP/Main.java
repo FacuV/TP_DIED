@@ -4,14 +4,17 @@ import Daos.ConexionRemota;
 import Daos.PlantaDao;
 import Daos.PlantaDaoDB;
 import Interface.Pantalla_Principal;
+import Servicio.Gestor_Camiones;
 import Servicio.Gestor_Pantalla;
 import Servicio.Gestor_Plantas;
 
 
 import javax.swing.*;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class Main {
 
@@ -145,5 +148,28 @@ public class Main {
         }
 
      */
+    }
+
+    public static void getBD() throws SQLException {
+        //Abro la base de datos
+        Connection conexion = ConexionRemota.getConexionRemota();
+        Statement stmt = conexion.createStatement();
+
+        //Traigo los camiones
+        ResultSet res = stmt.executeQuery("SELECT * FROM camion;");
+        while (res.next()){
+            Gestor_Camiones.traerCamionBD(res.getString("patente"), res.getString("marca"), res.getString("modelo"), Double.valueOf(res.getString("km_recorridos")), Double.valueOf(res.getString("costo_km")), Double.valueOf(res.getString("costo_hora")), LocalDate.parse(res.getString("fecha_compra")));
+        }
+
+        //Traigo los insumos
+        res = stmt.executeQuery("SELECT * FROM insumo;");
+        while (res.next()){
+            ResultSet rest = stmt.executeQuery("SELECT * FROM ")
+        }
+
+
+        //Cierro la base de datos
+        stmt.close();
+        conexion.close();
     }
 }
