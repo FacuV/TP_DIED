@@ -43,6 +43,12 @@ public abstract class Gestor_Plantas {
         rutaDaoDB.createRuta(ruta);
     }
 
+    //Este método permite registrar una ruta en la empresa después de traerla de la base de datos
+    public static void traerRutaBD(Planta nodo1, Planta nodo2, double distancia, int duracion_viaje, double cant_max_material){
+        Ruta ruta = new Ruta(nodo1, nodo2, distancia, duracion_viaje, cant_max_material);
+        rutas.add(ruta);
+    }
+
     //Este método permite registrar una nueva planta tanto en la lista de plantas de la empresa como en la base de datos
     public static void registrarPlanta(String nombre) throws SQLException {
         Planta planta;
@@ -54,6 +60,17 @@ public abstract class Gestor_Plantas {
         plantas.add(planta);
         PlantaDaoDB plantaDaoDB = new PlantaDaoDB();
         plantaDaoDB.createPlanta(planta);
+    }
+
+    //Este método permite agregar una nueva planta a la lista de plantas de la empresa, después de traerla de la base de datos
+    public static void traerPlantaBD(String nombre){
+        Planta planta;
+        if (plantas.isEmpty()) {
+            planta = new Planta(nombre, 1);
+        } else {
+            planta = new Planta(nombre, plantas.get(plantas.size() - 1).getId() + 1);
+        }
+        plantas.add(planta);
     }
 
     //Este método te permite obtener una planta de la lista de plantas de la empresa pasando como parámetro su id

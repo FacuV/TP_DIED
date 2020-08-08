@@ -59,7 +59,7 @@ public class Orden_PedidoDaoDB implements Orden_PedidoDao {
         Connection conexion = ConexionRemota.getConexionRemota();
         Statement stmt = conexion.createStatement();
         ResultSet res = stmt.executeQuery("SELECT * FROM orden_pedido WHERE numero_orden = "+numero_orden+";");
-        Orden_Pedido orden_pedido = new Orden_Pedido(numero_orden, LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")), Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),(new Detalle_InsumosDaoDB()).getDetalle_Insumos(numero_orden),(new Detalle_EnvioDaoDB()).getDetalle_Envio(numero_orden));
+        Orden_Pedido orden_pedido = new Orden_Pedido(numero_orden, LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),(new Detalle_InsumosDaoDB()).getDetalle_Insumos(numero_orden),(new Detalle_EnvioDaoDB()).getDetalle_Envio(numero_orden));
         stmt.close();
         conexion.close();
         return orden_pedido;

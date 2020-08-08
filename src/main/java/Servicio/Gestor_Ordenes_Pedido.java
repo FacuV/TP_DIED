@@ -1,9 +1,7 @@
 package Servicio;
 
 import Daos.Orden_PedidoDaoDB;
-import Negocio.Lista_insumos;
-import Negocio.Orden_Pedido;
-import Negocio.Planta;
+import Negocio.*;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -25,6 +23,12 @@ public abstract class Gestor_Ordenes_Pedido {
         ordenes.add(orden_pedido);
         Orden_PedidoDaoDB orden_pedidoDaoDB = new Orden_PedidoDaoDB();
         orden_pedidoDaoDB.createOrden_Pedido(orden_pedido);
+    }
+
+    //Este método te deja registrar una planta después de sacarla de la base de datos
+    public static void traerOrdenBD(int numero, LocalDate fecha_solicitud, LocalDate fecha_maxima_entrega, LocalDate fecha_entrega, Estado estado, Planta planta_destino, ArrayList<Lista_insumos> insumos_pedidos, Detalle_Envio detalle_envio){
+        Orden_Pedido orden_pedido = new Orden_Pedido(numero,fecha_solicitud, fecha_maxima_entrega,fecha_entrega,estado, planta_destino,insumos_pedidos, detalle_envio);
+        ordenes.add(orden_pedido);
     }
 
     //Este método devuelve una orden de pedido con el número de orden que le pasen como id
