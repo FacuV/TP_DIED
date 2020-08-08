@@ -1,9 +1,6 @@
 package Daos;
 
 import Negocio.Camion;
-import Negocio.Insumo;
-import Negocio.Insumo_General;
-import Negocio.Insumo_Liquido;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

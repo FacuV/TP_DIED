@@ -264,7 +264,6 @@ public abstract class Gestor_Plantas {
         return null;
     }
 
-    //METODO A PROBAR
     //debe retornar una lista ordenada de plantas según algoritmo de page rack
     public static ArrayList<Planta> plantasPageRank(){
         ArrayList<Double> puntajes = new ArrayList();
@@ -288,7 +287,6 @@ public abstract class Gestor_Plantas {
         }
         return rta;
     }
-
 
     //debe retornar una lista en orden con los puntajes de pagerank de cada planta
     public static ArrayList<Double> PageRank(ArrayList<Double> puntajes){
@@ -329,14 +327,68 @@ public abstract class Gestor_Plantas {
         return nuevosPuntajes;
     }
 
-    //debe retornar el subgrafo que se utilizó para calcular el flujo máximo entre la planta de origen y la de destino
-    public static ArrayList<Planta> flujoMaxPlantas(Planta origen,Planta destino){
-        ArrayList<Planta> rta = new ArrayList<Planta>();
+    //FALTA PROBAR
+    //debe retornar una lista con subgrafos por donde pasaron los envíos de flujo máximo
+    public static ArrayList<ArrayList <Planta>> flujoMaxPlantas(Planta origen,Planta destino){
+        ArrayList<ArrayList<Planta>> rta = new ArrayList<ArrayList<Planta>>();
+        //es una lista de las rutas posibles que hay desde la planta de origen a la de destino
         List<List> rutas = rutaPosibles(origen,destino);
+        //esta es una lista auxiliar para meter las rutas en e destino
+        ArrayList<Planta> aux = new ArrayList<>();
+        //es una matriz donde almaceno el valor de peso máximo que se puede cargar por ruta de origen (fila) a destino (columna)
+        Double[][] matriz = matrizDeGafoPorPeso();
+        //guarda como variable el flujo menor en la ruta
+        double menor;
+        //Paso 4: repetir el procedimiento con todas las rutas posibles
         for(List ruta:rutas){
-            for(Object planta:ruta){
-                if(!rta.contains(planta)){
-                    rta.add((Planta)planta);
+            //paso 1: ver si el camino tiene algún lugar donde el flujo es 0
+            menor = 999999999.99;
+            for(int i=0; i < ruta.size()-1; i++){
+                if(matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] < menor){
+                    menor = matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))];
+                }
+            }
+            if(menor != 00.0){
+                //paso 2: encontrar la rama de menor capacidad (menor) y programar el envío de dicha capacidad
+                //paso 3: reducir la cantidad de la rama menor en todas las ramas involucradas
+                for(int i=0; i< ruta.size()-1; i++){
+                    matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] -= menor;
+                }
+                //acá agrego la ruta a la lista de plantas y luego estas a la respuesta
+                for(int i=0; i< ruta.size(); i++){
+                    aux.add((Planta)ruta.get(i));
+                }
+                rta.add(aux);
+            }
+        }
+        return rta;
+    }
+
+    //FALTA PROBAR
+    //debe retornar una lista con los subpesos de todos los caminos por donde pasa el flujo máximo
+    public static ArrayList<Double> flujoMaxSubPesos(Planta origen, Planta destino){
+        ArrayList<Double> rta = new ArrayList<Double>();
+        //es una lista de las rutas posibles que hay desde la planta de origen a la de destino
+        List<List> rutas = rutaPosibles(origen,destino);
+        //es una matriz donde almaceno el valor de peso máximo que se puede cargar por ruta de origen (fila) a destino (columna)
+        Double[][] matriz = matrizDeGafoPorPeso();
+        //guarda como variable el flujo menor en la ruta
+        double menor;
+        //Paso 4: repetir el procedimiento con todas las rutas posibles
+        for(List ruta:rutas){
+            //paso 1: ver si el camino tiene algún lugar donde el flujo es 0
+            menor = 999999999.99;
+            for(int i=0; i < ruta.size()-1; i++){
+                if(matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] < menor){
+                    menor = matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))];
+                }
+            }
+            if(menor != 00.0){
+                //paso 2: encontrar la rama de menor capacidad (menor) y programar el envío de dicha capacidad
+                rta.add(menor);
+                //paso 3: reducir la cantidad de la rama menor en todas las ramas involucradas
+                for(int i=0; i< ruta.size()-1; i++){
+                    matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] -= menor;
                 }
             }
         }

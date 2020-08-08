@@ -23,6 +23,11 @@ public abstract class Gestor_Camiones {
 
     }
 
+    public static void traerCamionBD(String patente, String marca,String modelo,double Km_recorridos,double costo_km,double costo_hora,LocalDate fecha_compra){
+        Camion c = new Camion(patente, marca, modelo, Km_recorridos, costo_km, costo_hora, fecha_compra);
+        camiones.add(c);
+    }
+
     //Este método borra un camión de la cola de prioridad de camiones y de la base de datos
     public static void baja(String patente) throws SQLException {
         for (Camion camion: camiones){

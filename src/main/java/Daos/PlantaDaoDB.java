@@ -1,9 +1,6 @@
 package Daos;
 
 import Negocio.Planta;
-import Negocio.Stock;
-import Servicio.Gestor_Insumos;
-import Servicio.Gestor_Plantas;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
