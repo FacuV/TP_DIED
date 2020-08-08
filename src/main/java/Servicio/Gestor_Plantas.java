@@ -43,6 +43,12 @@ public abstract class Gestor_Plantas {
         rutaDaoDB.createRuta(ruta);
     }
 
+    //Este método permite registrar una ruta en la empresa después de traerla de la base de datos
+    public static void traerRutaBD(Planta nodo1, Planta nodo2, double distancia, int duracion_viaje, double cant_max_material){
+        Ruta ruta = new Ruta(nodo1, nodo2, distancia, duracion_viaje, cant_max_material);
+        rutas.add(ruta);
+    }
+
     //Este método permite registrar una nueva planta tanto en la lista de plantas de la empresa como en la base de datos
     public static void registrarPlanta(String nombre) throws SQLException {
         Planta planta;
@@ -54,6 +60,17 @@ public abstract class Gestor_Plantas {
         plantas.add(planta);
         PlantaDaoDB plantaDaoDB = new PlantaDaoDB();
         plantaDaoDB.createPlanta(planta);
+    }
+
+    //Este método permite agregar una nueva planta a la lista de plantas de la empresa, después de traerla de la base de datos
+    public static void traerPlantaBD(String nombre){
+        Planta planta;
+        if (plantas.isEmpty()) {
+            planta = new Planta(nombre, 1);
+        } else {
+            planta = new Planta(nombre, plantas.get(plantas.size() - 1).getId() + 1);
+        }
+        plantas.add(planta);
     }
 
     //Este método te permite obtener una planta de la lista de plantas de la empresa pasando como parámetro su id
@@ -78,7 +95,18 @@ public abstract class Gestor_Plantas {
         }
         return rtn;
     }
-
+    public static Boolean hayCamino(Planta origen,Planta destino) {
+        boolean rtn = false;
+        List<Planta> adyacentes = getAdyacentes(origen);
+        for(Planta vAdy : adyacentes) {
+            if(vAdy.equals(destino)) {
+                rtn = true;
+            } else {
+                if(hayCamino(vAdy, destino)) rtn = true;
+            }
+        }
+        return rtn;
+    }
     //Este método devuelve una lista que contiene todas las rutas posibles desde una planta origen hasta una planta destino
     public static List<List> rutaPosibles(Planta origen, Planta destino) {
         List aux1 = new ArrayList();
@@ -385,7 +413,7 @@ public abstract class Gestor_Plantas {
             }
             if(menor != 00.0){
                 //paso 2: encontrar la rama de menor capacidad (menor) y programar el envío de dicha capacidad
-                rta.add(menor);
+                if(menor == 999999999.99){rta.add(0.0);}else{rta.add(menor);}
                 //paso 3: reducir la cantidad de la rama menor en todas las ramas involucradas
                 for(int i=0; i< ruta.size()-1; i++){
                     matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] -= menor;
@@ -399,6 +427,10 @@ public abstract class Gestor_Plantas {
     public static Double flujoMaxNumero(Planta origen,Planta destino){
         //esta variable devuelve la sumatoria de la respuesta
         double rta = 0.0;
+        //Retorna 0 si son la misma planta
+        if(origen.equals(destino)) return rta;
+        //retorna 0 si no hay caminos
+        if(!hayCamino(origen,destino)) return rta;
         //es una lista de las rutas posibles que hay desde la planta de origen a la de destino
         List<List> rutas = rutaPosibles(origen,destino);
         //si es que no hay rutas de la planta de origen a la de destino, el flujo es 0

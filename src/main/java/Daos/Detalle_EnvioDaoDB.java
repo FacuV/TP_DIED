@@ -61,19 +61,5 @@ public class Detalle_EnvioDaoDB implements Detalle_EnvioDao{
         conexion.close();
     }
 
-    @Override
-    public Detalle_Envio getDetalle_Envio(int numero_orden) throws SQLException {
-        Connection conexion = ConexionRemota.getConexionRemota();
-        Statement stmt = conexion.createStatement();
-        ResultSet res = stmt.executeQuery("SELECT * FROM detalle_envio WHERE numero_orden = "+numero_orden+";");
-        ResultSet rest = stmt.executeQuery("SELECT * FROM caminos WHERE numero_orden = "+numero_orden+";");
-        ArrayList<Ruta> rutas = new ArrayList<Ruta>();
-        while (rest.next()){
-            rutas.add(Gestor_Plantas.getCamino(Gestor_Plantas.getPlanta(Integer.valueOf(rest.getString("id_planta_origen"))),Gestor_Plantas.getPlanta(Integer.valueOf(rest.getString("id_planta_destino")))));
-        }
-        Detalle_Envio detalle_envio = new Detalle_Envio(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))), Gestor_Camiones.getCamion(res.getString("patente")),rutas,Double.valueOf(res.getString("costo_envio")));
-        stmt.close();
-        conexion.close();
-        return detalle_envio;
-    }
+
 }

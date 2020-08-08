@@ -9,6 +9,9 @@ import Negocio.Planta;
 import Servicio.Gestor_Camiones;
 import Servicio.Gestor_Pantalla;
 import Servicio.Gestor_Plantas;
+import Negocio.*;
+import Servicio.*;
+
 
 
 import javax.swing.*;
@@ -18,16 +21,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Main {
 
     public static void main(String[] args) throws SQLException {
+        getBD();
+        /*
         PlantaDaoDB plantaDao = new PlantaDaoDB();
         RutaDaoDB rutaDaoDB = new RutaDaoDB();
         Gestor_Plantas.setPlantas(plantaDao.getPlanta());
         Gestor_Plantas.setRutas(rutaDaoDB.getRuta());
-
+         */
         Gestor_Pantalla.visualizarPantalla_principal();
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
@@ -158,4 +163,86 @@ public class Main {
      */
     }
 
+    public static void getBD() throws SQLException {
+        //Abro la base de datos
+        Connection conexion = ConexionRemota.getConexionRemota();
+        Statement stmt = conexion.createStatement();
+
+        //Traigo los camiones
+        ResultSet res = stmt.executeQuery("SELECT * FROM camion;");
+        while (res.next()){
+            Gestor_Camiones.traerCamionBD(res.getString("patente"), res.getString("marca"), res.getString("modelo"), Double.valueOf(res.getString("km_recorridos")), Double.valueOf(res.getString("costo_km")), Double.valueOf(res.getString("costo_hora")), LocalDate.parse(res.getString("fecha_compra")));
+        }
+
+        //Traigo los insumos
+        res = stmt.executeQuery("SELECT * FROM insumo;");
+        String id;
+        ResultSet rest;
+        while (res.next()){
+            id = res.getString("id");
+            rest = stmt.executeQuery("SELECT * FROM(SELECT i.id_insumo,descripcion,unidad_medida,costo,peso,densidad FROM insumo i LEFT JOIN general ON general.id_insumo = i.id_insumo LEFT JOIN liquido ON liquido.id_insumo = i.id_insumo) A WHERE A.id_insumo = "+id+";");
+            rest.next();
+            if(res.getString("peso") != null){
+                Gestor_Insumos.traerInsumoGBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(rest.getString("peso")));
+            }else{
+                Gestor_Insumos.traerInsumoLBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(rest.getString("densidad")));
+            }
+        }
+
+        //Traigo las plantas
+        res = stmt.executeQuery("SELECT * FROM planta;");
+        while(res.next()){
+            Gestor_Plantas.traerPlantaBD(res.getString("nombre_planta"));
+        }
+
+        //Traigo las rutas
+        res = stmt.executeQuery("SELECT * FROM ruta;");
+        while(res.next()){
+            Gestor_Plantas.traerRutaBD(Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta_origen"))),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta_destino"))),Double.valueOf(res.getString("distancia")),Integer.valueOf(res.getString("duracion_viaje")),Double.valueOf(res.getString("cant_max_material")));
+        }
+
+        //Traigo el stock de cada ruta
+        res = stmt.executeQuery("SELECT * FROM stock");
+        while(res.next()){
+            Gestor_Plantas.actualizarStock(Integer.valueOf(res.getString("id_planta")),Gestor_Insumos.getInsumo(Integer.valueOf(res.getString("id_insumo"))),Double.valueOf(res.getString("cantidad")),Double.valueOf(res.getString("punto_reposicion")));
+        }
+
+        //Traigo las órdenes de pedido y los detalles de insumo
+        res = stmt.executeQuery("SELECT * FROM orden_pedido");
+        String numero_orden;
+        ArrayList<Lista_insumos> insumos = new ArrayList<>();
+        while(res.next()){
+            numero_orden = res.getString("numero_orden");
+            rest = stmt.executeQuery("SELECT * FROM detalle_insumos WHERE numero_orden = "+numero_orden+"");
+            while(rest.next()){
+                insumos.add(new Detalle_Insumos(Gestor_Insumos.getInsumo(Integer.valueOf(rest.getString("id_insumo"))),Double.valueOf(rest.getString("cantidad"))));
+            }
+            Gestor_Ordenes_Pedido.traerOrdenBD(Integer.valueOf(numero_orden),LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),insumos,null);
+            for(int i=0; i< Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().size(); i++ ){
+                Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().get(i).setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)));
+            }
+            insumos.clear();
+        }
+
+        //Traigo detalles de envío
+        res = stmt.executeQuery("SELECT * FROM detalle_envio");
+        while(res.next()){
+            Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).setDetalle_envio(new Detalle_Envio(Gestor_Camiones.getCamion(res.getString("patente")),null,Double.valueOf(res.getString("costo_envio"))));
+            Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))));
+        }
+
+        //Traigo los caminos
+        res = stmt.executeQuery("SELECT * FROM camino");
+        ArrayList<Ruta> rutas_asignadas;
+        while(res.next()){
+        if(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().getRutas_asignadas() == null){
+            Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().setRutas_asignadas(new ArrayList<Ruta>());
+        }
+        Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().getRutas_asignadas().add(Gestor_Plantas.getCamino(Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta_origen"))),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta_destino")))));
+        }
+
+        //Cierro la base de datos
+        stmt.close();
+        conexion.close();
+    }
 }

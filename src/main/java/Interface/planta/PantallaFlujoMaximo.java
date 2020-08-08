@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 public class PantallaFlujoMaximo extends JFrame{
-    JLabel km = new JLabel(" ");
+    JLabel km = new JLabel("0.0 Kg");
     JPanel panelCentradorkm = new JPanel();
     JTable table = setTable(Gestor_Plantas.getPlanta(1),Gestor_Plantas.getPlanta(1));
 
@@ -80,10 +80,10 @@ public class PantallaFlujoMaximo extends JFrame{
             aux1.add(panelComboBox);
             panelCentradorkm.setLayout(new GridBagLayout());
             panelCentradorkm.setBackground(Color.white);
-            panelCentradorkm.add(km,new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.HORIZONTAL,new Insets(20,20,20,0),20,20));
+            panelCentradorkm.add(km,new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.VERTICAL,new Insets(20,20,20,0),20,20));
             aux1.add(panelCentradorkm);
         cp.add(aux1,new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL,new Insets(20,20,50,0),20,20));
-        panelTabla.setLayout(new GridBagLayout());
+        panelTabla.setLayout(new GridLayout());
         panelTabla.setBackground(Color.white);
         panelTabla.add(new JScrollPane(table));
         cp.add(panelTabla,new GridBagConstraints(0,0,0,0,0,0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(300,20,20,20),20,20));
