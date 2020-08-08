@@ -151,7 +151,7 @@ public class Main {
 
      */
     }
-
+    /*
     public static void getBD() throws SQLException {
         //Abro la base de datos
         Connection conexion = ConexionRemota.getConexionRemota();
@@ -174,4 +174,6 @@ public class Main {
         stmt.close();
         conexion.close();
     }
+
+     */
 }

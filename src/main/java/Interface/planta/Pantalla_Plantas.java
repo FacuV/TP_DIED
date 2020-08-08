@@ -30,6 +30,7 @@ public class Pantalla_Plantas extends JFrame{
                 JButton agregarPlanta = new JButton("AGREGAR PLANTA");
                 agregarPlanta.addActionListener(new ActionListenerAgregarPlanta());
                 JButton flujoMax = new JButton("FLUJO MAXIMO");
+                flujoMax.addActionListener(new ActionListenerFlujoMaximo());
                 JButton pageRank = new JButton("PAGE RANK");
                 JButton caminosMinimos = new JButton("CAMINOS MINIMOS");
                 JButton bajoPuntoReposicion = new JButton("BAJO PUNTO REPOSICION");
