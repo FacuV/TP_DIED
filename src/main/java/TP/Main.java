@@ -4,10 +4,7 @@ import Daos.ConexionRemota;
 import Daos.PlantaDao;
 import Daos.PlantaDaoDB;
 import Interface.Pantalla_Principal;
-import Negocio.Detalle_Envio;
-import Negocio.Detalle_Insumos;
-import Negocio.Estado;
-import Negocio.Lista_insumos;
+import Negocio.*;
 import Servicio.*;
 
 
@@ -219,10 +216,13 @@ public class Main {
 
         //Traigo los caminos
         res = stmt.executeQuery("SELECT * FROM camino");
+        ArrayList<Ruta> rutas_asignadas;
         while(res.next()){
-
+        if(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().getRutas_asignadas() == null){
+            Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().setRutas_asignadas(new ArrayList<Ruta>());
         }
-
+        Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().getRutas_asignadas().add(Gestor_Plantas.getCamino(Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta_origen"))),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta_destino")))));
+        }
 
         //Cierro la base de datos
         stmt.close();
