@@ -151,7 +151,7 @@ public class Main {
 
      */
     }
-    /*
+
     public static void getBD() throws SQLException {
         //Abro la base de datos
         Connection conexion = ConexionRemota.getConexionRemota();
@@ -196,7 +196,7 @@ public class Main {
             Gestor_Plantas.actualizarStock(Integer.valueOf(res.getString("id_planta")),Gestor_Insumos.getInsumo(Integer.valueOf(res.getString("id_insumo"))),Double.valueOf(res.getString("cantidad")),Double.valueOf(res.getString("punto_reposicion")));
         }
 
-        //Traigo las órdenes de pedido
+        //Traigo las órdenes de pedido y los detalles de insumo
         res = stmt.executeQuery("SELECT * FROM orden_pedido");
         String numero_orden;
         ArrayList<Lista_insumos> insumos = new ArrayList<>();
@@ -207,6 +207,9 @@ public class Main {
                 insumos.add(new Detalle_Insumos(Gestor_Insumos.getInsumo(Integer.valueOf(rest.getString("id_insumo"))),Double.valueOf(rest.getString("cantidad"))));
             }
             Gestor_Ordenes_Pedido.traerOrdenBD(Integer.valueOf(numero_orden),LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),insumos,null);
+            for(int i=0; i< Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().size(); i++ ){
+                Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().get(i).setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)));
+            }
             insumos.clear();
         }
 
@@ -214,6 +217,7 @@ public class Main {
         res = stmt.executeQuery("SELECT * FROM detalle_envio");
         while(res.next()){
             Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).setDetalle_envio(new Detalle_Envio(Gestor_Camiones.getCamion(res.getString("patente")),null,Double.valueOf(res.getString("costo_envio"))));
+            Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))));
         }
 
         //Traigo los caminos
@@ -231,5 +235,5 @@ public class Main {
         conexion.close();
     }
 
-     */
+
 }

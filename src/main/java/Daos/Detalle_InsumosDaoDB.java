@@ -47,17 +47,5 @@ public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
         conexion.close();
     }
 
-    @Override
-    public ArrayList getDetalle_Insumos(int numero_orden) throws SQLException {
-        Connection conexion = ConexionRemota.getConexionRemota();
-        Statement stmt = conexion.createStatement();
-        ArrayList<Detalle_Insumos> detalle_insumos = new ArrayList<>();
-        ResultSet res = stmt.executeQuery("SELECT * FROM detalle_insumos WHERE numero_orden = "+numero_orden+";");
-        while (res.next()){
-            detalle_insumos.add(new Detalle_Insumos(Gestor_Ordenes_Pedido.getOrden(numero_orden),Gestor_Insumos.getInsumo(Integer.valueOf(res.getString("id_insumo"))),Double.valueOf(res.getString("cantidad"))));
-        }
-        stmt.close();
-        conexion.close();
-        return detalle_insumos;
-    }
+
 }

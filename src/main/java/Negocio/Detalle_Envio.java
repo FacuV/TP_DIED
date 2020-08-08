@@ -6,12 +6,17 @@ public class Detalle_Envio {
     private Camion camion_asignado;
     private ArrayList<Ruta> rutas_asignadas;
     private double costo_envio;
+    private Orden_Pedido orden;
 
     public Detalle_Envio(Camion camion_asignado, ArrayList<Ruta> rutas_asignadas, double costo_envio) {
         this.camion_asignado = camion_asignado;
         this.rutas_asignadas = rutas_asignadas;
         this.costo_envio = costo_envio;
     }
+
+    public void setOrden(Orden_Pedido o){orden=o;}
+
+    public Orden_Pedido getOrden(){return orden;}
 
     public Camion getCamion_asignado() {
         return camion_asignado;

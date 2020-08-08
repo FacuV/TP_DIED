@@ -11,6 +11,9 @@ public abstract class Lista_insumos {
     public abstract double getPunto_reposicion();
     public abstract void setPunto_reposicion(double punto_reposicion);
 
+    public abstract void setOrden(Orden_Pedido o);
+    public abstract Orden_Pedido getOrden();
+
     public Insumo getInsumo() {
         return insumo;
     }
