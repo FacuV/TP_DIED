@@ -28,7 +28,9 @@ public class Pantalla_Plantas extends JFrame{
             botones.setBackground(Color.white);
             botones.setLayout(new GridLayout(6,1,0,10));
                 JButton agregarPlanta = new JButton("AGREGAR PLANTA");
+                agregarPlanta.addActionListener(new ActionListenerAgregarPlanta());
                 JButton flujoMax = new JButton("FLUJO MAXIMO");
+                flujoMax.addActionListener(new ActionListenerFlujoMaximo());
                 JButton pageRank = new JButton("PAGE RANK");
                 JButton caminosMinimos = new JButton("CAMINOS MINIMOS");
                 JButton bajoPuntoReposicion = new JButton("BAJO PUNTO REPOSICION");
@@ -53,6 +55,9 @@ public class Pantalla_Plantas extends JFrame{
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println(textField.getText());
                                 setTable(textField.getText());
+                                tabla.remove(scrollPane);
+                                tabla.add(new JScrollPane(setTable(textField.getText())), new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(100,50,30,50),20,20));
+                                revalidate();
                             }
                         });
                 auxBusqueda.add(busqueda);auxBusqueda.add(textField);auxBusqueda.add(buscar);
