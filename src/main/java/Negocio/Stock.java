@@ -24,5 +24,11 @@ public class Stock extends Lista_insumos{
         this.punto_reposicion = punto_reposicion;
     }
 
+    @Override
+    public void setOrden(Orden_Pedido o) {}
 
+    @Override
+    public Orden_Pedido getOrden() {
+        return null;
+    }
 }
