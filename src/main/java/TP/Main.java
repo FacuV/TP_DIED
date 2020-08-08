@@ -17,10 +17,12 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         PlantaDaoDB plantaDao = new PlantaDaoDB();
+
         Gestor_Plantas.setPlantas(plantaDao.getPlanta());
+        //Gestor_Plantas.setRutas();
 
         Gestor_Pantalla.visualizarPantalla_principal();
-
+        //System.out.println(Gestor_Plantas.flujoMaxNumero(Gestor_Plantas.getPlanta(1),Gestor_Plantas.getPlanta(10)));
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
