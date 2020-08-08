@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class PlantaDaoDB implements PlantaDao{
     @Override
@@ -48,4 +49,19 @@ public class PlantaDaoDB implements PlantaDao{
         conexion.close();
         return planta;
     }
+    public ArrayList<Planta> getPlanta() throws SQLException {
+        Connection conexion = ConexionRemota.getConexionRemota();
+        Statement stmt = conexion.createStatement();
+        ArrayList<Planta> rtn = new ArrayList<>();
+        Planta planta;
+        ResultSet res = stmt.executeQuery("SELECT * FROM planta;");
+        while (res.next()){
+            planta = new Planta(res.getString("nombre_planta"),Integer.parseInt(res.getString("id_planta")));
+            rtn.add(planta);
+        }
+        stmt.close();
+        conexion.close();
+        return rtn;
+    }
+
 }

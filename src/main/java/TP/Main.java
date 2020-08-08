@@ -1,19 +1,33 @@
 package TP;
 
 import Daos.ConexionRemota;
+import Daos.PlantaDao;
+import Daos.PlantaDaoDB;
+import Daos.RutaDaoDB;
 import Interface.Pantalla_Principal;
+import Negocio.Planta;
+import Servicio.Gestor_Camiones;
 import Servicio.Gestor_Pantalla;
 import Servicio.Gestor_Plantas;
 
 
 import javax.swing.*;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException {
+        PlantaDaoDB plantaDao = new PlantaDaoDB();
+        RutaDaoDB rutaDaoDB = new RutaDaoDB();
+        Gestor_Plantas.setPlantas(plantaDao.getPlanta());
+        Gestor_Plantas.setRutas(rutaDaoDB.getRuta());
+
         Gestor_Pantalla.visualizarPantalla_principal();
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
@@ -44,19 +58,24 @@ public class Main {
 
         Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(7),Gestor_Plantas.getPlantas().get(9),140,66,150);
         Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(8),Gestor_Plantas.getPlantas().get(9),111,67,140);
-*/
+
             //        es un digrafo de 1 a 10
-            //                    9----->
-            //                   / \     \
-            //                  /   \     \
-            //           2 --->5     \     \
-            //          /     /       \     \
-            //         /     /         \     \
-            //        1 --->3 --->6 --->8 --->10
-            //         \               /
-            //          \             /
-            //           \           /
-            //            4 ------->7
+            //               ----> 9 ---->
+            //              /       \     \
+            //             /         \     \
+            //            2 --->5     \     \
+            //           /     / \     \     \
+            //          /     /   ----- \
+            //         /     /           \     \
+            //        1 --->3 --->6 ----> 8 --->10
+            //         \                 /
+            //          \               /
+            //           \             /
+            //            4 --------->7
+
+         */
+
+
 
         /*
         ArrayList<Lista_insumos> insumosPlanta1 = new ArrayList();
@@ -138,4 +157,5 @@ public class Main {
 
      */
     }
+
 }
