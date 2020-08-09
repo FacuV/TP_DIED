@@ -69,7 +69,7 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
-    public static String[][] getMatrizBajoPuntoReposicion(Planta filtroPlanta,Insumo filtroInsumo) {
+    /*public static String[][] getMatrizBajoPuntoReposicion(Planta filtroPlanta,Insumo filtroInsumo) {
         String[] titulos = new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"};
         List<List> todasLasPlantasInsumo = Gestor_Plantas.plantasBajoPuntoReposicion();
             if(filtroPlanta == null){
@@ -96,6 +96,8 @@ public class Gestor_Pantalla {
         }
         return informacion;
     }}
+
+     */
 
 
     public static String[][] getMatrizPlantasFlujoMax(Planta inicio,Planta fin){

@@ -5,6 +5,7 @@ import Daos.RutaDaoDB;
 import Daos.StockDaoDB;
 import Negocio.*;
 
+import javax.sound.midi.Soundbank;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -210,6 +211,21 @@ public abstract class Gestor_Plantas {
         }
     }
 
+    //Este método trae de la base de datos el stock
+    public static void traerStockBD(int id_planta, Insumo I, double cantidad, double punto_pedido){
+                boolean existe = false;
+        for (Lista_insumos l : Gestor_Plantas.getPlanta(id_planta).getInsumos()) {
+            if (l.getInsumo().equals(I)) {
+                l.setCantidad(cantidad);
+                l.setPunto_reposicion(punto_pedido);
+                existe = true;
+            }
+        }
+        if(existe==false){
+            Gestor_Plantas.getPlanta(id_planta).agregarInsumo(I,cantidad,punto_pedido);
+        }
+    }
+
     //Este método retorna una lista de plantas adyacentes a la planta que se pasa como parámetro
     public static List<Planta> getAdyacentes(Planta unNodo) {
         List<Planta> salida = new ArrayList<Planta>();
@@ -316,19 +332,27 @@ public abstract class Gestor_Plantas {
         ArrayList<Planta> rta = new ArrayList<>();
         double maxAux;
         double maxAux2=0;
+        int indice_aux = 0;
+        ArrayList<Integer> indices_usados = new ArrayList<>();
         for(int i=0; i < plantas.size(); i++){puntajes.add(1.0);}
         puntajes = PageRank(puntajes);
-        System.out.println(puntajes);
         for(Planta planta:plantas){
             maxAux = 0;
-            for(Double puntaje:puntajes){
+            for(int i=0; i < puntajes.size(); i++){
                 if(maxAux2==0){
-                    if(puntaje > maxAux){maxAux=puntaje;}
+                    if(puntajes.get(i) >= maxAux && !indices_usados.contains(i)){
+                        maxAux = puntajes.get(i);
+                        indice_aux = i;
+                    }
                 } else{
-                    if(puntaje > maxAux && puntaje < maxAux2){maxAux=puntaje;}
+                    if(puntajes.get(i) >= maxAux && puntajes.get(i) <= maxAux2 && !indices_usados.contains(i)){
+                        maxAux = puntajes.get(i);
+                        indice_aux = i;
+                    }
                 }
             }
-            rta.add(plantas.get(puntajes.indexOf(maxAux)));
+            indices_usados.add(indice_aux);
+            rta.add(plantas.get(indice_aux));
             maxAux2 = maxAux;
         }
         return rta;
@@ -373,7 +397,6 @@ public abstract class Gestor_Plantas {
         return nuevosPuntajes;
     }
 
-
     //debe retornar una lista con subgrafos por donde pasaron los envíos de flujo máximo
     public static ArrayList<ArrayList <Planta>> flujoMaxPlantas(Planta origen,Planta destino){
         ArrayList<ArrayList<Planta>> rta = new ArrayList<ArrayList<Planta>>();
@@ -406,7 +429,6 @@ public abstract class Gestor_Plantas {
         return rta;
     }
 
-    //FALTA PROBAR
     //debe retornar una lista con los subpesos de todos los caminos por donde pasa el flujo máximo
     public static ArrayList<Double> flujoMaxSubPesos(Planta origen, Planta destino){
         ArrayList<Double> rta = new ArrayList<Double>();

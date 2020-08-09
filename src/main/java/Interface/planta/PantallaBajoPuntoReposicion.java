@@ -44,6 +44,6 @@ public class PantallaBajoPuntoReposicion extends JFrame{
 
                     }
                 });
-        cp.add(panelComboBox,new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(20,0,0,0),20,20))
+        cp.add(panelComboBox,new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.WEST,GridBagConstraints.VERTICAL,new Insets(20,0,0,0),20,20));
     }
 }
