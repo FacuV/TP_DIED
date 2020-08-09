@@ -39,6 +39,7 @@ public class Pantalla_Plantas extends JFrame{
                 bajoPuntoReposicion.addActionListener(new ActionListenerBajoPuntoReposicion());
                 JButton agregarStock = new JButton("AGREGAR STOCK");
                 agregarStock.setEnabled(false);
+
                 botones.add(agregarPlanta);botones.add(flujoMax);
                 botones.add(pageRank);botones.add(caminosMinimos);
                 botones.add(bajoPuntoReposicion);botones.add(agregarStock);

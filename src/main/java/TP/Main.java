@@ -1,28 +1,17 @@
 package TP;
 
 import Daos.ConexionRemota;
-import Daos.PlantaDao;
-import Daos.PlantaDaoDB;
-import Daos.RutaDaoDB;
-import Interface.Pantalla_Principal;
-import Negocio.Planta;
 import Servicio.Gestor_Camiones;
 import Servicio.Gestor_Pantalla;
 import Servicio.Gestor_Plantas;
 import Negocio.*;
 import Servicio.*;
-
-
-
-import javax.swing.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-
 
 public class Main {
 
