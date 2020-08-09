@@ -59,8 +59,6 @@ public abstract class Insumo {
 
     @Override
     public String toString() {
-        return "Insumo{" +
-                "id_insumo=" + id_insumo +
-                '}';
+        return descripcion;
     }
 }

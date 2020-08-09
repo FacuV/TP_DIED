@@ -1,5 +1,6 @@
 package Interface.planta;
 
+import Interface.ModeloTabla;
 import Negocio.Planta;
 import Servicio.Gestor_Pantalla;
 import Servicio.Gestor_Plantas;
@@ -8,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 public class PantallaFlujoMaximo extends JFrame{
     JLabel km = new JLabel("0.0 Kg");

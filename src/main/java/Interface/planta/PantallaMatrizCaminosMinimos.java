@@ -1,5 +1,6 @@
 package Interface.planta;
 
+import Interface.ModeloTabla;
 import Servicio.Gestor_Pantalla;
 
 import javax.swing.*;

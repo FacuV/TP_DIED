@@ -1,12 +1,10 @@
 package Interface.planta;
 
 import Interface.ActionListenerAtras;
+import Interface.ModeloTabla;
 import Servicio.Gestor_Pantalla;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.FlowView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,7 +36,7 @@ public class Pantalla_Plantas extends JFrame{
                 JButton caminosMinimos = new JButton("CAMINOS MINIMOS");
                 caminosMinimos.addActionListener(new ActionListenerCaminosMinimos());
                 JButton bajoPuntoReposicion = new JButton("BAJO PUNTO REPOSICION");
-
+                bajoPuntoReposicion.addActionListener(new ActionListenerBajoPuntoReposicion());
                 JButton agregarStock = new JButton("AGREGAR STOCK");
                 agregarStock.setEnabled(false);
                 botones.add(agregarPlanta);botones.add(flujoMax);

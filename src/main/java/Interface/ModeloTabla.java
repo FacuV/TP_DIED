@@ -1,4 +1,4 @@
-package Interface.planta;
+package Interface;
 
 import Negocio.Planta;
 

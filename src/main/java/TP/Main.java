@@ -29,7 +29,6 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         getBD();
         Gestor_Pantalla.visualizarPantalla_principal();
-
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
