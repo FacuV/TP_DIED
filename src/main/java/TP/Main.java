@@ -27,6 +27,7 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         getBD();
+        System.out.println(Gestor_Plantas.plantasPageRank());
         /*
         PlantaDaoDB plantaDao = new PlantaDaoDB();
         RutaDaoDB rutaDaoDB = new RutaDaoDB();

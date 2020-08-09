@@ -5,6 +5,7 @@ import Daos.RutaDaoDB;
 import Daos.StockDaoDB;
 import Negocio.*;
 
+import javax.sound.midi.Soundbank;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -310,23 +311,25 @@ public abstract class Gestor_Plantas {
         double maxAux;
         double maxAux2=0;
         int indice_aux = 0;
+        ArrayList<Integer> indices_usados = new ArrayList<>();
         for(int i=0; i < plantas.size(); i++){puntajes.add(1.0);}
         puntajes = PageRank(puntajes);
         for(Planta planta:plantas){
             maxAux = 0;
-            for(int i=0; i < puntajes.size();i++){
+            for(int i=0; i < puntajes.size(); i++){
                 if(maxAux2==0){
-                    if(puntajes.get(i) >= maxAux){
-                        maxAux= puntajes.get(i);
+                    if(puntajes.get(i) >= maxAux && !indices_usados.contains(i)){
+                        maxAux = puntajes.get(i);
                         indice_aux = i;
                     }
                 } else{
-                    if(puntajes.get(i) >= maxAux && puntajes.get(i) <= maxAux2){
-                        maxAux=puntajes.get(i);
+                    if(puntajes.get(i) >= maxAux && puntajes.get(i) <= maxAux2 && !indices_usados.contains(i)){
+                        maxAux = puntajes.get(i);
                         indice_aux = i;
                     }
                 }
             }
+            indices_usados.add(indice_aux);
             rta.add(plantas.get(indice_aux));
             maxAux2 = maxAux;
         }
