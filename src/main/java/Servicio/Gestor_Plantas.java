@@ -81,7 +81,7 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método devuelve una lista con las plantas que tienen algún insumo en cantidades inferiores al punto de roposición
-    public static List<List> plantasBajoPuntoReposicion() {
+    public static List<List> plantasInsumoBajoPuntoReposicion(){
         ArrayList rtn = new ArrayList();
         boolean aux = false;
         for (Planta planta : plantas) {
@@ -104,7 +104,13 @@ public abstract class Gestor_Plantas {
         }
         return rtn;
     }
-
+    public static Set<Planta> plantasBajoPuntoReposicion(){
+        Set<Planta> rtn = new HashSet<>();
+            for (List list:plantasInsumoBajoPuntoReposicion()){
+                rtn.add((Planta) list.get(0));
+            }
+        return rtn;
+    }
     public static Boolean hayCamino(Planta origen,Planta destino) {
         boolean rtn = false;
         List<Planta> adyacentes = getAdyacentes(origen);

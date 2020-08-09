@@ -29,6 +29,53 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         getBD();
         Gestor_Pantalla.visualizarPantalla_principal();
+       /* ArrayList<Lista_insumos> insumos1 = new ArrayList<>();
+        Detalle_Insumos insumo11 = new Detalle_Insumos(Gestor_Insumos.getInsumo(1),20);
+        Detalle_Insumos insumo12 = new Detalle_Insumos(Gestor_Insumos.getInsumo(2),30);
+        Detalle_Insumos insumo13 = new Detalle_Insumos(Gestor_Insumos.getInsumo(3),10);
+        insumos1.add(insumo11);insumos1.add(insumo12);insumos1.add(insumo13);
+
+        ArrayList<Lista_insumos> insumos2 = new ArrayList<>();
+        Detalle_Insumos insumo21 = new Detalle_Insumos(Gestor_Insumos.getInsumo(4),20);
+        Detalle_Insumos insumo22 = new Detalle_Insumos(Gestor_Insumos.getInsumo(5),30);
+        Detalle_Insumos insumo23 = new Detalle_Insumos(Gestor_Insumos.getInsumo(6),10);
+        insumos2.add(insumo21);insumos2.add(insumo22);insumos2.add(insumo23);
+
+        ArrayList<Lista_insumos> insumos3 = new ArrayList<>();
+        Detalle_Insumos insumo31 = new Detalle_Insumos(Gestor_Insumos.getInsumo(7),20);
+        Detalle_Insumos insumo32 = new Detalle_Insumos(Gestor_Insumos.getInsumo(8),30);
+        Detalle_Insumos insumo33 = new Detalle_Insumos(Gestor_Insumos.getInsumo(9),10);
+        insumos3.add(insumo31);insumos3.add(insumo32);insumos3.add(insumo33);
+
+        ArrayList<Lista_insumos> insumos4 = new ArrayList<>();
+        Detalle_Insumos insumo41 = new Detalle_Insumos(Gestor_Insumos.getInsumo(10),20);
+        Detalle_Insumos insumo42 = new Detalle_Insumos(Gestor_Insumos.getInsumo(1),30);
+        Detalle_Insumos insumo43 = new Detalle_Insumos(Gestor_Insumos.getInsumo(2),10);
+        insumos4.add(insumo41);insumos4.add(insumo42);insumos4.add(insumo43);
+
+        ArrayList<Lista_insumos> insumos5 = new ArrayList<>();
+        Detalle_Insumos insumo51 = new Detalle_Insumos(Gestor_Insumos.getInsumo(3),20);
+        Detalle_Insumos insumo52 = new Detalle_Insumos(Gestor_Insumos.getInsumo(4),30);
+        Detalle_Insumos insumo53 = new Detalle_Insumos(Gestor_Insumos.getInsumo(5),10);
+        insumos5.add(insumo51);insumos5.add(insumo52);insumos5.add(insumo53);
+
+        ArrayList<Lista_insumos> insumos6 = new ArrayList<>();
+        Detalle_Insumos insumo61 = new Detalle_Insumos(Gestor_Insumos.getInsumo(6),20);
+        Detalle_Insumos insumo62 = new Detalle_Insumos(Gestor_Insumos.getInsumo(7),30);
+        Detalle_Insumos insumo63 = new Detalle_Insumos(Gestor_Insumos.getInsumo(8),10);
+        insumos6.add(insumo61);insumos6.add(insumo62);insumos6.add(insumo63);
+
+
+        Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(10),LocalDate.parse("2020-12-12"),insumos1);
+        Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(10),LocalDate.parse("2020-12-20"),insumos2);
+
+        Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(10),LocalDate.parse("2020-12-21"),insumos3);
+        Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(10),LocalDate.parse("2020-12-22"),insumos4);
+
+        Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(1),LocalDate.parse("2020-12-23"),insumos5);
+        Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(1),LocalDate.parse("2020-12-24"),insumos6);
+
+*/
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
@@ -199,14 +246,21 @@ public class Main {
 
         //Traigo las órdenes de pedido y los detalles de insumo
         res = stmt.executeQuery("SELECT * FROM detalle_insumo");
-        Double[][] guardado = new Double[res.getFetchSize()][3];
-        int tam_matriz = res.getFetchSize();
+        int tam_matriz=0;
         int indice = 0;
         while(res.next()){
-            guardado[indice][1] = res.getDouble("numero_orden");
-            guardado[indice][2] = res.getDouble("id_insumo");
-            guardado[indice][3] = res.getDouble("cantidad");
+            tam_matriz++;
         }
+        res = stmt.executeQuery("SELECT * FROM detalle_insumo");
+        Double[][] guardado = new Double[tam_matriz][3];
+        while(res.next()){
+            guardado[indice][0] = res.getDouble("numero_orden");
+            guardado[indice][1] = res.getDouble("id_insumo");
+            guardado[indice][2] = res.getDouble("cantidad");
+            indice++;
+        }
+
+
         res = stmt.executeQuery("SELECT * FROM orden_pedido");
         ArrayList<Lista_insumos> insumos = new ArrayList<>();
         String numero_orden;
@@ -240,8 +294,8 @@ public class Main {
         ArrayList<Lista_insumos> insumos = new ArrayList<>();
         String numero_orden = res.getString("numero_orden");
         for (int i = 0; i < tam_matriz; i++) {
-            if (String.valueOf(guardado[i][1]) == numero_orden) {
-                insumos.add(new Detalle_Insumos(Gestor_Insumos.getInsumo((Integer.valueOf(String.valueOf(guardado[i][2])))), guardado[i][3]));
+            if (String.valueOf(guardado[i][0]) == numero_orden) {
+                insumos.add(new Detalle_Insumos(Gestor_Insumos.getInsumo((Integer.valueOf(String.valueOf(guardado[i][1])))), guardado[i][2]));
             }
         }
         Gestor_Ordenes_Pedido.traerOrdenBD(Integer.valueOf(numero_orden),LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),insumos,null);

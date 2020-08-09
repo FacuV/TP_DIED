@@ -71,7 +71,7 @@ public class Gestor_Pantalla {
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
     public static String[][] getMatrizBajoPuntoReposicion(Planta filtroPlanta,Insumo filtroInsumo) {
         String[] titulos = new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"};
-        List<List> todasLasPlantasInsumo = Gestor_Plantas.plantasBajoPuntoReposicion();
+        List<List> todasLasPlantasInsumo = Gestor_Plantas.plantasInsumoBajoPuntoReposicion();
             if(filtroPlanta != null){
                 todasLasPlantasInsumo.removeIf(l -> !l.get(0).equals(filtroPlanta));
             }
