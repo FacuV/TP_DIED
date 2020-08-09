@@ -29,7 +29,9 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         getBD();
         Gestor_Pantalla.visualizarPantalla_principal();
-       /* ArrayList<Lista_insumos> insumos1 = new ArrayList<>();
+
+/*
+        ArrayList<Lista_insumos> insumos1 = new ArrayList<>();
         Detalle_Insumos insumo11 = new Detalle_Insumos(Gestor_Insumos.getInsumo(1),20);
         Detalle_Insumos insumo12 = new Detalle_Insumos(Gestor_Insumos.getInsumo(2),30);
         Detalle_Insumos insumo13 = new Detalle_Insumos(Gestor_Insumos.getInsumo(3),10);
@@ -75,8 +77,25 @@ public class Main {
         Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(1),LocalDate.parse("2020-12-23"),insumos5);
         Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(1),LocalDate.parse("2020-12-24"),insumos6);
 
-*/
 
+        Planta planta_origen1= Gestor_Plantas.plantasConStock(Gestor_Ordenes_Pedido.getOrden(1)).get(0);
+        Planta planta_destino1=Gestor_Plantas.getPlanta(10);
+        List<List> caminos_posibles1 = Gestor_Plantas.rutaPosibles(planta_origen1,planta_destino1);
+        ArrayList<Ruta> rutas1 = Gestor_Plantas.plantasARutas((ArrayList)Gestor_Plantas.masCorta(caminos_posibles1,true));
+
+        Gestor_Ordenes_Pedido.pasarAProcesada(Gestor_Ordenes_Pedido.getOrden(1),rutas1);
+
+        Planta planta_origen2= Gestor_Plantas.plantasConStock(Gestor_Ordenes_Pedido.getOrden(2)).get(0);
+        Planta planta_destino2=Gestor_Plantas.getPlanta(10);
+        List<List> caminos_posibles2 = Gestor_Plantas.rutaPosibles(planta_origen1,planta_destino1);
+        ArrayList<Ruta> rutas2 = Gestor_Plantas.plantasARutas((ArrayList)Gestor_Plantas.masCorta(caminos_posibles1,false));
+
+        Gestor_Ordenes_Pedido.pasarAProcesada(Gestor_Ordenes_Pedido.getOrden(2),rutas2);
+
+
+        Gestor_Ordenes_Pedido.pasarACancelada(Gestor_Ordenes_Pedido.getOrden(5));
+        Gestor_Ordenes_Pedido.pasarACancelada(Gestor_Ordenes_Pedido.getOrden(6));
+*/
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
@@ -218,19 +237,19 @@ public class Main {
         }
 
         //Traigo los insumos
-        res = stmt.executeQuery("SELECT * FROM(SELECT i.id_insumo,descripcion,unidad_medida,costo,peso,densidad FROM insumo i LEFT JOIN general ON general.id_insumo = i.id_insumo LEFT JOIN liquido ON liquido.id_insumo = i.id_insumo) A;");
+        res = stmt.executeQuery("SELECT * FROM(SELECT i.id_insumo,descripcion,unidad_medida,costo,peso,densidad FROM insumo i LEFT JOIN general ON general.id_insumo = i.id_insumo LEFT JOIN liquido ON liquido.id_insumo = i.id_insumo) A ORDER BY A.id_insumo;");
         while(res.next()){
             if(res.getString("peso") != null){
-                Gestor_Insumos.traerInsumoGBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(res.getString("peso")));
+                Gestor_Insumos.traerInsumoGBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(res.getString("peso")),Integer.valueOf(res.getString("id_insumo")));
             }else{
-                Gestor_Insumos.traerInsumoLBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(res.getString("densidad")));
+                Gestor_Insumos.traerInsumoLBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(res.getString("densidad")),Integer.valueOf(res.getString("id_insumo")));
             }
         }
 
         //Traigo las plantas
-        res = stmt.executeQuery("SELECT * FROM planta;");
+        res = stmt.executeQuery("SELECT * FROM planta ORDER BY id_planta;");
         while(res.next()){
-            Gestor_Plantas.traerPlantaBD(res.getString("nombre_planta"));
+            Gestor_Plantas.traerPlantaBD(res.getString("nombre_planta"),Integer.valueOf(res.getString("id_planta")));
         }
 
         //Traigo las rutas
@@ -252,7 +271,7 @@ public class Main {
         while(res.next()){
             tam_matriz++;
         }
-        res = stmt.executeQuery("SELECT * FROM detalle_insumo");
+        res = stmt.executeQuery("SELECT * FROM detalle_insumo ORDER BY numero_orden");
         Double[][] guardado = new Double[tam_matriz][3];
         while(res.next()){
             guardado[indice][0] = res.getDouble("numero_orden");
@@ -262,7 +281,7 @@ public class Main {
         }
 
 
-        res = stmt.executeQuery("SELECT * FROM orden_pedido");
+        res = stmt.executeQuery("SELECT * FROM orden_pedido ORDER BY numero_orden");
         ArrayList<Lista_insumos> insumos = new ArrayList<>();
         String numero_orden;
         while(res.next()) {
@@ -270,14 +289,14 @@ public class Main {
         }
 
         //Traigo detalles de envío
-        res = stmt.executeQuery("SELECT * FROM detalle_envio");
+        res = stmt.executeQuery("SELECT * FROM detalle_envio ORDER BY numero_orden");
         while(res.next()){
             Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).setDetalle_envio(new Detalle_Envio(Gestor_Camiones.getCamion(res.getString("patente")),null,Double.valueOf(res.getString("costo_envio"))));
             Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))));
         }
 
         //Traigo los caminos
-        res = stmt.executeQuery("SELECT * FROM camino");
+        res = stmt.executeQuery("SELECT * FROM camino ORDER BY numero_orden");
         ArrayList<Ruta> rutas_asignadas;
         while(res.next()){
         if(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(res.getString("numero_orden"))).getDetalle_envio().getRutas_asignadas() == null){
@@ -300,8 +319,8 @@ public class Main {
             }
         }
         Gestor_Ordenes_Pedido.traerOrdenBD(Integer.valueOf(numero_orden),LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),insumos,null);
-        for(int i=0; i< Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().size(); i++ ){
-            Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().get(i).setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)));
+        for(int i=0; i < insumos.size(); i++ ){
+            insumos.get(i).setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)));
         }
     }
 }

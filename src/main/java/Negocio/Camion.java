@@ -1,6 +1,7 @@
 package Negocio;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Camion implements Comparable{
@@ -83,5 +84,11 @@ public class Camion implements Comparable{
         Double a = this.km_recorridos;
         Camion aux = (Camion) o;
         return a.compareTo(aux.getKm_recorridos());
+    }
+
+    public void actualizarKm(ArrayList<Ruta> rutas_asignadas) {
+        for(Ruta ruta:rutas_asignadas){
+            this.km_recorridos+=ruta.getDistancia();
+        }
     }
 }

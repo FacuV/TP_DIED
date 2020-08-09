@@ -27,15 +27,9 @@ public abstract class Gestor_Insumos{
     }
 
     //Este método, después de traer el insumo de la BD, lo ingresa a la lista de insumos disponibles (general)
-    public static void traerInsumoGBD(String descripcion, String unidad_medida, double costo, double peso){
-        int id;
-        if(insumos.isEmpty()){
-            id = 1;
-        }else{
-            id = insumos.get(insumos.size()-1).getId_insumo()+1;
-        }
+    public static void traerInsumoGBD(String descripcion, String unidad_medida, double costo, double peso,Integer id){
         Insumo_General insumo_general = new Insumo_General(id,descripcion,unidad_medida,costo,peso);
-        insumos.add(insumo_general);
+        insumos.add(id-1,insumo_general);
     }
 
     //Este método registra un insumo líquido y lo agrega tanto a la lista de insumos de la empresa como a la base de datos
@@ -53,15 +47,9 @@ public abstract class Gestor_Insumos{
     }
 
     //Este método, después de traer el insumo de la BD, lo ingresa a la lista de insumos disponibles
-    public static void traerInsumoLBD(String descripcion, String unidad_medida, double costo, double densidad){
-        int id;
-        if(insumos.isEmpty()){
-            id = 1;
-        }else{
-            id = insumos.get(insumos.size()-1).getId_insumo()+1;
-        }
+    public static void traerInsumoLBD(String descripcion, String unidad_medida, double costo, double densidad, Integer id){
         Insumo_Liquido insumo_liquido = new Insumo_Liquido(id,descripcion,unidad_medida,costo,densidad);
-        insumos.add(insumo_liquido);
+        insumos.add(id-1,insumo_liquido);
     }
 
     //Este método borra un insumo (general o líquido) de la lista de insumos de la empresa y de la base de datos
