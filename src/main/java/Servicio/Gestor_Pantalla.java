@@ -67,7 +67,17 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
-
+    public static String[][] getMatrizPlantasFlujoMax(Planta inicio,Planta fin){
+        String[] titulos = new String[]{"CAMINO","KG"};
+        ArrayList todasLasPlantas = Gestor_Plantas.flujoMaxPlantas(inicio,fin);
+        ArrayList flujos = Gestor_Plantas.flujoMaxSubPesos(inicio, fin);
+        String informacion[][] = new String[todasLasPlantas.size()][titulos.length];
+        for (int x = 0; x < informacion.length; x++) {
+            informacion[x][0] = todasLasPlantas.get(x).toString() + "";
+            informacion[x][1] = flujos.get(x).toString()+ "";
+        }
+        return informacion;
+    }
     public static String[][] getMatrizPlantas(String nombre){
         String[] titulos = new String[]{"ID Planta","Nombre"};
         ArrayList<Planta> todasLasPlantas = Gestor_Plantas.getPlantas();

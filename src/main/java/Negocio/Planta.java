@@ -48,9 +48,6 @@ public class Planta{
     }
     @Override
     public String toString() {
-        return "Planta{" +
-                "nombre='" + nombre + '\'' +
-                ", id=" + id +
-                '}';
+        return nombre;
     }
 }

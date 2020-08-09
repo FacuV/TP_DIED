@@ -3,9 +3,15 @@ package TP;
 import Daos.ConexionRemota;
 import Daos.PlantaDao;
 import Daos.PlantaDaoDB;
+import Daos.RutaDaoDB;
 import Interface.Pantalla_Principal;
+import Negocio.Planta;
+import Servicio.Gestor_Camiones;
+import Servicio.Gestor_Pantalla;
+import Servicio.Gestor_Plantas;
 import Negocio.*;
 import Servicio.*;
+
 
 
 import javax.swing.*;
@@ -16,16 +22,18 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+
 public class Main {
 
     public static void main(String[] args) throws SQLException {
+        getBD();
+        /*
         PlantaDaoDB plantaDao = new PlantaDaoDB();
-
+        RutaDaoDB rutaDaoDB = new RutaDaoDB();
         Gestor_Plantas.setPlantas(plantaDao.getPlanta());
-        //Gestor_Plantas.setRutas();
-
+        Gestor_Plantas.setRutas(rutaDaoDB.getRuta());
+         */
         Gestor_Pantalla.visualizarPantalla_principal();
-        //System.out.println(Gestor_Plantas.flujoMaxNumero(Gestor_Plantas.getPlanta(1),Gestor_Plantas.getPlanta(10)));
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
@@ -57,19 +65,22 @@ public class Main {
         Gestor_Plantas.conectar(Gestor_Plantas.getPlantas().get(8),Gestor_Plantas.getPlantas().get(9),111,67,140);
 
             //        es un digrafo de 1 a 10
-            //                    9----->
-            //                   / \     \
-            //                  /   \     \
-            //           2 --->5     \     \
-            //          /     /       \     \
-            //         /     /         \     \
-            //        1 --->3 --->6 --->8 --->10
-            //         \               /
-            //          \             /
-            //           \           /
-            //            4 ------->7
+            //               ----> 9 ---->
+            //              /       \     \
+            //             /         \     \
+            //            2 --->5     \     \
+            //           /     / \     \     \
+            //          /     /   ----- \
+            //         /     /           \     \
+            //        1 --->3 --->6 ----> 8 --->10
+            //         \                 /
+            //          \               /
+            //           \             /
+            //            4 --------->7
 
-        */
+         */
+
+
 
         /*
         ArrayList<Lista_insumos> insumosPlanta1 = new ArrayList();
@@ -181,7 +192,7 @@ public class Main {
         //Traigo las plantas
         res = stmt.executeQuery("SELECT * FROM planta;");
         while(res.next()){
-            Gestor_Plantas.traerPlantaBD(res.getString("nombre"));
+            Gestor_Plantas.traerPlantaBD(res.getString("nombre_planta"));
         }
 
         //Traigo las rutas
@@ -234,6 +245,4 @@ public class Main {
         stmt.close();
         conexion.close();
     }
-
-
 }

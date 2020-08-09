@@ -4,7 +4,9 @@ import Interface.ActionListenerAtras;
 import Servicio.Gestor_Pantalla;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.FlowView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +34,9 @@ public class Pantalla_Plantas extends JFrame{
                 JButton flujoMax = new JButton("FLUJO MAXIMO");
                 flujoMax.addActionListener(new ActionListenerFlujoMaximo());
                 JButton pageRank = new JButton("PAGE RANK");
+                pageRank.addActionListener(new ActionListenerPageRank());
                 JButton caminosMinimos = new JButton("CAMINOS MINIMOS");
+
                 JButton bajoPuntoReposicion = new JButton("BAJO PUNTO REPOSICION");
                 JButton agregarStock = new JButton("AGREGAR STOCK");
                 agregarStock.setEnabled(false);
@@ -52,7 +56,7 @@ public class Pantalla_Plantas extends JFrame{
                         JButton buscar = new JButton("BUSCAR");
                         buscar.addActionListener(new ActionListener() {
                             @Override
-                            public void actionPerformed(ActionEvent e) {
+                            public void actionPerformed(ActionEvent e){
                                 System.out.println(textField.getText());
                                 setTable(textField.getText());
                                 tabla.remove(scrollPane);
@@ -64,8 +68,6 @@ public class Pantalla_Plantas extends JFrame{
             tabla.add(auxBusqueda,new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL,new Insets(20,0,0,0),20,20));
                 scrollPane = new JScrollPane(table);
             tabla.add(scrollPane, new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(100,50,30,50),20,20));
-
-
             JPanel volver = new JPanel();
             volver.setLayout(new GridBagLayout());
             GridBagConstraints gbc = new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.SOUTHWEST,GridBagConstraints.CENTER,new Insets(0,5,5,0),20,20);

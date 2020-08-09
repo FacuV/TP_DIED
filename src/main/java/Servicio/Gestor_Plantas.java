@@ -96,7 +96,18 @@ public abstract class Gestor_Plantas {
         }
         return rtn;
     }
-
+    public static Boolean hayCamino(Planta origen,Planta destino) {
+        boolean rtn = false;
+        List<Planta> adyacentes = getAdyacentes(origen);
+        for(Planta vAdy : adyacentes) {
+            if(vAdy.equals(destino)) {
+                rtn = true;
+            } else {
+                if(hayCamino(vAdy, destino)) rtn = true;
+            }
+        }
+        return rtn;
+    }
     //Este método devuelve una lista que contiene todas las rutas posibles desde una planta origen hasta una planta destino
     public static List<List> rutaPosibles(Planta origen, Planta destino) {
         List aux1 = new ArrayList();
@@ -220,7 +231,7 @@ public abstract class Gestor_Plantas {
     }
 
     //Si el camino es a sí misma o no hay camino el lugar aparece vacío
-    //Este método devuelve una matriz donde se indica el camínimo mínimo que va desde la planata de la fila hacia la planta de la columna
+    //Este método devuelve una matriz donde se indica el camínimo mínimo que va desde la planta de la fila hacia la planta de la columna
     public static List<Planta>[][] matrizCaminoMinimo(boolean parametro){
         // si el parámetro es true se calcula por tiempo, si es false se calcula por km recorridos
 
@@ -411,7 +422,7 @@ public abstract class Gestor_Plantas {
             }
             if(menor != 00.0){
                 //paso 2: encontrar la rama de menor capacidad (menor) y programar el envío de dicha capacidad
-                rta.add(menor);
+                if(menor == 999999999.99){rta.add(0.0);}else{rta.add(menor);}
                 //paso 3: reducir la cantidad de la rama menor en todas las ramas involucradas
                 for(int i=0; i< ruta.size()-1; i++){
                     matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] -= menor;
@@ -425,6 +436,10 @@ public abstract class Gestor_Plantas {
     public static Double flujoMaxNumero(Planta origen,Planta destino){
         //esta variable devuelve la sumatoria de la respuesta
         double rta = 0.0;
+        //Retorna 0 si son la misma planta
+        if(origen.equals(destino)) return rta;
+        //retorna 0 si no hay caminos
+        if(!hayCamino(origen,destino)) return rta;
         //es una lista de las rutas posibles que hay desde la planta de origen a la de destino
         List<List> rutas = rutaPosibles(origen,destino);
         //si es que no hay rutas de la planta de origen a la de destino, el flujo es 0
