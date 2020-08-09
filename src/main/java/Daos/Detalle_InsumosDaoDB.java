@@ -19,7 +19,7 @@ public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
         String numero_orden = String.valueOf(detalle_insumos.getOrden().getNumero());
         String id_insumo = String.valueOf(detalle_insumos.getInsumo().getId_insumo());
         String cantidad = String.valueOf(detalle_insumos.getCantidad());
-        stmt.execute("INSERT INTO detalle_insumos VALUES ("+numero_orden+","+id_insumo+","+cantidad+");");
+        stmt.execute("INSERT INTO detalle_insumo VALUES ("+numero_orden+","+id_insumo+","+cantidad+");");
         stmt.close();
         conexion.close();
     }
@@ -30,7 +30,7 @@ public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
         Statement stmt = conexion.createStatement();
         String numero_orden = String.valueOf(detalle_insumos.getOrden().getNumero());
         String id_insumo = String.valueOf(detalle_insumos.getInsumo().getId_insumo());
-        stmt.execute("DELETE FROM detalle_insumos WHERE numero_orden = "+numero_orden+" AND id_insumo = "+id_insumo+";");
+        stmt.execute("DELETE FROM detalle_insumo WHERE numero_orden = "+numero_orden+" AND id_insumo = "+id_insumo+";");
         stmt.close();
         conexion.close();
     }
@@ -42,7 +42,7 @@ public class Detalle_InsumosDaoDB implements Detalle_InsumosDao{
         String numero_orden = String.valueOf(detalle_insumos.getOrden().getNumero());
         String id_insumo = String.valueOf(detalle_insumos.getInsumo().getId_insumo());
         String cantidad = String.valueOf(detalle_insumos.getCantidad());
-        stmt.execute("UPDATE detalle_insumos SET id_insumo = cantidad = "+cantidad+" WHERE numero_orden = "+numero_orden+" AND id_insumo = "+id_insumo+";");
+        stmt.execute("UPDATE detalle_insumo SET id_insumo = cantidad = "+cantidad+" WHERE numero_orden = "+numero_orden+" AND id_insumo = "+id_insumo+";");
         stmt.close();
         conexion.close();
     }

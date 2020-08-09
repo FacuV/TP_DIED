@@ -8,6 +8,7 @@ import Negocio.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Gestor_Ordenes_Pedido {
     //Esta es una lista con todas las ordenes de pedido que alguna vez realizó la empresa
@@ -23,6 +24,9 @@ public abstract class Gestor_Ordenes_Pedido {
         }
         Orden_Pedido orden_pedido = new Orden_Pedido(numero,LocalDate.now(),fecha_maxima_entrega,planta_destino,insumos_pedidos);
         ordenes.add(orden_pedido);
+        for(Lista_insumos insumos:insumos_pedidos){
+            insumos.setOrden(orden_pedido);
+        }
         Orden_PedidoDaoDB orden_pedidoDaoDB = new Orden_PedidoDaoDB();
         orden_pedidoDaoDB.createOrden_Pedido(orden_pedido);
         Detalle_InsumosDaoDB detalle_insumosDaoDB = new Detalle_InsumosDaoDB();

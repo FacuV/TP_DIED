@@ -20,6 +20,7 @@ public class Orden_Pedido {
         this.planta_destino = planta_destino;
         this.insumos_pedidos = insumos_pedidos;
         this.estado = Estado.CREADA;
+        this.fecha_entrega = LocalDate.parse("0001-01-01");
     }
 
     public Orden_Pedido(int numero, LocalDate fecha_solicitud, LocalDate fecha_maxima_entrega, LocalDate fecha_entrega, Estado estado, Planta planta_destino, ArrayList<Lista_insumos> insumos_pedidos, Detalle_Envio detalle_envio) {
