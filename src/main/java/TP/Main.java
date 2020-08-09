@@ -27,7 +27,8 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         getBD();
-        System.out.println(Gestor_Plantas.plantasPageRank());
+
+
         /*
         PlantaDaoDB plantaDao = new PlantaDaoDB();
         RutaDaoDB rutaDaoDB = new RutaDaoDB();
@@ -176,17 +177,12 @@ public class Main {
         }
 
         //Traigo los insumos
-        res = stmt.executeQuery("SELECT * FROM insumo;");
-        String id;
-        ResultSet rest;
-        while (res.next()){
-            id = res.getString("id");
-            rest = stmt.executeQuery("SELECT * FROM(SELECT i.id_insumo,descripcion,unidad_medida,costo,peso,densidad FROM insumo i LEFT JOIN general ON general.id_insumo = i.id_insumo LEFT JOIN liquido ON liquido.id_insumo = i.id_insumo) A WHERE A.id_insumo = "+id+";");
-            rest.next();
+        res = stmt.executeQuery("SELECT * FROM(SELECT i.id_insumo,descripcion,unidad_medida,costo,peso,densidad FROM insumo i LEFT JOIN general ON general.id_insumo = i.id_insumo LEFT JOIN liquido ON liquido.id_insumo = i.id_insumo) A;");
+        while(res.next()){
             if(res.getString("peso") != null){
-                Gestor_Insumos.traerInsumoGBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(rest.getString("peso")));
+                Gestor_Insumos.traerInsumoGBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(res.getString("peso")));
             }else{
-                Gestor_Insumos.traerInsumoLBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(rest.getString("densidad")));
+                Gestor_Insumos.traerInsumoLBD(res.getString("descripcion"),res.getString("unidad_medida"),Double.valueOf(res.getString("costo")),Double.valueOf(res.getString("densidad")));
             }
         }
 
@@ -202,27 +198,27 @@ public class Main {
             Gestor_Plantas.traerRutaBD(Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta_origen"))),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta_destino"))),Double.valueOf(res.getString("distancia")),Integer.valueOf(res.getString("duracion_viaje")),Double.valueOf(res.getString("cant_max_material")));
         }
 
-        //Traigo el stock de cada ruta
+        //Traigo el stock de cada planta
         res = stmt.executeQuery("SELECT * FROM stock");
         while(res.next()){
-            Gestor_Plantas.actualizarStock(Integer.valueOf(res.getString("id_planta")),Gestor_Insumos.getInsumo(Integer.valueOf(res.getString("id_insumo"))),Double.valueOf(res.getString("cantidad")),Double.valueOf(res.getString("punto_reposicion")));
+            Gestor_Plantas.traerStockBD(Integer.valueOf(res.getString("id_planta")),Gestor_Insumos.getInsumo(Integer.valueOf(res.getString("id_insumo"))),Double.valueOf(res.getString("cantidad")),Double.valueOf(res.getString("punto_reposicion")));
         }
 
         //Traigo las órdenes de pedido y los detalles de insumo
-        res = stmt.executeQuery("SELECT * FROM orden_pedido");
-        String numero_orden;
-        ArrayList<Lista_insumos> insumos = new ArrayList<>();
+        res = stmt.executeQuery("SELECT * FROM detalle_insumo");
+        Double[][] guardado = new Double[res.getFetchSize()][3];
+        int tam_matriz = res.getFetchSize();
+        int indice = 0;
         while(res.next()){
-            numero_orden = res.getString("numero_orden");
-            rest = stmt.executeQuery("SELECT * FROM detalle_insumos WHERE numero_orden = "+numero_orden+"");
-            while(rest.next()){
-                insumos.add(new Detalle_Insumos(Gestor_Insumos.getInsumo(Integer.valueOf(rest.getString("id_insumo"))),Double.valueOf(rest.getString("cantidad"))));
-            }
-            Gestor_Ordenes_Pedido.traerOrdenBD(Integer.valueOf(numero_orden),LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),insumos,null);
-            for(int i=0; i< Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().size(); i++ ){
-                Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().get(i).setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)));
-            }
-            insumos.clear();
+            guardado[indice][1] = res.getDouble("numero_orden");
+            guardado[indice][2] = res.getDouble("id_insumo");
+            guardado[indice][3] = res.getDouble("cantidad");
+        }
+        res = stmt.executeQuery("SELECT * FROM orden_pedido");
+        ArrayList<Lista_insumos> insumos = new ArrayList<>();
+        String numero_orden;
+        while(res.next()) {
+            guardarOrdenConDetalleInsumo(res,guardado,tam_matriz);
         }
 
         //Traigo detalles de envío
@@ -245,5 +241,19 @@ public class Main {
         //Cierro la base de datos
         stmt.close();
         conexion.close();
+    }
+
+    private static void guardarOrdenConDetalleInsumo(ResultSet res, Double[][] guardado, int tam_matriz) throws SQLException {
+        ArrayList<Lista_insumos> insumos = new ArrayList<>();
+        String numero_orden = res.getString("numero_orden");
+        for (int i = 0; i < tam_matriz; i++) {
+            if (String.valueOf(guardado[i][1]) == numero_orden) {
+                insumos.add(new Detalle_Insumos(Gestor_Insumos.getInsumo((Integer.valueOf(String.valueOf(guardado[i][2])))), guardado[i][3]));
+            }
+        }
+        Gestor_Ordenes_Pedido.traerOrdenBD(Integer.valueOf(numero_orden),LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),insumos,null);
+        for(int i=0; i< Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().size(); i++ ){
+            Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)).getInsumos_pedidos().get(i).setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)));
+        }
     }
 }

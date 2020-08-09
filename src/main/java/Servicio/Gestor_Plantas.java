@@ -204,6 +204,21 @@ public abstract class Gestor_Plantas {
         }
     }
 
+    //Este método trae de la base de datos el stock
+    public static void traerStockBD(int id_planta, Insumo I, double cantidad, double punto_pedido){
+                boolean existe = false;
+        for (Lista_insumos l : Gestor_Plantas.getPlanta(id_planta).getInsumos()) {
+            if (l.getInsumo().equals(I)) {
+                l.setCantidad(cantidad);
+                l.setPunto_reposicion(punto_pedido);
+                existe = true;
+            }
+        }
+        if(existe==false){
+            Gestor_Plantas.getPlanta(id_planta).agregarInsumo(I,cantidad,punto_pedido);
+        }
+    }
+
     //Este método retorna una lista de plantas adyacentes a la planta que se pasa como parámetro
     public static List<Planta> getAdyacentes(Planta unNodo) {
         List<Planta> salida = new ArrayList<Planta>();
