@@ -2,6 +2,7 @@ package Servicio;
 
 import Daos.PlantaDaoDB;
 import Daos.RutaDaoDB;
+import Daos.StockDaoDB;
 import Negocio.*;
 
 import java.sql.SQLException;
@@ -95,6 +96,7 @@ public abstract class Gestor_Plantas {
         }
         return rtn;
     }
+
     public static Boolean hayCamino(Planta origen,Planta destino) {
         boolean rtn = false;
         List<Planta> adyacentes = getAdyacentes(origen);
@@ -107,6 +109,7 @@ public abstract class Gestor_Plantas {
         }
         return rtn;
     }
+
     //Este método devuelve una lista que contiene todas las rutas posibles desde una planta origen hasta una planta destino
     public static List<List> rutaPosibles(Planta origen, Planta destino) {
         List aux1 = new ArrayList();
@@ -183,12 +186,20 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método permite actualizar el stock de una planta
-    public static void actualizarStock(int id_planta, Insumo I, double cantidad, double punto_pedido) {
+    public static void actualizarStock(int id_planta, Insumo I, double cantidad, double punto_pedido) throws SQLException {
+        StockDaoDB stockDaoDB = new StockDaoDB();
+        boolean existe = false;
         for (Lista_insumos l : Gestor_Plantas.getPlanta(id_planta).getInsumos()) {
             if (l.getInsumo().equals(I)) {
                 l.setCantidad(cantidad);
                 l.setPunto_reposicion(punto_pedido);
+                stockDaoDB.updateStock((Stock) l);
+                existe = true;
             }
+        }
+        if(existe==false){
+            Gestor_Plantas.getPlanta(id_planta).agregarInsumo(I,cantidad,punto_pedido);
+            stockDaoDB.createStock((Stock) Gestor_Plantas.getPlanta(id_planta).getInsumos().get(Gestor_Plantas.getPlanta(id_planta).getInsumos().size() - 1));
         }
     }
 
@@ -355,13 +366,13 @@ public abstract class Gestor_Plantas {
         return nuevosPuntajes;
     }
 
-    //FALTA PROBAR
+
     //debe retornar una lista con subgrafos por donde pasaron los envíos de flujo máximo
     public static ArrayList<ArrayList <Planta>> flujoMaxPlantas(Planta origen,Planta destino){
         ArrayList<ArrayList<Planta>> rta = new ArrayList<ArrayList<Planta>>();
         //es una lista de las rutas posibles que hay desde la planta de origen a la de destino
         List<List> rutas = rutaPosibles(origen,destino);
-        //esta es una lista auxiliar para meter las rutas en e destino
+        //esta es una lista auxiliar para meter las rutas en el destino
         ArrayList<Planta> aux = new ArrayList<>();
         //es una matriz donde almaceno el valor de peso máximo que se puede cargar por ruta de origen (fila) a destino (columna)
         Double[][] matriz = matrizDeGafoPorPeso();
@@ -382,11 +393,7 @@ public abstract class Gestor_Plantas {
                 for(int i=0; i< ruta.size()-1; i++){
                     matriz[plantas.indexOf(ruta.get(i))][plantas.indexOf(ruta.get(i+1))] -= menor;
                 }
-                //acá agrego la ruta a la lista de plantas y luego estas a la respuesta
-                for(int i=0; i< ruta.size(); i++){
-                    aux.add((Planta)ruta.get(i));
-                }
-                rta.add(aux);
+                rta.add((ArrayList<Planta>)ruta);
             }
         }
         return rta;
