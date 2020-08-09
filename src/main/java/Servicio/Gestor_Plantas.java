@@ -99,6 +99,7 @@ public abstract class Gestor_Plantas {
         }
         return rtn;
     }
+
     public static Set<Planta> plantasBajoPuntoReposicion(){
         Set<Planta> rtn = new HashSet<>();
             for (List list:plantasInsumoBajoPuntoReposicion()){
@@ -106,6 +107,7 @@ public abstract class Gestor_Plantas {
             }
         return rtn;
     }
+
     public static Boolean hayCamino(Planta origen,Planta destino) {
         boolean rtn = false;
         List<Planta> adyacentes = getAdyacentes(origen);
