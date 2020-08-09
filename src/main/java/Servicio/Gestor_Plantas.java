@@ -2,6 +2,7 @@ package Servicio;
 
 import Daos.PlantaDaoDB;
 import Daos.RutaDaoDB;
+import Daos.StockDaoDB;
 import Negocio.*;
 
 import java.sql.SQLException;
@@ -172,12 +173,20 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método permite actualizar el stock de una planta
-    public static void actualizarStock(int id_planta, Insumo I, double cantidad, double punto_pedido) {
+    public static void actualizarStock(int id_planta, Insumo I, double cantidad, double punto_pedido) throws SQLException {
+        StockDaoDB stockDaoDB = new StockDaoDB();
+        boolean existe = false;
         for (Lista_insumos l : Gestor_Plantas.getPlanta(id_planta).getInsumos()) {
             if (l.getInsumo().equals(I)) {
                 l.setCantidad(cantidad);
                 l.setPunto_reposicion(punto_pedido);
+                stockDaoDB.updateStock((Stock) l);
+                existe = true;
             }
+        }
+        if(existe==false){
+            Gestor_Plantas.getPlanta(id_planta).agregarInsumo(I,cantidad,punto_pedido);
+            stockDaoDB.createStock((Stock) Gestor_Plantas.getPlanta(id_planta).getInsumos().get(Gestor_Plantas.getPlanta(id_planta).getInsumos().size() - 1));
         }
     }
 

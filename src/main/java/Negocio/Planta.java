@@ -36,12 +36,16 @@ public class Planta{
         this.id = id;
         insumos = new ArrayList<>();
     }
+
     public Planta(String nombre,int id,ArrayList insumos){
         this.nombre = nombre;
         this.id = id;
         this.insumos = insumos;
     }
 
+    public void agregarInsumo(Insumo insumo, double cantidad, double punto_reposicion){
+        insumos.add(new Stock(insumo, this,cantidad,punto_reposicion));
+    }
     @Override
     public String toString() {
         return "Planta{" +

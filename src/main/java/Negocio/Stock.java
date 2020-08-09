@@ -9,6 +9,7 @@ public class Stock extends Lista_insumos{
         this.planta = planta;
         this.punto_reposicion = punto_reposicion;
     }
+
     public Planta getPlanta() {
         return planta;
     }
