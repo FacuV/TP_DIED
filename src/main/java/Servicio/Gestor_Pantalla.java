@@ -6,6 +6,7 @@ import Interface.ordenesPedido.Pantalla_Ordenes;
 import Interface.planta.Pantalla_Plantas;
 import Interface.Pantalla_Principal;
 import Interface.ruta.Pantalla_Rutas;
+import Negocio.Insumo;
 import Negocio.Planta;
 
 import javax.swing.*;
@@ -68,6 +69,35 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
+    public static String[][] getMatrizBajoPuntoReposicion(Planta filtroPlanta,Insumo filtroInsumo) {
+        String[] titulos = new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"};
+        List<List> todasLasPlantasInsumo = Gestor_Plantas.plantasBajoPuntoReposicion();
+            if(filtroPlanta == null){
+                for(List l: todasLasPlantasInsumo){
+                    if(!l.get(0).equals(filtroPlanta)) {
+                        todasLasPlantasInsumo.remove(l);
+                    }
+                }
+            }
+            if(filtroInsumo == null){
+                for(List l: todasLasPlantasInsumo){
+                    if(!l.get(1).equals(filtroInsumo)) {
+                        todasLasPlantasInsumo.remove(l);
+                    }
+                }
+            }
+        String informacion[][] = new String[todasLasPlantasInsumo.size()][titulos.length];
+        for (int x = 0; x < informacion.length; x++) {
+            informacion[x][0] =  + "";
+            informacion[x][1] = flujos.get(x).toString()+ "";
+            informacion[x][2] = todasLasPlantas.get(x).toString() + "";
+            informacion[x][3] = todasLasPlantas.get(x).toString() + "";
+            informacion[x][4] = todasLasPlantas.get(x).toString() + "";
+        }
+        return informacion;
+    }}
+
+
     public static String[][] getMatrizPlantasFlujoMax(Planta inicio,Planta fin){
         String[] titulos = new String[]{"CAMINO","KG"};
         ArrayList todasLasPlantas = Gestor_Plantas.flujoMaxPlantas(inicio,fin);

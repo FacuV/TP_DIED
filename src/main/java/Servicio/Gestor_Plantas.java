@@ -80,17 +80,24 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método devuelve una lista con las plantas que tienen algún insumo en cantidades inferiores al punto de roposición
-    public static List<Planta> plantasBajoPuntoReposicion() {
+    public static List<List> plantasBajoPuntoReposicion() {
         ArrayList rtn = new ArrayList();
         boolean aux = false;
         for (Planta planta : plantas) {
+            ArrayList insumo_puntoRep_planta = new ArrayList();
             for (Lista_insumos stock : planta.getInsumos()) {
+                ArrayList insumo_puntoRep = new ArrayList();
                 if (stock.getCantidad() <= stock.getPunto_reposicion()) {
+                    insumo_puntoRep.add(planta);
+                    insumo_puntoRep.add(stock.getInsumo());
+                    insumo_puntoRep.add(stock.getCantidad());
+                    insumo_puntoRep.add(stock.getPunto_reposicion());
+                    insumo_puntoRep_planta.add(insumo_puntoRep);
                     aux = true;
                 }
             }
             if (aux) {
-                rtn.add(planta);
+                rtn.addAll(insumo_puntoRep_planta);
                 aux = false;
             }
         }
