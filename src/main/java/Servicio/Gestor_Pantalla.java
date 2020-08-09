@@ -69,35 +69,25 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
-    /*public static String[][] getMatrizBajoPuntoReposicion(Planta filtroPlanta,Insumo filtroInsumo) {
+    public static String[][] getMatrizBajoPuntoReposicion(Planta filtroPlanta,Insumo filtroInsumo) {
         String[] titulos = new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"};
-        List<List> todasLasPlantasInsumo = Gestor_Plantas.plantasBajoPuntoReposicion();
-            if(filtroPlanta == null){
-                for(List l: todasLasPlantasInsumo){
-                    if(!l.get(0).equals(filtroPlanta)) {
-                        todasLasPlantasInsumo.remove(l);
-                    }
-                }
+        List<List> todasLasPlantasInsumo = Gestor_Plantas.plantasInsumoBajoPuntoReposicion();
+            if(filtroPlanta != null){
+                todasLasPlantasInsumo.removeIf(l -> !l.get(0).equals(filtroPlanta));
             }
-            if(filtroInsumo == null){
-                for(List l: todasLasPlantasInsumo){
-                    if(!l.get(1).equals(filtroInsumo)) {
-                        todasLasPlantasInsumo.remove(l);
-                    }
-                }
+            if(filtroInsumo != null){
+                todasLasPlantasInsumo.removeIf(l -> !l.get(1).equals(filtroInsumo));
             }
         String informacion[][] = new String[todasLasPlantasInsumo.size()][titulos.length];
         for (int x = 0; x < informacion.length; x++) {
-            informacion[x][0] =  + "";
-            informacion[x][1] = flujos.get(x).toString()+ "";
-            informacion[x][2] = todasLasPlantas.get(x).toString() + "";
-            informacion[x][3] = todasLasPlantas.get(x).toString() + "";
-            informacion[x][4] = todasLasPlantas.get(x).toString() + "";
+            informacion[x][0] = todasLasPlantasInsumo.get(x).get(0).toString()+ "";
+            informacion[x][1] = todasLasPlantasInsumo.get(x).get(1).toString()+ "";
+            informacion[x][2] = todasLasPlantasInsumo.get(x).get(2).toString()+ "";
+            informacion[x][3] = todasLasPlantasInsumo.get(x).get(3).toString() + "";
+            informacion[x][4] = Gestor_Insumos.cantidadTotal((Insumo) todasLasPlantasInsumo.get(x).get(1)) + "";
         }
         return informacion;
-    }}
-
-     */
+    }
 
 
     public static String[][] getMatrizPlantasFlujoMax(Planta inicio,Planta fin){
