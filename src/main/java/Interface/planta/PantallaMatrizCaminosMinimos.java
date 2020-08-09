@@ -14,8 +14,8 @@ public class PantallaMatrizCaminosMinimos extends JFrame{
             Container cp = getContentPane();
             cp.setBackground(Color.white);
             cp.setLayout(new BorderLayout());
-                //JTable table = new JTable(new ModeloTabla(Gestor_Pantalla.getMatrizPlantasCaminosMinimo(),new String[]{"PLANTA ORIGEN","PLANTA DESTINO","CAMINO MAS CORTO","CAMINO MAS RAPIDO"}));
-                JScrollPane scrollPane = new JScrollPane();
+                JTable table = new JTable(new ModeloTabla(Gestor_Pantalla.getMatrizPlantasCaminosMinimo(),new String[]{"PLANTA ORIGEN","PLANTA DESTINO","CAMINO MAS CORTO","CAMINO MAS RAPIDO"}));
+                JScrollPane scrollPane = new JScrollPane(table);
 
     }
 }

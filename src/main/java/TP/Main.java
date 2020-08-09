@@ -21,19 +21,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Main {
 
     public static void main(String[] args) throws SQLException {
         getBD();
-        /*
-        PlantaDaoDB plantaDao = new PlantaDaoDB();
-        RutaDaoDB rutaDaoDB = new RutaDaoDB();
-        Gestor_Plantas.setPlantas(plantaDao.getPlanta());
-        Gestor_Plantas.setRutas(rutaDaoDB.getRuta());
-         */
         Gestor_Pantalla.visualizarPantalla_principal();
+
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");

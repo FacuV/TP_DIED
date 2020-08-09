@@ -10,6 +10,7 @@ import Negocio.Planta;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Gestor_Pantalla {
     //pantalla principal
@@ -75,6 +76,36 @@ public class Gestor_Pantalla {
         for (int x = 0; x < informacion.length; x++) {
             informacion[x][0] = todasLasPlantas.get(x).toString() + "";
             informacion[x][1] = flujos.get(x).toString()+ "";
+        }
+        return informacion;
+    }
+    public static String[][] getMatrizPlantasCaminosMinimo(){
+        String[] titulos = new String[]{"PLANTA ORIGEN","PLANTA DESTINO","CAMINO MAS CORTO","CAMINO MAS RAPIDO"};
+        List[][] porTiempo = Gestor_Plantas.matrizCaminoMinimo(true);
+                ArrayList<List> porTiempoPlano = new ArrayList();
+                for (int x = 0; x < porTiempo.length; x++) {
+                    for(int i = 0; i < porTiempo.length; i++){
+                        if(!porTiempo[x][i].isEmpty()){
+                            porTiempoPlano.add(porTiempo[x][i]);
+                        }
+                    }
+                }
+        List[][] porDistancia = Gestor_Plantas.matrizCaminoMinimo(false);
+            ArrayList<List> porDistanciaPlano = new ArrayList();
+        for (int x = 0; x < porDistancia.length; x++) {
+            for(int i = 0; i < porDistancia.length; i++){
+                if(!porDistancia[x][i].isEmpty()){
+                    porDistanciaPlano.add(porDistancia[x][i]);
+                }
+            }
+        }
+        String informacion[][] = new String[porTiempoPlano.size()][titulos.length];
+        for (int x = 0; x < porTiempoPlano.size(); x++) {
+            informacion[x][0] = porTiempoPlano.get(x).get(0)+"";
+            informacion[x][1] = porTiempoPlano.get(x).get(porTiempoPlano.get(x).size()-1)+"";
+            informacion[x][2] = porTiempoPlano.get(x)+"";
+            informacion[x][3] = porDistanciaPlano.get(x)+"";
+
         }
         return informacion;
     }
