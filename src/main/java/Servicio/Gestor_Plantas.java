@@ -65,14 +65,9 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método permite agregar una nueva planta a la lista de plantas de la empresa, después de traerla de la base de datos
-    public static void traerPlantaBD(String nombre){
-        Planta planta;
-        if (plantas.isEmpty()) {
-            planta = new Planta(nombre, 1);
-        } else {
-            planta = new Planta(nombre, plantas.get(plantas.size() - 1).getId() + 1);
-        }
-        plantas.add(planta);
+    public static void traerPlantaBD(String nombre, int id){
+        Planta planta = new Planta(nombre, id);
+        plantas.add(id-1,planta);
     }
 
     //Este método te permite obtener una planta de la lista de plantas de la empresa pasando como parámetro su id
@@ -294,7 +289,7 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método retorna una lista de plantas por donde es el camino más corto de todas las listas de caminos que se envió, por tiempo si el parámetro es true y por distancia si el parámetro es false
-    private static List<Planta> masCorta (List<List> caminos , boolean parametro){
+    public static List<Planta> masCorta (List<List> caminos , boolean parametro){
         // este parámetro me permite recordar cual indice enviar
         List respuesta = new ArrayList();
         double cant_min = 0;
@@ -515,6 +510,15 @@ public abstract class Gestor_Plantas {
                     rta[i][j] = 0.0;
                 }
             }
+        }
+        return rta;
+    }
+
+    //Este método me permite obtener una lista de rutas en base a una lista de plantas
+    public static ArrayList<Ruta> plantasARutas(ArrayList<Planta> lista_plantas){
+        ArrayList<Ruta> rta = new ArrayList<>();
+        for(int i=0; i < lista_plantas.size()-1;i++){
+            rta.add(getCamino(lista_plantas.get(i),lista_plantas.get(i+1)));
         }
         return rta;
     }

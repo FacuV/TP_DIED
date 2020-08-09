@@ -20,7 +20,6 @@ public abstract class Gestor_Camiones {
         camiones.add(c);
         CamionDaoDB cdb = new CamionDaoDB();
         cdb.createCamion(c);
-
     }
 
     //Este método me permite, después de traer desde la base de datos un camión, almacenarlo en la lista de prioridades

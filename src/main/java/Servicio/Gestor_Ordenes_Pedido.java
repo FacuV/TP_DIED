@@ -1,5 +1,6 @@
 package Servicio;
 
+import Daos.CamionDaoDB;
 import Daos.Detalle_EnvioDaoDB;
 import Daos.Detalle_InsumosDaoDB;
 import Daos.Orden_PedidoDaoDB;
@@ -11,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Gestor_Ordenes_Pedido {
+    public static ArrayList<Orden_Pedido> getOrdenes() {
+        return ordenes;
+    }
+
     //Esta es una lista con todas las ordenes de pedido que alguna vez realizó la empresa
     private static ArrayList<Orden_Pedido> ordenes = new ArrayList<>();
 
@@ -39,7 +44,7 @@ public abstract class Gestor_Ordenes_Pedido {
     //Este método te deja registrar una planta después de sacarla de la base de datos
     public static void traerOrdenBD(int numero, LocalDate fecha_solicitud, LocalDate fecha_maxima_entrega, LocalDate fecha_entrega, Estado estado, Planta planta_destino, ArrayList<Lista_insumos> insumos_pedidos, Detalle_Envio detalle_envio){
         Orden_Pedido orden_pedido = new Orden_Pedido(numero,fecha_solicitud, fecha_maxima_entrega,fecha_entrega,estado, planta_destino,insumos_pedidos, detalle_envio);
-        ordenes.add(orden_pedido);
+        ordenes.add(numero-1,orden_pedido);
     }
 
     //Este método devuelve una orden de pedido con el número de orden que le pasen como id
@@ -48,14 +53,19 @@ public abstract class Gestor_Ordenes_Pedido {
     }
 
     //Este método cambia una orden a PROCESADA
-    public static void pasarAProcesada(Orden_Pedido orden, Camion camion, ArrayList<Ruta> rutas_asignadas,double costo_envio) throws SQLException {
+    public static void pasarAProcesada(Orden_Pedido orden, ArrayList<Ruta> rutas_asignadas) throws SQLException {
         orden.setEstado(Estado.PROCESADA);
-        Detalle_Envio detalle_envio = new Detalle_Envio(camion,rutas_asignadas,costo_envio);
+        Camion camion_asignado = Gestor_Camiones.getCamiones().poll();
+        Detalle_Envio detalle_envio = new Detalle_Envio(camion_asignado,rutas_asignadas);
         orden.setDetalle_envio(detalle_envio);
+        detalle_envio.setOrden(orden);
+        camion_asignado.actualizarKm(rutas_asignadas);
         Detalle_EnvioDaoDB detalle_envioDaoDB = new Detalle_EnvioDaoDB();
         detalle_envioDaoDB.createDetalle_Envio(detalle_envio);
         Orden_PedidoDaoDB orden_pedidoDaoDB = new Orden_PedidoDaoDB();
         orden_pedidoDaoDB.updateOrden_Pedido(orden);
+        CamionDaoDB camionDaoDB = new CamionDaoDB();
+        camionDaoDB.updateCamion(camion_asignado);
     }
 
     //Este método cambia una orden a CANCELADA
