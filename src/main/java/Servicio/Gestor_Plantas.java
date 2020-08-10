@@ -23,9 +23,7 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método te permite modificar toda la lista de plantas por una nueva
-    public static void setPlantas(ArrayList<Planta> plantas) {
-        Gestor_Plantas.plantas = plantas;
-    }
+    public static void setPlantas(ArrayList<Planta> plantas) {Gestor_Plantas.plantas = plantas;}
 
     //Este método devuelve la lista de todas las rutas de la empresa
     public static ArrayList<Ruta> getRutas() {
@@ -67,13 +65,20 @@ public abstract class Gestor_Plantas {
     //Este método permite agregar una nueva planta a la lista de plantas de la empresa, después de traerla de la base de datos
     public static void traerPlantaBD(String nombre, int id){
         Planta planta = new Planta(nombre, id);
-        plantas.add(id-1,planta);
+        plantas.add(planta);
     }
 
     //Este método te permite obtener una planta de la lista de plantas de la empresa pasando como parámetro su id
     public static Planta getPlanta(int id_planta) {
-        return plantas.get(id_planta - 1);
+        for(Planta planta: plantas){
+            if(planta.getId() == id_planta){
+                return planta;
+            }
+        }
+        return null;
     }
+
+    //Este método te permite obtener una planta de la lista de plantas de la empresa pasando como parámetro su nombre
     public static Planta getPlanta(String nombre) {
         for (Planta p:plantas){
             if(p.getNombre().contentEquals(nombre)){

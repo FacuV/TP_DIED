@@ -29,7 +29,7 @@ public abstract class Gestor_Insumos{
     //Este método, después de traer el insumo de la BD, lo ingresa a la lista de insumos disponibles (general)
     public static void traerInsumoGBD(String descripcion, String unidad_medida, double costo, double peso,Integer id){
         Insumo_General insumo_general = new Insumo_General(id,descripcion,unidad_medida,costo,peso);
-        insumos.add(id-1,insumo_general);
+        insumos.add(insumo_general);
     }
 
     //Este método registra un insumo líquido y lo agrega tanto a la lista de insumos de la empresa como a la base de datos
@@ -49,28 +49,28 @@ public abstract class Gestor_Insumos{
     //Este método, después de traer el insumo de la BD, lo ingresa a la lista de insumos disponibles
     public static void traerInsumoLBD(String descripcion, String unidad_medida, double costo, double densidad, Integer id){
         Insumo_Liquido insumo_liquido = new Insumo_Liquido(id,descripcion,unidad_medida,costo,densidad);
-        insumos.add(id-1,insumo_liquido);
+        insumos.add(insumo_liquido);
     }
 
     //Este método borra un insumo (general o líquido) de la lista de insumos de la empresa y de la base de datos
     public static void baja(int id_insumo) throws SQLException {
-        insumos.remove(insumos.get(id_insumo-1));
         InsumoDaoDB insumoDaoDB = new InsumoDaoDB();
-        insumoDaoDB.deleteInsumo(insumos.get(id_insumo-1));
+        insumoDaoDB.deleteInsumo(Gestor_Insumos.getInsumo(id_insumo));
+        insumos.remove(Gestor_Insumos.getInsumo(id_insumo));
     }
 
     //Pasar null en los dos primeros si no se los quiere modificar y 0 en los demas que no se quieran modficar
     //Este método modifica el insumo con los datos que se quieran modificar tanto en la lista de insumos de la empresa como en la base de datos
     public static void modificacion(int id_insumo, String descripcion, String unidad_medida, double costo, double peso_densidad) throws SQLException {
-        Insumo insumo = insumos.get(id_insumo-1);
+        Insumo insumo = Gestor_Insumos.getInsumo(id_insumo);
         if(descripcion != null){insumo.setDescripcion(descripcion);}
         if(unidad_medida != null){insumo.setUnidad_medida(unidad_medida);}
         if(costo > 0){insumo.setCosto(costo);}
         if(peso_densidad > 0){
             if(insumo instanceof Insumo_General){
-                ((Insumo_General) insumos.get(id_insumo-1)).setPeso_kilos(peso_densidad);
+                ((Insumo_General) Gestor_Insumos.getInsumo(id_insumo)).setPeso_kilos(peso_densidad);
             }else{
-                ((Insumo_Liquido) insumos.get(id_insumo-1)).setDensidad(peso_densidad);
+                ((Insumo_Liquido) Gestor_Insumos.getInsumo(id_insumo)).setDensidad(peso_densidad);
             }
         }
         InsumoDaoDB insumoDaoDB = new InsumoDaoDB();
@@ -82,7 +82,14 @@ public abstract class Gestor_Insumos{
 
 
     //Este método retorna el insumo que tenga como id el numero que se le pasa
-    public static Insumo getInsumo(int id_insumo){return insumos.get(id_insumo-1);}
+    public static Insumo getInsumo(int id_insumo){
+        for(Insumo insumo:insumos){
+            if(insumo.getId_insumo() == id_insumo){
+                return insumo;
+            }
+        }
+        return null;
+    }
 
     //Este método devuelve la cantidad de un insumo que hay en toda la empresa
     public static int cantidadTotal(Insumo insumo){

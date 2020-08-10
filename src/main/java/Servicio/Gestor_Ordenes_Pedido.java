@@ -44,7 +44,7 @@ public abstract class Gestor_Ordenes_Pedido {
     //Este método te deja registrar una planta después de sacarla de la base de datos
     public static void traerOrdenBD(int numero, LocalDate fecha_solicitud, LocalDate fecha_maxima_entrega, LocalDate fecha_entrega, Estado estado, Planta planta_destino, ArrayList<Lista_insumos> insumos_pedidos, Detalle_Envio detalle_envio){
         Orden_Pedido orden_pedido = new Orden_Pedido(numero,fecha_solicitud, fecha_maxima_entrega,fecha_entrega,estado, planta_destino,insumos_pedidos, detalle_envio);
-        ordenes.add(numero-1,orden_pedido);
+        ordenes.add(orden_pedido);
     }
 
     //Este método devuelve una orden de pedido con el número de orden que le pasen como id
