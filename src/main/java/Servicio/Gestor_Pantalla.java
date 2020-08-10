@@ -10,7 +10,9 @@ import Negocio.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Gestor_Pantalla {
     //pantalla principal
@@ -68,6 +70,21 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
+    public static String[][] obtenerMatrizDatosCamiones(){
+        Camion[] camiones = Gestor_Camiones.getCamiones().toArray(new Camion[0]);
+        String[] titulos = new String[]{"PATENTE","MARCA", "MODELO", "KM RECORRIDOS", "COSTO POR KM","COSTO POR HORA","FECHA DE COMPRA"};
+        String informacion[][] = new String[camiones.length][titulos.length];
+        for (int x = 0; x < informacion.length; x++){
+            informacion[x][0] = camiones[x].getPatente() + "";
+            informacion[x][1] = camiones[x].getMarca() + "";
+            informacion[x][2] = camiones[x].getModelo() + "";
+            informacion[x][3] = camiones[x].getKm_recorridos() + "";
+            informacion[x][4] = camiones[x].getCosto_km() + "";
+            informacion[x][5] = camiones[x].getCosto_hora() + "";
+            informacion[x][6] = camiones[x].getFecha_compra() + "";
+        }
+        return informacion;
+    }
     public static String[][] obtenerMatrizDatosRutas(){
         List<Ruta> rutas = Gestor_Plantas.getRutas();
         String[] titulos = new String[]{"PLANTA ORIGEN","PLANTA DESTINO", "DISTANCIA", "DURACION", "PESO MAX"};
