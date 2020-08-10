@@ -55,6 +55,8 @@ public class Pantalla_Insumo extends JFrame {
                 eliminar.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        eliminar.setEnabled(false);
+                        editar.setEnabled(false);
                         String idOnombre = (String) tabla.getModel().getValueAt(tabla.getSelectedRow(),0);
                         int id = Integer.parseInt(idOnombre);
                         try {
@@ -76,6 +78,8 @@ public class Pantalla_Insumo extends JFrame {
                 actualizar.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        eliminar.setEnabled(false);
+                        editar.setEnabled(false);
                         tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosInsumos(),new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"}));
                         revalidate();
                     }
