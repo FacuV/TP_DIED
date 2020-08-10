@@ -16,6 +16,7 @@ public class PantallaAgregarStock extends JFrame {
         super("Agregar Stock a "+planta.toString());
         setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Container cp = getContentPane();
         cp.setBackground(Color.white);
         cp.setLayout(new BorderLayout());
@@ -48,6 +49,7 @@ public class PantallaAgregarStock extends JFrame {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
+                dispose();
             }
         });
         cp.add(aceptar,BorderLayout.SOUTH);

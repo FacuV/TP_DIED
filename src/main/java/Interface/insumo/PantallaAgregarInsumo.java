@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class PantallaAgregarInsumo extends JFrame {
-    public PantallaAgregarInsumo(JTable tabla){
+    public PantallaAgregarInsumo(){
         super("Sistema de gestion logística - TP DIED 2020 ");
         setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
         setLocationRelativeTo(null);

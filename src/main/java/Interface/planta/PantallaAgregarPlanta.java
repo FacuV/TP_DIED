@@ -13,6 +13,7 @@ public class PantallaAgregarPlanta extends JFrame{
         super("Agregar Planta");
         setSize((int) ((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/3), (int) ((int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/3));
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Container cp = getContentPane();
         cp.setBackground(Color.white);
         cp.setLayout(new BorderLayout());

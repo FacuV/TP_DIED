@@ -14,13 +14,13 @@ public class PantallaFlujoMaximo extends JFrame{
     JLabel km = new JLabel("0.0 Kg");
     JPanel panelCentradorkm = new JPanel();
     JTable table = setTable(Gestor_Plantas.getPlanta(1),Gestor_Plantas.getPlanta(1));
-
     JPanel panelTabla = new JPanel();
     public PantallaFlujoMaximo(){
         super("Flujo Maximo");
         setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Container cp = getContentPane();
         cp.setBackground(Color.white);
         cp.setLayout(new GridBagLayout());

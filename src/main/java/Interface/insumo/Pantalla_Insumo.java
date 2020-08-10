@@ -11,8 +11,7 @@ import Servicio.Gestor_Plantas;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.sql.SQLException;
 
 
@@ -26,7 +25,7 @@ public class Pantalla_Insumo extends JFrame {
         Container cp = getContentPane();
         cp.setBackground(Color.white);
         cp.setLayout(new BorderLayout());
-            JPanel panelBotones = new JPanel(new FlowLayout());
+            JPanel panelBotones = new JPanel(new GridLayout(4,1,10,20));
                 JButton agregarInsumo = new JButton("AGREGAR INSUMO");
                 panelBotones.add(agregarInsumo);
                 JButton editar = new JButton("EDITAR");
@@ -35,8 +34,10 @@ public class Pantalla_Insumo extends JFrame {
                 JButton eliminar = new JButton("ELIMINAR");
                 eliminar.setEnabled(false);
                 panelBotones.add(eliminar);
+                JButton actualizar = new JButton("ACTUALIZAR");
+                panelBotones.add(actualizar);
             JTable tabla = new JTable(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosInsumos(),new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"}));
-            tabla.getSelectionModel().addListSelectionListener(e -> {editar.setEnabled(true);eliminar.setEnabled(true);System.out.println(tabla.getSelectedRow());});
+            tabla.getSelectionModel().addListSelectionListener(e -> {editar.setEnabled(true);eliminar.setEnabled(true);});
             JScrollPane contenedor = new JScrollPane(tabla);
                 editar.addActionListener(new ActionListener() {
                      @Override
@@ -47,10 +48,7 @@ public class Pantalla_Insumo extends JFrame {
                          insumo = Gestor_Insumos.getInsumo(id);
                          JFrame frame = new PantallaEdicionInsumo(insumo);
                          frame.setVisible(true);
-                         JTable tablaAux = new JTable(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosInsumos(),new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"}));
-                         tablaAux.getSelectionModel().addListSelectionListener(i -> {editar.setEnabled(true);eliminar.setEnabled(true);});
-                         cp.remove(1);
-                         cp.add(new JScrollPane(tablaAux),1);
+                         tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosInsumos(),new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"}));
                          revalidate();
                         }
                 });
@@ -58,36 +56,29 @@ public class Pantalla_Insumo extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         String idOnombre = (String) tabla.getModel().getValueAt(tabla.getSelectedRow(),0);
-                        Insumo insumo;
                         int id = Integer.parseInt(idOnombre);
                         try {
                             Gestor_Insumos.baja(id);
                         } catch (SQLException throwables) {
                             throwables.printStackTrace();
                         }
-                        JTable tablaAux = new JTable(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosInsumos(),new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"}));
-                        tablaAux.getSelectionModel().addListSelectionListener(i -> {editar.setEnabled(true);eliminar.setEnabled(true);});
-                        cp.remove(1);
-                        cp.add(new JScrollPane(tablaAux),1);
+                        tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosInsumos(),new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"}));
                         revalidate();
                     }
                 });
                 agregarInsumo.addActionListener(new ActionListener(){
                      @Override
                      public void actionPerformed(ActionEvent e) {
-                         JFrame frame = new PantallaAgregarInsumo(tabla);
+                         JFrame frame = new PantallaAgregarInsumo();
                          frame.setVisible(true);
-                         try {
-                             frame.wait();
-                         } catch (InterruptedException interruptedException) {
-                             interruptedException.printStackTrace();
-                         }
-                         JTable tablaAux = new JTable(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosInsumos(),new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"}));
-                         tablaAux.getSelectionModel().addListSelectionListener(i -> {editar.setEnabled(true);eliminar.setEnabled(true);});
-                         cp.remove(1);
-                         cp.add(new JScrollPane(tablaAux),1);
-                         revalidate();
                      }
+                });
+                actualizar.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosInsumos(),new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"}));
+                        revalidate();
+                    }
                 });
         cp.add(panelBotones,BorderLayout.WEST);
         cp.add(contenedor,BorderLayout.CENTER);

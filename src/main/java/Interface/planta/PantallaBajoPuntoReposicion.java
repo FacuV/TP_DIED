@@ -18,6 +18,7 @@ public class PantallaBajoPuntoReposicion extends JFrame{
         setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Container cp = getContentPane();
         cp.setBackground(Color.white);
         cp.setLayout(new GridBagLayout());
@@ -34,16 +35,14 @@ public class PantallaBajoPuntoReposicion extends JFrame{
                 plantas.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        cp.remove(1);
-                        cp.add(new JScrollPane(new JTable(new ModeloTabla(Gestor_Pantalla.getMatrizBajoPuntoReposicion((plantas.getSelectedItem() instanceof String)?null:(Planta) plantas.getSelectedItem(),(insumos.getSelectedItem() instanceof String)?null:(Insumo) insumos.getSelectedItem()),new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"}))),new GridBagConstraints(0,0,0,0,0,0,GridBagConstraints.EAST,GridBagConstraints.BOTH,new Insets(10, (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/4.1),10,10),20,20));
+                        tabla.setModel(new ModeloTabla(Gestor_Pantalla.getMatrizBajoPuntoReposicion((plantas.getSelectedItem() instanceof String)?null:(Planta) plantas.getSelectedItem(),(insumos.getSelectedItem() instanceof String)?null:(Insumo) insumos.getSelectedItem()),new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"}));
                         revalidate();
                     }
                 });
                 insumos.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        cp.remove(1);
-                        cp.add(new JScrollPane(new JTable(new ModeloTabla(Gestor_Pantalla.getMatrizBajoPuntoReposicion((plantas.getSelectedItem() instanceof String)?null:(Planta) plantas.getSelectedItem(),(insumos.getSelectedItem() instanceof String)?null:(Insumo) insumos.getSelectedItem()),new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"}))),new GridBagConstraints(0,0,0,0,0,0,GridBagConstraints.EAST,GridBagConstraints.BOTH,new Insets(10, (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/4.1),10,10),20,20));
+                        tabla.setModel(new ModeloTabla(Gestor_Pantalla.getMatrizBajoPuntoReposicion((plantas.getSelectedItem() instanceof String)?null:(Planta) plantas.getSelectedItem(),(insumos.getSelectedItem() instanceof String)?null:(Insumo) insumos.getSelectedItem()),new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"}));
                         revalidate();
                     }
                 });
