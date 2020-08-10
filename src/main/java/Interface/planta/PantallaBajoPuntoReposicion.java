@@ -21,11 +21,8 @@ public class PantallaBajoPuntoReposicion extends JFrame{
         Container cp = getContentPane();
         cp.setBackground(Color.white);
         cp.setLayout(new GridBagLayout());
-            //JPanel auxTabla = new JPanel(new GridBagLayout());
-            //auxTabla.setBackground(Color.white);
             JTable tabla = new JTable(new ModeloTabla(Gestor_Pantalla.getMatrizBajoPuntoReposicion(null,null),new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"}));
             JScrollPane contenedor = new JScrollPane(tabla);
-            //auxTabla.add(contenedor,new GridBagConstraints(0,0,0,0,0,0,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(0,0,0,0),20,20));
             JPanel panelComboBox = new JPanel(new FlowLayout());
                 JLabel buscarPor = new JLabel(" BUSCAR POR: ");
                 JComboBox plantas = new JComboBox();

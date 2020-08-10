@@ -26,10 +26,11 @@ public class PantallaAgregarPlanta extends JFrame{
                 public void actionPerformed(ActionEvent e) {
                     try {
                         Gestor_Plantas.registrarPlanta(textPane.getText());
-                        setVisible(false);
+
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
+                    dispose();
                 }
             });
             aux.add(label);aux.add(textPane);

@@ -2,7 +2,9 @@ package Interface.planta;
 
 import Interface.ActionListenerAtras;
 import Interface.ModeloTabla;
+import Negocio.Planta;
 import Servicio.Gestor_Pantalla;
+import Servicio.Gestor_Plantas;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +41,17 @@ public class Pantalla_Plantas extends JFrame{
                 bajoPuntoReposicion.addActionListener(new ActionListenerBajoPuntoReposicion());
                 JButton agregarStock = new JButton("AGREGAR STOCK");
                 agregarStock.setEnabled(false);
-
+                agregarStock.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String idOnombre = (String) table.getModel().getValueAt(table.getSelectedRow(),0);
+                        Planta planta;
+                        int id = Integer.parseInt(idOnombre);
+                        planta = Gestor_Plantas.getPlanta(id);
+                        JFrame frame = new PantallaAgregarStock(planta);
+                        frame.setVisible(true);
+                    }
+                });
                 botones.add(agregarPlanta);botones.add(flujoMax);
                 botones.add(pageRank);botones.add(caminosMinimos);
                 botones.add(bajoPuntoReposicion);botones.add(agregarStock);
@@ -57,16 +69,21 @@ public class Pantalla_Plantas extends JFrame{
                         buscar.addActionListener(new ActionListener() {
                             @Override
                             public void actionPerformed(ActionEvent e){
-                                System.out.println(textField.getText());
+                                agregarStock.setEnabled(false);
                                 setTable(textField.getText());
                                 tabla.remove(scrollPane);
-                                tabla.add(new JScrollPane(setTable(textField.getText())), new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(100,50,30,50),20,20));
+                                table = setTable(textField.getText());
+                                table.getSelectionModel().addListSelectionListener(i -> agregarStock.setEnabled(true));
+                                JScrollPane scrollPaneAux = new JScrollPane(table);
+                                tabla.add(scrollPaneAux, new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(100,50,30,50),20,20));
                                 revalidate();
                             }
                         });
                 auxBusqueda.add(busqueda);auxBusqueda.add(textField);auxBusqueda.add(buscar);
             tabla.add(auxBusqueda,new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.NORTH,GridBagConstraints.HORIZONTAL,new Insets(20,0,0,0),20,20));
                 scrollPane = new JScrollPane(table);
+                //Activar el boton AgregarStock
+                table.getSelectionModel().addListSelectionListener(e -> agregarStock.setEnabled(true));
             tabla.add(scrollPane, new GridBagConstraints(0,0,20,20,20,20,GridBagConstraints.CENTER,GridBagConstraints.BOTH,new Insets(100,50,30,50),20,20));
             JPanel volver = new JPanel();
             volver.setLayout(new GridBagLayout());

@@ -18,7 +18,10 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         getBD();
         Gestor_Pantalla.visualizarPantalla_principal();
+<<<<<<< HEAD
 
+=======
+>>>>>>> f891798b3b1db17127661e4e959d3223d46f7ded
         /*
         ArrayList<Lista_insumos> insumos1 = new ArrayList<>();
         Detalle_Insumos insumo11 = new Detalle_Insumos(Gestor_Insumos.getInsumo(1),20);
@@ -66,7 +69,6 @@ public class Main {
         Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(1),LocalDate.parse("2020-12-23"),insumos5);
         Gestor_Ordenes_Pedido.registrarOrden(Gestor_Plantas.getPlanta(1),LocalDate.parse("2020-12-24"),insumos6);
 
-<<<<<<< HEAD
 
         Planta planta_origen1= Gestor_Plantas.plantasConStock(Gestor_Ordenes_Pedido.getOrden(1)).get(0);
         Planta planta_destino1=Gestor_Plantas.getPlanta(10);
@@ -85,8 +87,7 @@ public class Main {
 
         Gestor_Ordenes_Pedido.pasarACancelada(Gestor_Ordenes_Pedido.getOrden(5));
         Gestor_Ordenes_Pedido.pasarACancelada(Gestor_Ordenes_Pedido.getOrden(6));
-=======
->>>>>>> c27fd9fccb2797c3126da095a66877658b96699b
+
 */
 
         /*
