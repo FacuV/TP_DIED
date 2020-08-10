@@ -21,12 +21,12 @@ public class PantallaAgregarRutas extends JFrame{
             JPanel panelInfo = new JPanel(new GridLayout(5,2));
                 JLabel plantaOrigen = new JLabel("PLANTA ORIGEN");
                 panelInfo.add(plantaOrigen);
-                JComboBox plantaOrigenCB = new JComboBox();
+                JComboBox<Planta> plantaOrigenCB = new JComboBox();
                 for(Planta plantaO:Gestor_Plantas.getPlantas()){plantaOrigenCB.addItem(plantaO);}
                 panelInfo.add(plantaOrigenCB);
                 JLabel plantaDestino = new JLabel("PLANTA DESTINO");
                 panelInfo.add(plantaDestino);
-                JComboBox plantaDestinoCB = new JComboBox();
+                JComboBox<Planta> plantaDestinoCB = new JComboBox();
                 for(Planta plantaD:Gestor_Plantas.getPlantas()){plantaDestinoCB.addItem(plantaD);}
                 panelInfo.add(plantaDestinoCB);
                 JLabel distancia = new JLabel("DISTANCIA");
@@ -45,7 +45,11 @@ public class PantallaAgregarRutas extends JFrame{
                 boton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //Gestor_Plantas.conectar();
+                        try {
+                            Gestor_Plantas.conectar((Planta) plantaOrigenCB.getSelectedItem(),(Planta)plantaDestinoCB.getSelectedItem(),Double.parseDouble(distanciaTextfield.getText()),Integer.parseInt(duracionTextField.getText()),Double.parseDouble(pesoMaxTextField.getText()));
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
                         dispose();
                     }
                 });
