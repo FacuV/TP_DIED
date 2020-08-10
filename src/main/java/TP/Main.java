@@ -18,7 +18,6 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         getBD();
         Gestor_Pantalla.visualizarPantalla_principal();
-
         /*
         ArrayList<Lista_insumos> insumos1 = new ArrayList<>();
         Detalle_Insumos insumo11 = new Detalle_Insumos(Gestor_Insumos.getInsumo(1),20);
