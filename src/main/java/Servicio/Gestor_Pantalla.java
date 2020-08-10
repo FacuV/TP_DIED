@@ -6,10 +6,7 @@ import Interface.ordenesPedido.Pantalla_Ordenes;
 import Interface.planta.Pantalla_Plantas;
 import Interface.Pantalla_Principal;
 import Interface.ruta.Pantalla_Rutas;
-import Negocio.Insumo;
-import Negocio.Insumo_General;
-import Negocio.Insumo_Liquido;
-import Negocio.Planta;
+import Negocio.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -71,6 +68,19 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
+    public static String[][] obtenerMatrizDatosRutas(){
+        List<Ruta> rutas = Gestor_Plantas.getRutas();
+        String[] titulos = new String[]{"PLANTA ORIGEN","PLANTA DESTINO", "DISTANCIA", "DURACION", "PESO MAX"};
+        String informacion[][] = new String[rutas.size()][titulos.length];
+        for (int x = 0; x < informacion.length; x++) {
+            informacion[x][0] = rutas.get(x).getPlanta_origen() + "";
+            informacion[x][1] = rutas.get(x).getPlanta_destino() + "";
+            informacion[x][2] = rutas.get(x).getDistancia() + "";
+            informacion[x][3] = rutas.get(x).getDuracion_viaje() + "";
+            informacion[x][4] = rutas.get(x).getCant_max_material() + "";
+        }
+        return informacion;
+    }
     public static String[][] obtenerMatrizDatosInsumos(){
         List<Insumo> insumos = Gestor_Insumos.getInsumos();
         String[] titulos = new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"};
