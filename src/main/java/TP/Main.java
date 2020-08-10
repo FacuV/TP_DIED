@@ -18,6 +18,7 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         getBD();
         Gestor_Pantalla.visualizarPantalla_principal();
+
         /*
         ArrayList<Lista_insumos> insumos1 = new ArrayList<>();
         Detalle_Insumos insumo11 = new Detalle_Insumos(Gestor_Insumos.getInsumo(1),20);
@@ -85,6 +86,7 @@ public class Main {
         Gestor_Ordenes_Pedido.pasarACancelada(Gestor_Ordenes_Pedido.getOrden(6));
 
 */
+
         /*
         //para probar funcion rutaPosibles() y plantasConStock();
         Gestor_Plantas.registrarPlanta("planta1");
@@ -130,8 +132,6 @@ public class Main {
             //            4 --------->7
 
          */
-
-
 
         /*
         ArrayList<Lista_insumos> insumosPlanta1 = new ArrayList();
@@ -181,7 +181,6 @@ public class Main {
 
         System.out.println(Gestor_Plantas.plantasBajoPuntoReposicion().toString());
         */
-
 
         /*
         //Para el testing luego, prueba de la priorityqueue PLANTA YA NO TIENE CAMIONES
