@@ -74,6 +74,14 @@ public abstract class Gestor_Plantas {
     public static Planta getPlanta(int id_planta) {
         return plantas.get(id_planta - 1);
     }
+    public static Planta getPlanta(String nombre) {
+        for (Planta p:plantas){
+            if(p.getNombre().contentEquals(nombre)){
+                return p;
+            }
+        }
+        return null;
+    }
 
     //Este método devuelve una lista con las plantas que tienen algún insumo en cantidades inferiores al punto de roposición
     public static List<List> plantasInsumoBajoPuntoReposicion(){
@@ -522,5 +530,6 @@ public abstract class Gestor_Plantas {
         }
         return rta;
     }
+
 }
 

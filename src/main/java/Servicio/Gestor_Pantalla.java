@@ -144,7 +144,7 @@ public class Gestor_Pantalla {
         }
         return obtenerMatrizDatos(plantasSeleccionadas,titulos);
     }
-    private static String[][] obtenerMatrizDatos(ArrayList<Planta> plantas,String[] titulos) {
+    public static String[][] obtenerMatrizDatos(ArrayList<Planta> plantas,String[] titulos) {
 
         String informacion[][] = new String[plantas.size()][titulos.length];
 
