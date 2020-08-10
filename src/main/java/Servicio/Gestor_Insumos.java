@@ -54,9 +54,9 @@ public abstract class Gestor_Insumos{
 
     //Este método borra un insumo (general o líquido) de la lista de insumos de la empresa y de la base de datos
     public static void baja(int id_insumo) throws SQLException {
-        insumos.remove(insumos.get(id_insumo-1));
         InsumoDaoDB insumoDaoDB = new InsumoDaoDB();
         insumoDaoDB.deleteInsumo(insumos.get(id_insumo-1));
+        insumos.removeIf(insumo -> insumo.getId_insumo() == id_insumo);
     }
 
     //Pasar null en los dos primeros si no se los quiere modificar y 0 en los demas que no se quieran modficar

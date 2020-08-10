@@ -13,6 +13,7 @@ public class PantallaPageRank extends JFrame {
             setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
             setExtendedState(JFrame.MAXIMIZED_BOTH);
             setLocationRelativeTo(null);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             Container cp = getContentPane();
             cp.setBackground(Color.white);
             cp.setLayout(new BorderLayout());
