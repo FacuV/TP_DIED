@@ -44,14 +44,10 @@ public class Pantalla_Plantas extends JFrame{
                 agregarStock.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String idOnombre = (String) table.getModel().getValueAt(table.getSelectedRow(),table.getSelectedColumn());
+                        String idOnombre = (String) table.getModel().getValueAt(table.getSelectedRow(),0);
                         Planta planta;
-                        try {
-                            int id = Integer.parseInt(idOnombre);
-                            planta = Gestor_Plantas.getPlanta(id);
-                        } catch (NumberFormatException nfe){
-                            planta = Gestor_Plantas.getPlanta(idOnombre);
-                        }
+                        int id = Integer.parseInt(idOnombre);
+                        planta = Gestor_Plantas.getPlanta(id);
                         JFrame frame = new PantallaAgregarStock(planta);
                         frame.setVisible(true);
                     }

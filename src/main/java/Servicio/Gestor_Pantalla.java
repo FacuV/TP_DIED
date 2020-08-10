@@ -7,6 +7,8 @@ import Interface.planta.Pantalla_Plantas;
 import Interface.Pantalla_Principal;
 import Interface.ruta.Pantalla_Rutas;
 import Negocio.Insumo;
+import Negocio.Insumo_General;
+import Negocio.Insumo_Liquido;
 import Negocio.Planta;
 
 import javax.swing.*;
@@ -69,6 +71,21 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
+    public static String[][] obtenerMatrizDatosInsumos(){
+        List<Insumo> insumos = Gestor_Insumos.getInsumos();
+        String[] titulos = new String[]{"ID","DESCRPCION", "UNIDAD DE MEDIDA", "COSTO", "PESO/DENSIDAD", "STOCK TOTAL"};
+        String informacion[][] = new String[insumos.size()][titulos.length];
+
+        for (int x = 0; x < informacion.length; x++) {
+            informacion[x][0] = insumos.get(x).getId_insumo()+ "";
+            informacion[x][1] = insumos.get(x).getDescripcion()+ "";
+            informacion[x][2] = insumos.get(x).getUnidad_medida()+ "";
+            informacion[x][3] = insumos.get(x).getCosto()+ "";
+            informacion[x][4] = (insumos.get(x) instanceof Insumo_General)? String.valueOf(((Insumo_General)insumos.get(x)).getPeso_kilos()) :((Insumo_Liquido)insumos.get(x)).getDensidad()+ "";
+            informacion[x][5] = Gestor_Insumos.cantidadTotal(insumos.get(x))+ "";
+        }
+        return informacion;
+    }
     public static String[][] getMatrizBajoPuntoReposicion(Planta filtroPlanta,Insumo filtroInsumo) {
         String[] titulos = new String[]{"PLANTA", "INSUMO", "STOCK EN PLANTA", "PUNTO DE PEDIDO", "STOCK TOTAL"};
         List<List> todasLasPlantasInsumo = Gestor_Plantas.plantasInsumoBajoPuntoReposicion();
