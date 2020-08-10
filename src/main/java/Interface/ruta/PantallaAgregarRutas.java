@@ -32,7 +32,7 @@ public class PantallaAgregarRutas extends JFrame{
                 JLabel distancia = new JLabel("DISTANCIA");
                 panelInfo.add(distancia);
                 JTextField distanciaTextfield = new JTextField(50);
-
+                panelInfo.add(distanciaTextfield);
                 JLabel duracion = new JLabel("DURACION");
                 panelInfo.add(duracion);
                 JTextField duracionTextField = new JTextField(50);
@@ -45,7 +45,7 @@ public class PantallaAgregarRutas extends JFrame{
                 boton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-
+                        //Gestor_Plantas.conectar();
                         dispose();
                     }
                 });
