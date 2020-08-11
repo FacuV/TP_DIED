@@ -97,4 +97,7 @@ public class Orden_Pedido {
     public void setFecha_maxima_entrega(LocalDate fecha_maxima_entrega) {
         this.fecha_maxima_entrega = fecha_maxima_entrega;
     }
+    public String toString(){
+        return String.valueOf(numero);
+    }
 }

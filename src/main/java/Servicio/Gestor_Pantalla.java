@@ -9,10 +9,7 @@ import Interface.ruta.Pantalla_Rutas;
 import Negocio.*;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class Gestor_Pantalla {
     //pantalla principal
@@ -70,13 +67,25 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
-    public static String[][] obtenerMatrizDatosCamiones(String patente,String modelo,String kmRec,String costoXkm,String costoXhora,String fechaCompra){
-        ArrayList<Camion> camiones = new ArrayList();
-        for (Camion camion:Gestor_Camiones.getCamiones().toArray(new Camion[0])){
-            camiones.add(camion);
+    public static String[][] obtenerMatrizDatosOrdenes(String estado){
+        ArrayList<Orden_Pedido> ordenes = (ArrayList<Orden_Pedido>) (Gestor_Ordenes_Pedido.getOrdenes()).clone();
+        String[] titulos = new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"};
+        if(estado != null){
+            ordenes.removeIf(e -> !(e.getEstado().toString().contentEquals(estado)));
         }
+        String informacion[][] = new String[ordenes.size()][titulos.length];
+        for (int x = 0; x < informacion.length; x++) {
+            informacion[x][0] = ordenes.get(x).getNumero() + "";
+            informacion[x][1] = ordenes.get(x).getPlanta_destino() + "";
+            informacion[x][2] = ordenes.get(x).getEstado() + "";
+            informacion[x][3] = ordenes.get(x).getFecha_solicitud() + "";
+            informacion[x][4] = ordenes.get(x).getFecha_maxima_entrega() + "";
+        }
+        return informacion;
+    }
+    public static String[][] obtenerMatrizDatosCamiones(String patente,String modelo,String kmRec,String costoXkm,String costoXhora,String fechaCompra){
+        ArrayList<Camion> camiones = new ArrayList(Arrays.asList(Gestor_Camiones.getCamiones().toArray(new Camion[0])));
         String[] titulos = new String[]{"PATENTE","MARCA", "MODELO", "KM RECORRIDOS", "COSTO POR KM","COSTO POR HORA","FECHA DE COMPRA"};
-
         if(patente != null){camiones.removeIf(l -> !l.getPatente().equals(patente));}
         if(modelo != null){camiones.removeIf(l -> !l.getModelo().equals(modelo));}
         if(kmRec != null){camiones.removeIf(l -> !(l.getKm_recorridos() == Double.parseDouble(kmRec)));}
