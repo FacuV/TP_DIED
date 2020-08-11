@@ -67,6 +67,16 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
+    public static String[][] obtenerMatrizDatosDetalleInsumos(Orden_Pedido ordenPedido){
+        ArrayList<Lista_insumos> detalleInsumos = ordenPedido.getInsumos_pedidos();
+        String[] titulos = new String[]{"INSUMO","CANTIDAD"};
+        String informacion[][] = new String[detalleInsumos.size()][titulos.length];
+        for (int x = 0; x < informacion.length; x++) {
+            informacion[x][0] = detalleInsumos.get(x).getInsumo() + "";
+            informacion[x][1] = detalleInsumos.get(x).getCantidad() + "";
+        }
+        return informacion;
+    }
     public static String[][] obtenerMatrizDatosOrdenes(String estado){
         ArrayList<Orden_Pedido> ordenes = (ArrayList<Orden_Pedido>) (Gestor_Ordenes_Pedido.getOrdenes()).clone();
         String[] titulos = new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"};

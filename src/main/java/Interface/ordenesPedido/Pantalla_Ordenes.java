@@ -37,7 +37,7 @@ public class Pantalla_Ordenes extends JFrame {
         //set layout
         cp.setLayout(new BorderLayout());
         JTable tabla = new JTable(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes(null),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"}));
-        JPanel panelComboBoxBotones = new JPanel(new GridLayout(4,1,0,15));
+        JPanel panelComboBoxBotones = new JPanel(new GridLayout(7,1,0,15));
         JLabel buscarPor = new JLabel("BUSCAR POR");
         panelComboBoxBotones.add(buscarPor);
         JComboBox estados = new JComboBox();
@@ -48,7 +48,7 @@ public class Pantalla_Ordenes extends JFrame {
         estados.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes(estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"}));
+                tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes((estados.getSelectedItem().toString().contentEquals("ESTADO"))?null:estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"}));
                 revalidate();
             }
         });
@@ -58,20 +58,70 @@ public class Pantalla_Ordenes extends JFrame {
         crearOrden.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                //JFrame frame = new PantallaCrearOrden();
-                //frame.setVisible(true);
+                JFrame frame = new PantallaCrearOrden();
+                frame.setVisible(true);
             }
         });
+        JButton verDetalle = new JButton("VER DETALLE");
+        verDetalle.setEnabled(false);
+        panelComboBoxBotones.add(verDetalle);
+        JButton pasarAProcesada = new JButton("PASAR A PROCESADA");
+        pasarAProcesada.setEnabled(false);
+        panelComboBoxBotones.add(pasarAProcesada);
+        JButton pasarAEntregada = new JButton("PASAR A ENTREGADA");
+        pasarAEntregada.setEnabled(false);
+        panelComboBoxBotones.add(pasarAEntregada);
+            verDetalle.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JFrame frame = new PantallaVerDetalle(Gestor_Ordenes_Pedido.getOrden(Integer.parseInt(tabla.getModel().getValueAt(tabla.getSelectedRow(),0).toString())));
+                    frame.setVisible(true);
+                }
+            });
+            pasarAEntregada.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Orden_Pedido ordenPedido = Gestor_Ordenes_Pedido.getOrden(Integer.parseInt(tabla.getModel().getValueAt(tabla.getSelectedRow(),0).toString()));
+                    try {
+                        Gestor_Ordenes_Pedido.pasarAEntregada(ordenPedido);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes((estados.getSelectedItem().toString().contentEquals("ESTADO"))?null:estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"}));
+                    revalidate();
+                }
+            });
+            pasarAProcesada.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    Orden_Pedido ordenPedido = Gestor_Ordenes_Pedido.getOrden(Integer.parseInt(tabla.getModel().getValueAt(tabla.getSelectedRow(),0).toString()));
+                    try {
+                        JFrame frame = new PantallaPasarAProcesada(ordenPedido);
+                        frame.setVisible(true);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
+                    }
+                }
+            });
         JButton actualizar = new JButton("ACTUALIZAR");
         actualizar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                verDetalle.setEnabled(false);
                 tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes((estados.getSelectedItem().toString().contentEquals("ESTADO"))?null:estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"}));
                 revalidate();
             }
         });
         panelComboBoxBotones.add(actualizar);
-        //tabla.getSelectionModel().addListSelectionListener(e -> {editar.setEnabled(true);eliminar.setEnabled(true);});
+        tabla.getSelectionModel().addListSelectionListener(e -> {
+            verDetalle.setEnabled(true);
+            pasarAProcesada.setEnabled(false);
+            pasarAEntregada.setEnabled(false);
+            if(tabla.getSelectedRow() != -1 && tabla.getModel().getValueAt(tabla.getSelectedRow(),2).toString().contentEquals("CREADA"))pasarAProcesada.setEnabled(true);
+            if(tabla.getSelectedRow() != -1 && tabla.getModel().getValueAt(tabla.getSelectedRow(),2).toString().contentEquals("PROCESADA"))pasarAEntregada.setEnabled(true);
+        });
         cp.add(new JScrollPane(tabla),BorderLayout.CENTER);
         cp.add(panelComboBoxBotones,BorderLayout.WEST);
         JPanel volver = new JPanel();

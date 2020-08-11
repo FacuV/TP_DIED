@@ -19,4 +19,8 @@ public class Detalle_Insumos extends Lista_insumos{
 
     @Override
     public void setPunto_reposicion(double punto_reposicion) {}
+
+    public Double getPrecio(){
+        return insumo.getCosto()*cantidad;
+    }
 }

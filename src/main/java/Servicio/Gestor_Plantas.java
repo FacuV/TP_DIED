@@ -304,7 +304,7 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método devuelve los caminos más cortos entre una planta y otra
-    public static List<List <Planta>> caminosMasCortosCamino(Planta origen, Planta destino){
+    public static List<List <Planta>> caminosMasCortos(Planta origen, Planta destino){
 
         List<List> caminos = rutaPosibles(origen, destino);
 
@@ -330,7 +330,7 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método devuelve los caminos más rápidos entre una planta y otra
-    public static List<List <Planta>> caminosMasRapidosCamino(Planta origen, Planta destino){
+    public static List<List <Planta>> caminosMasRapidos(Planta origen, Planta destino){
 
         List<List> caminos = rutaPosibles(origen, destino);
 

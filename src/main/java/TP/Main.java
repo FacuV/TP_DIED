@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException{
         getBD();
         Gestor_Pantalla.visualizarPantalla_principal();
         /*
@@ -259,18 +259,16 @@ public class Main {
             tam_matriz++;
         }
         res = stmt.executeQuery("SELECT * FROM detalle_insumo ORDER BY numero_orden");
-        Double[][] guardado = new Double[tam_matriz][3];
+        Number[][] guardado = new Number[tam_matriz][3];
         while(res.next()){
-            guardado[indice][0] = res.getDouble("numero_orden");
-            guardado[indice][1] = res.getDouble("id_insumo");
+            guardado[indice][0] = res.getInt("numero_orden");
+            guardado[indice][1] = res.getInt("id_insumo");
             guardado[indice][2] = res.getDouble("cantidad");
             indice++;
         }
 
 
         res = stmt.executeQuery("SELECT * FROM orden_pedido ORDER BY numero_orden");
-        ArrayList<Lista_insumos> insumos = new ArrayList<>();
-        String numero_orden;
         while(res.next()) {
             guardarOrdenConDetalleInsumo(res,guardado,tam_matriz);
         }
@@ -297,17 +295,17 @@ public class Main {
         conexion.close();
     }
 
-    private static void guardarOrdenConDetalleInsumo(ResultSet res, Double[][] guardado, int tam_matriz) throws SQLException {
+    private static void guardarOrdenConDetalleInsumo(ResultSet res, Number[][] guardado, int tam_matriz) throws SQLException {
         ArrayList<Lista_insumos> insumos = new ArrayList<>();
-        String numero_orden = res.getString("numero_orden");
-        for (int i = 0; i < tam_matriz; i++) {
-            if (String.valueOf(guardado[i][0]) == numero_orden) {
-                insumos.add(new Detalle_Insumos(Gestor_Insumos.getInsumo((Integer.valueOf(String.valueOf(guardado[i][1])))), guardado[i][2]));
+        int numero_orden = res.getInt("numero_orden");
+        for (int i = 0; i < tam_matriz; i++){
+            if (guardado[i][0].equals(numero_orden)) {
+                insumos.add(new Detalle_Insumos(Gestor_Insumos.getInsumo((int) guardado[i][1]), (Double) guardado[i][2]));
             }
         }
-        Gestor_Ordenes_Pedido.traerOrdenBD(Integer.valueOf(numero_orden),LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.valueOf(res.getString("id_planta"))),insumos,null);
+        Gestor_Ordenes_Pedido.traerOrdenBD(numero_orden,LocalDate.parse(res.getString("fecha_solicitud")),LocalDate.parse(res.getString("fecha_maxima_entrega")),LocalDate.parse(res.getString("fecha_entrega")),Estado.valueOf(res.getString("estado")),Gestor_Plantas.getPlanta(Integer.parseInt(res.getString("id_planta"))),insumos,null);
         for(int i=0; i < insumos.size(); i++ ){
-            insumos.get(i).setOrden(Gestor_Ordenes_Pedido.getOrden(Integer.valueOf(numero_orden)));
+            insumos.get(i).setOrden(Gestor_Ordenes_Pedido.getOrden((int) numero_orden));
         }
     }
 }
