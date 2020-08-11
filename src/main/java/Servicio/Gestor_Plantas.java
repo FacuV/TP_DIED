@@ -303,6 +303,91 @@ public abstract class Gestor_Plantas {
         return rta;
     }
 
+    //Este método devuelve los caminos más cortos entre una planta y otra
+    public static List<List <Planta>> caminosMasCortosCamino(Planta origen, Planta destino){
+
+        List<List> caminos = rutaPosibles(origen, destino);
+
+        List <List <Planta>>respuesta = new ArrayList<List <Planta>>();
+
+        double cant_min = 0;
+        double sum;
+        Ruta coneccion;
+
+        for(List lista:caminos) {
+            sum = 0;
+            for (int j = 0; j < lista.size() - 1; j++) {
+                coneccion = getCamino((Planta) lista.get(j), (Planta) lista.get(j+1));
+                sum += coneccion.getDistancia();
+            }
+            //si es la primera pasada o si la suma de los caminos ahora es menos que la anterior, se reemplazan las variables
+            if(cant_min == 0 || cant_min >= sum) {
+                cant_min = sum;
+                AgregarRespuesta(lista, respuesta);
+            }
+        }
+        return respuesta;
+    }
+
+    //Este método devuelve los caminos más rápidos entre una planta y otra
+    public static List<List <Planta>> caminosMasRapidosCamino(Planta origen, Planta destino){
+
+        List<List> caminos = rutaPosibles(origen, destino);
+
+        List <List <Planta>>respuesta = new ArrayList<List <Planta>>();
+
+        double cant_min = 0;
+        double sum;
+        Ruta coneccion;
+
+        for(List lista:caminos) {
+            sum = 0;
+            for (int j = 0; j < lista.size() - 1; j++) {
+                coneccion = getCamino((Planta) lista.get(j), (Planta) lista.get(j+1));
+                sum += coneccion.getDuracion_viaje();
+            }
+            //si es la primera pasada o si la suma de los caminos ahora es menos que la anterior, se reemplazan las variables
+            if(cant_min == 0 || cant_min >= sum) {
+                cant_min = sum;
+                AgregarRespuesta(lista, respuesta);
+            }
+        }
+        return respuesta;
+    }
+
+    //Este método devuelve un ArrayList con los precios en orden de la lista de caminos pasada
+    public static List<Double> precioCaminos(List<List <Planta>> caminos){
+        List rta = new ArrayList();
+        ArrayList<Ruta> rutas = new ArrayList<Ruta>();
+        Camion camion = Gestor_Camiones.getCamiones().peek();
+        for(List camino:caminos){
+            for(int i=0; i < camino.size()-1; i++){
+                rutas.add(getCamino((Planta)camino.get(i), (Planta)camino.get(i+1)));
+            }
+            rta.add(calcularCosto(camion,rutas));
+        }
+        return rta;
+    }
+
+    //Metodo privado para calcular el costo de un viaje
+    private static double calcularCosto(Camion camion_asignado, ArrayList<Ruta> rutas_asignadas) {
+        double cantidad_horas=0.0;
+        double cantidad_km=0.0;
+        for(Ruta ruta:rutas_asignadas) {
+            cantidad_horas += ruta.getDuracion_viaje();
+            cantidad_km += ruta.getDistancia();
+        }
+        double rta = (cantidad_horas * camion_asignado.getCosto_hora()) + (cantidad_km * camion_asignado.getCosto_km());
+        return rta;
+    }
+
+    //Metodo privado para agregar una lista en una lista
+    private static void AgregarRespuesta(List lista, List<List <Planta>> respuesta) {
+        List rta = new ArrayList();
+        rta = lista;
+        respuesta.add(rta);
+    }
+
     //Este método retorna una lista de plantas por donde es el camino más corto de todas las listas de caminos que se envió, por tiempo si el parámetro es true y por distancia si el parámetro es false
     public static List<Planta> masCorta (List<List> caminos , boolean parametro){
         // este parámetro me permite recordar cual indice enviar
