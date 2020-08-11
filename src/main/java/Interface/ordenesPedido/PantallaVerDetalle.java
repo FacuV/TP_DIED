@@ -16,7 +16,7 @@ public class PantallaVerDetalle extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         cp.setBackground(Color.white);
         cp.setLayout(new BorderLayout());
-            JTable tabla = new JTable(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosDetalleInsumos(ordenPedido),new String[]{"INSUMO","CANTIDAD"}));
+            JTable tabla = new JTable(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosDetalleInsumos(ordenPedido),new String[]{"INSUMO","CANTIDAD","PRECIO"}));
         cp.add(new JScrollPane(tabla),BorderLayout.CENTER);
     }
 }

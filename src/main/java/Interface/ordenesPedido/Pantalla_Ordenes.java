@@ -36,7 +36,7 @@ public class Pantalla_Ordenes extends JFrame {
         cp.setBackground(Color.white);
         //set layout
         cp.setLayout(new BorderLayout());
-        JTable tabla = new JTable(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes(null),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"}));
+        JTable tabla = new JTable(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes(null),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA","COSTO VIAJE"}));
         JPanel panelComboBoxBotones = new JPanel(new GridLayout(7,1,0,15));
         JLabel buscarPor = new JLabel("BUSCAR POR");
         panelComboBoxBotones.add(buscarPor);
@@ -48,7 +48,7 @@ public class Pantalla_Ordenes extends JFrame {
         estados.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes((estados.getSelectedItem().toString().contentEquals("ESTADO"))?null:estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"}));
+                tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes((estados.getSelectedItem().toString().contentEquals("ESTADO"))?null:estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA","COSTO VIAJE"}));
                 revalidate();
             }
         });
@@ -87,7 +87,7 @@ public class Pantalla_Ordenes extends JFrame {
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-                    tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes((estados.getSelectedItem().toString().contentEquals("ESTADO"))?null:estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"}));
+                    tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes((estados.getSelectedItem().toString().contentEquals("ESTADO"))?null:estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA","COSTO VIAJE"}));
                     revalidate();
                 }
             });
@@ -98,10 +98,8 @@ public class Pantalla_Ordenes extends JFrame {
                     try {
                         JFrame frame = new PantallaPasarAProcesada(ordenPedido);
                         frame.setVisible(true);
-                    } catch (SQLException throwables) {
+                    } catch (SQLException | InterruptedException throwables) {
                         throwables.printStackTrace();
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
                     }
                 }
             });
@@ -110,7 +108,7 @@ public class Pantalla_Ordenes extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 verDetalle.setEnabled(false);
-                tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes((estados.getSelectedItem().toString().contentEquals("ESTADO"))?null:estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"}));
+                tabla.setModel(new ModeloTabla(Gestor_Pantalla.obtenerMatrizDatosOrdenes((estados.getSelectedItem().toString().contentEquals("ESTADO"))?null:estados.getSelectedItem().toString()),new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA","COSTO VIAJE"}));
                 revalidate();
             }
         });

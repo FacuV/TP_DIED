@@ -69,17 +69,18 @@ public class Gestor_Pantalla {
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
     public static String[][] obtenerMatrizDatosDetalleInsumos(Orden_Pedido ordenPedido){
         ArrayList<Lista_insumos> detalleInsumos = ordenPedido.getInsumos_pedidos();
-        String[] titulos = new String[]{"INSUMO","CANTIDAD"};
+        String[] titulos = new String[]{"INSUMO","CANTIDAD","PRECIO"};
         String informacion[][] = new String[detalleInsumos.size()][titulos.length];
         for (int x = 0; x < informacion.length; x++) {
             informacion[x][0] = detalleInsumos.get(x).getInsumo() + "";
             informacion[x][1] = detalleInsumos.get(x).getCantidad() + "";
+            informacion[x][2] = ((Detalle_Insumos)detalleInsumos.get(x)).getPrecio()+"";
         }
         return informacion;
     }
     public static String[][] obtenerMatrizDatosOrdenes(String estado){
         ArrayList<Orden_Pedido> ordenes = (ArrayList<Orden_Pedido>) (Gestor_Ordenes_Pedido.getOrdenes()).clone();
-        String[] titulos = new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA"};
+        String[] titulos = new String[]{"NUMERO","PLANTA DESTINO","ESTADO","FECHA SOLICITUD","FECHA MAX ENTREGA","COSTO VIAJE"};
         if(estado != null){
             ordenes.removeIf(e -> !(e.getEstado().toString().contentEquals(estado)));
         }
@@ -90,6 +91,7 @@ public class Gestor_Pantalla {
             informacion[x][2] = ordenes.get(x).getEstado() + "";
             informacion[x][3] = ordenes.get(x).getFecha_solicitud() + "";
             informacion[x][4] = ordenes.get(x).getFecha_maxima_entrega() + "";
+            informacion[x][5] = (ordenes.get(x).getEstado().equals(Estado.PROCESADA) || ordenes.get(x).getEstado().equals(Estado.ENTREGADA))? String.valueOf(ordenes.get(x).getDetalle_envio().getCosto_envio()) :0.0 + "";
         }
         return informacion;
     }
