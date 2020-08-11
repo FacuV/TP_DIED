@@ -10,7 +10,9 @@ import Negocio.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Gestor_Pantalla {
     //pantalla principal
@@ -68,6 +70,31 @@ public class Gestor_Pantalla {
 
     public static void visualizarPantalla_ordenes(){info_pantallas[ORDENES] = true;pantalla_ordenes.setVisible(true);}
     public static void noVisualizarPantalla_ordenes(){info_pantallas[ORDENES] = false;pantalla_ordenes.setVisible(false);}
+    public static String[][] obtenerMatrizDatosCamiones(String patente,String modelo,String kmRec,String costoXkm,String costoXhora,String fechaCompra){
+        ArrayList<Camion> camiones = new ArrayList();
+        for (Camion camion:Gestor_Camiones.getCamiones().toArray(new Camion[0])){
+            camiones.add(camion);
+        }
+        String[] titulos = new String[]{"PATENTE","MARCA", "MODELO", "KM RECORRIDOS", "COSTO POR KM","COSTO POR HORA","FECHA DE COMPRA"};
+
+        if(patente != null){camiones.removeIf(l -> !l.getPatente().equals(patente));}
+        if(modelo != null){camiones.removeIf(l -> !l.getModelo().equals(modelo));}
+        if(kmRec != null){camiones.removeIf(l -> !(l.getKm_recorridos() == Double.parseDouble(kmRec)));}
+        if(costoXkm != null){camiones.removeIf(l -> !(l.getCosto_km()==Double.parseDouble(costoXkm)));}
+        if(costoXhora != null){camiones.removeIf(l -> !(l.getCosto_hora()==Double.parseDouble(costoXhora)));}
+        if(fechaCompra != null){camiones.removeIf(l -> !(l.getFecha_compra().equals(fechaCompra)));}
+        String informacion[][] = new String[camiones.size()][titulos.length];
+        for (int x = 0; x < informacion.length; x++){
+            informacion[x][0] = camiones.get(x).getPatente() + "";
+            informacion[x][1] = camiones.get(x).getMarca() + "";
+            informacion[x][2] = camiones.get(x).getModelo() + "";
+            informacion[x][3] = camiones.get(x).getKm_recorridos() + "";
+            informacion[x][4] = camiones.get(x).getCosto_km() + "";
+            informacion[x][5] = camiones.get(x).getCosto_hora() + "";
+            informacion[x][6] = camiones.get(x).getFecha_compra() + "";
+        }
+        return informacion;
+    }
     public static String[][] obtenerMatrizDatosRutas(){
         List<Ruta> rutas = Gestor_Plantas.getRutas();
         String[] titulos = new String[]{"PLANTA ORIGEN","PLANTA DESTINO", "DISTANCIA", "DURACION", "PESO MAX"};

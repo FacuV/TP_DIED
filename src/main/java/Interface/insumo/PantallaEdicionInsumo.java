@@ -16,6 +16,7 @@ public class PantallaEdicionInsumo extends JFrame {
         super("Sistema de gestion logística - TP DIED 2020 ");
         setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()/2,(int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()/2);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Container cp = getContentPane();
         cp.setBackground(Color.white);
         cp.setLayout(new BorderLayout());
