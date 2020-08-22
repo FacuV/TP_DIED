@@ -4,8 +4,6 @@ import Daos.PlantaDaoDB;
 import Daos.RutaDaoDB;
 import Daos.StockDaoDB;
 import Negocio.*;
-
-import javax.sound.midi.Soundbank;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -135,27 +133,27 @@ public abstract class Gestor_Plantas {
     }
 
     //Este método devuelve una lista que contiene todas las rutas posibles desde una planta origen hasta una planta destino
-    public static List<List> rutaPosibles(Planta origen, Planta destino) {
+    public static List<List> rutaPosibles(Planta origen,Planta destino){
         List aux1 = new ArrayList();
         List aux2 = new ArrayList();
         aux2.add(aux1);
         //Si llegue al destino
-        if (origen.equals(destino)) {
+        if (origen.equals(destino)){
             aux1.add(destino);
             return aux2;
         }
         //obtengo adyacentes
         List<Planta> ady = getAdyacentes(origen);
+        if(ady.contains(origen))ady.remove(origen);
         //Si llegue a una rama muerta
-        if (ady.isEmpty()) {
+        if (ady.isEmpty()){
             return aux2;
         }
-
         List<List> caminosAdy = new ArrayList();
         //Recibo las listas de caminos posibles segun mis nodos adyasentes
         //Creo que tiene un problema, empaqueta el resultado en una lista de forma indeseada, mas abajo hago dos for para desempaquetar
         for (Planta p : ady) {
-            caminosAdy.add((List) Stream.concat(aux1.stream(), rutaPosibles(p, destino).stream()).collect(Collectors.toList()));
+            caminosAdy.add((List) Stream.concat(aux1.stream(),rutaPosibles(p, destino).stream()).collect(Collectors.toList()));
         }
         //por si estoy en una rama muerta
         if (caminosAdy.size() == 1 && caminosAdy.get(0).isEmpty()) {
